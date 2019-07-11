@@ -67,8 +67,7 @@ public class Controlador_Pantalla_Ventas {
     private DefaultTableModel modeloPausarVenta;
     //  private float totalFinal = 0;
     private TableRowSorter trsFiltro;
-    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, canProductos, rol;
-    boolean netx = true;
+    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, rol;
     int folio;
     Productos productos;
     PlaceHolder placeHolder;
@@ -115,6 +114,7 @@ public class Controlador_Pantalla_Ventas {
         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
         tablaDes();
         pantalla_Ventas.btnMas.setMnemonic(KeyEvent.VK_PLUS);
+
         pantalla_Ventas.btnMas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,33 +125,20 @@ public class Controlador_Pantalla_Ventas {
                         JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else {
                         String codigo = (String) pantalla_Ventas.jTableProductosVenta.getValueAt(fila, 0);
-
-                        canProductos = ventas.productoCero(codigo);
-                        if (!canProductos.equals("0")) {
-
-                            canProductos = ventas.productoCero(codigo);
-                            int canProductosInt = Integer.parseInt(canProductos);
+                        boolean netx = true;
+                        int canProductos = ventas.productoCero(codigo);
+                        if (canProductos != 0) {
 
                             for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
-                                String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
+                                String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();//octener codigo de producto
                                 if (art.equals(codigo)) {
                                     int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                                    if (cantidadTabla >= canProductosInt) {
-
+                                    if (cantidadTabla >= canProductos) {
                                         netx = false;
                                         break;
-                                    } else {
-                                        netx = true;
-                                        break;
                                     }
-
-                                } else {
-
-                                    netx = true;
-                                    break;
-                                }
-
+                                } 
                             }
 
                             if (netx) {
@@ -222,32 +209,20 @@ public class Controlador_Pantalla_Ventas {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String sustancia = pantalla_Ventas.jComboBoxSustancia.getSelectedItem().toString();
                     String codigo = ventas.OctenerCodigo(sustancia);
-                    canProductos = ventas.productoCero(codigo);
-                    if (!canProductos.equals("0")) {
-
-                        canProductos = ventas.productoCero(codigo);
-                        int canProductosInt = Integer.parseInt(canProductos);
+                     int canProductos = ventas.productoCero(codigo);
+                     boolean netx = true;
+                        if (canProductos != 0) {
 
                         for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
                             String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
                             if (art.equals(codigo)) {
                                 int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                                if (cantidadTabla >= canProductosInt) {
-
+                                if (cantidadTabla >= canProductos) {
                                     netx = false;
                                     break;
-                                } else {
-                                    netx = true;
-                                    break;
                                 }
-
-                            } else {
-
-                                netx = true;
-                                break;
-                            }
-
+                            } 
                         }
 
                         if (netx) {
@@ -341,31 +316,31 @@ public class Controlador_Pantalla_Ventas {
                         return;
 
                     }
-                    
+                    pantalla_Ventas.jComboBoxDes.setSelectedIndex(0);
                     ventas = new Ventas(Long.parseLong(codigo));
                     precioMayorista = Float.parseFloat(ventas.precioProducto());
                     pantalla_Ventas.jTextFieldPrecio.setText(String.format(Locale.US, "%.2f", precioMayorista));
                 }
             }
         });
-        
+
         pantalla_Ventas.jComboBoxDes.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 String codigo = pantalla_Ventas.jTextFieldCodigo.getText();
-                String precio = pantalla_Ventas.jTextFieldPrecio.getText();
-                if (codigo.isEmpty() && precio.isEmpty()) {
+                //String precio = pantalla_Ventas.jTextFieldPrecio.getText();
+                if (codigo.isEmpty()) {
 //                    JOptionPane.showMessageDialog(null, "No deje campos en blancooo","ERROR",JOptionPane.ERROR_MESSAGE);
+                    pantalla_Ventas.jTextFieldCodigo.requestFocus();
                     return;
                 }
                 int porcentaje = Integer.parseInt(pantalla_Ventas.jComboBoxDes.getSelectedItem().toString());
                 String total = sacarDesc(porcentaje, precioMayorista);//con descuento
                 pantalla_Ventas.jTextFieldPrecio.setText(total);
-                
+
             }
         });
-        
 
         pantalla_Ventas.jTextFieldCodigoM.addKeyListener(new KeyAdapter() {
             @Override
@@ -392,34 +367,22 @@ public class Controlador_Pantalla_Ventas {
                         return;
 
                     }
-
-                    canProductos = ventas.productoCero(codigo);
-                    if (!canProductos.equals("0")) {
-                        if (Integer.parseInt(canProductos) >= piezas) {
+                    boolean netx = true;
+                    int canProductos = ventas.productoCero(codigo);
+                    if (canProductos != 0) {
+                        if (canProductos >= piezas) {
 
                             canProductos = ventas.productoCero(codigo);
-                            int canProductosInt = Integer.parseInt(canProductos);//productos en existencia
-
                             for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
                                 String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
                                 if (art.equals(codigo)) {
                                     int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                                    if (cantidadTabla > canProductosInt) {
-
+                                    if (cantidadTabla > canProductos) {
                                         netx = false;
                                         break;
-                                    } else {
-                                        netx = true;
-                                        break;
-                                    }
-
-                                } else {
-
-                                    netx = true;
-                                    break;
+                                    } 
                                 }
-
                             }
 
                             if (netx) {
@@ -493,32 +456,20 @@ public class Controlador_Pantalla_Ventas {
 
                     }
 
-                    canProductos = ventas.productoCero(codigo);
-                    if (!canProductos.equals("0")) {
-
-                        canProductos = ventas.productoCero(codigo);
-                        int canProductosInt = Integer.parseInt(canProductos);
+                    boolean netx = true;    
+                    int canProductos = ventas.productoCero(codigo);
+                    if (canProductos != 0) {
 
                         for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
                             String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
                             if (art.equals(codigo)) {
                                 int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                                if (cantidadTabla >= canProductosInt) {
-
+                                if (cantidadTabla >= canProductos) {
                                     netx = false;
                                     break;
-                                } else {
-                                    netx = true;
-                                    break;
                                 }
-
-                            } else {
-
-                                netx = true;
-                                break;
                             }
-
                         }
 
                         if (netx) {
@@ -590,32 +541,20 @@ public class Controlador_Pantalla_Ventas {
                 }
                 String sustancia = pantalla_Ventas.jComboBoxSustancia.getSelectedItem().toString();
                 String codigo = ventas.OctenerCodigo(sustancia);
-                canProductos = ventas.productoCero(codigo);
-                if (!canProductos.equals("0")) {
-
-                    canProductos = ventas.productoCero(codigo);
-                    int canProductosInt = Integer.parseInt(canProductos);
-
+                boolean netx = true;
+                int canProductos = ventas.productoCero(codigo);
+                if (canProductos != 0) {
+                    
                     for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
                         String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
                         if (art.equals(codigo)) {
                             int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                            if (cantidadTabla >= canProductosInt) {
-
+                            if (cantidadTabla >= canProductos) {
                                 netx = false;
                                 break;
-                            } else {
-                                netx = true;
-                                break;
                             }
-
-                        } else {
-
-                            netx = true;
-                            break;
                         }
-
                     }
 
                     if (netx) {
@@ -1039,33 +978,20 @@ public class Controlador_Pantalla_Ventas {
     }
 
     public void ingresarVentaPausada(String codigo) {
-
-        canProductos = ventas.productoCero(codigo);
-        if (!canProductos.equals("0")) {
-
-            canProductos = ventas.productoCero(codigo);
-            int canProductosInt = Integer.parseInt(canProductos);
+        boolean netx = true;
+        int canProductos = ventas.productoCero(codigo);
+        if (canProductos != 0) {
 
             for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
                 String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
                 if (art.equals(codigo)) {
                     int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                    if (cantidadTabla >= canProductosInt) {
-
+                    if (cantidadTabla >= canProductos) {
                         netx = false;
                         break;
-                    } else {
-                        netx = true;
-                        break;
                     }
-
-                } else {
-
-                    netx = true;
-                    break;
                 }
-
             }
 
             if (netx) {

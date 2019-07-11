@@ -474,7 +474,7 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
         jTextFieldPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jComboBoxDes.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        jComboBoxDes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "10", "15", "20" }));
+        jComboBoxDes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "10", "15", "20", "25", "30" }));
 
         jLabel21.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel21.setText("Descuento");

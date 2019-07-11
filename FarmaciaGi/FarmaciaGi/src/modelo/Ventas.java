@@ -152,8 +152,8 @@ public class Ventas {
         return precio;
     }
 
-    public String productoCero(String codigo) {
-        String sql = null, cantidad = "0";
+    public int productoCero(String codigo) {
+        String sql = null; int cantidad = 0;
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -161,7 +161,7 @@ public class Ventas {
             sql = "SELECT cantidad FROM productos WHERE codigo=" + codigo + "";
             ResultSet rs = stm.executeQuery(sql);
             if (rs.next()) {
-                cantidad = rs.getString("cantidad");
+                cantidad = rs.getInt("cantidad");
 
             }
             stm.close();

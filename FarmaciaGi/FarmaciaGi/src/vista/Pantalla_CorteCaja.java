@@ -213,7 +213,7 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       
+       Controlador_PantallaPrincipal.ventanaControl8 = false;
     }//GEN-LAST:event_formWindowClosing
 
     private void jTextFieldTEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTEntregarActionPerformed

@@ -5,6 +5,8 @@
  */
 package vista;
 
+import controlador.Controlador_PantallaPrincipal;
+
 /**
  *
  * @author alexwehrlein
@@ -35,6 +37,11 @@ public class Pantalla_bajas extends javax.swing.JFrame {
         btnBajas = new rojerusan.RSMaterialButtonRectangle();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Baja de medicamento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Noto Sans", 1, 24))); // NOI18N
@@ -125,6 +132,10 @@ public class Pantalla_bajas extends javax.swing.JFrame {
     private void txtPiezasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPiezasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPiezasActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Controlador_PantallaPrincipal.ventanaControl2 = false;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

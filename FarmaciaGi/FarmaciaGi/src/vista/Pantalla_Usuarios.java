@@ -245,7 +245,7 @@ public class Pantalla_Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEliminarUsuarioActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       
+       Controlador_PantallaPrincipal.ventanaControl6 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

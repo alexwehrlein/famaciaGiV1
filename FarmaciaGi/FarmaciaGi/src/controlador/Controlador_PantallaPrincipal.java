@@ -36,8 +36,19 @@ public class Controlador_PantallaPrincipal {
     String idEmpleado, nombreEmpleado, turno, rol;
     String id = "";
     int folio;
-    
+
+    public static boolean ventanaControl1 = false;
+    public static boolean ventanaControl2 = false;
+    public static boolean ventanaControl3 = false;
+    public static boolean ventanaControl4 = false;
+    public static boolean ventanaControl5 = false;
+    public static boolean ventanaControl6 = false;
+    public static boolean ventanaControl7 = false;
+    public static boolean ventanaControl8 = false;
     public static boolean ventanaControl9 = false;
+    public static boolean ventanaControl10 = false;
+    public static boolean ventanaControl11 = false;
+    public static boolean ventanaControl12 = false;
 
     public class Imagen extends javax.swing.JPanel {
 
@@ -73,6 +84,8 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.setExtendedState(MAXIMIZED_BOTH);
         inicioP();
         UIManager.put("OptionPane.minimumSize", new Dimension(300, 200));//cambiar al tamño de los JoptionPane
+        UIManager.put("OptionPane.background", Color.white);
+        UIManager.put("Panel.background", Color.white);
 //abre ventana de login
         pantalla_Principal.jMenuItemIniciarSesion.addActionListener(new ActionListener() {
 
@@ -195,12 +208,10 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
-                  
+                if (ventanaControl1 == false) {
+                    ventanaControl1 = true;
                     new Controlador_PantallaEmpleado();
-                
-                
-
+                }
             }
         });
 
@@ -208,10 +219,10 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
-                    new Controlador_PantallaProductos(rol , turno);
-                
-                
+                if (ventanaControl2 == false) {
+                    ventanaControl2 = true;
+                    new Controlador_PantallaProductos(rol, turno);
+                }
 
             }
         });
@@ -220,11 +231,10 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               
-                    new Controlador_PantallaProductos(rol,turno);
-                
-                
-
+                if (ventanaControl2 == false) {
+                    ventanaControl2 = true;
+                    new Controlador_PantallaProductos(rol, turno);
+                }
             }
         });
 
@@ -232,10 +242,11 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                if (ventanaControl3 == false) {
+                    ventanaControl3 = true;
                     new Controlador_PantallaProveedor();
-                
-                
+                }
+
             }
         });
         pantalla_Principal.jMenuItemRealizarVenta.addActionListener(new ActionListener() {
@@ -244,91 +255,99 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl9 == false) {
                     ventanaControl9 = true;
-                     new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno,rol);
+                    new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno, rol);
                 }
-               
+
             }
         });
 
         pantalla_Principal.jMenuItemGestionCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+                if (ventanaControl4 == false) {
+                    ventanaControl4 = true;
                     new Controlador_PantallaCliente();
-                
-                
+                }
+
             }
         });
 
         pantalla_Principal.jMenuItemDevoluciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                if (ventanaControl5 == false) {
+                    ventanaControl5 = true;
                     new Controlador_PantallaDevoluciones(idEmpleado, nombreEmpleado, turno);
-                
-                
+                }
             }
         });
 
         pantalla_Principal.jMenuItemUsuarios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+                if (ventanaControl6 == false) {
+                    ventanaControl6 = true;
                     new Controlador_PantallaUsuarios();
-                
-                
+                }
+
             }
         });
 
         pantalla_Principal.jMenuItemGrstionGastos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+                if (ventanaControl7 == false) {
+                    ventanaControl7 = true;
                     new Controlador_PantallaGstos(turno);
-                
-                
+                }
             }
         });
 
         pantalla_Principal.jMenuItemRealizarCorteCaja.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                if (ventanaControl8 == false) {
+                    ventanaControl8 = true;
                     new Pantalla_Corte(turno);
-                
-                
+                }
             }
         });
-        
+
         pantalla_Principal.jMenuItemRetiro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                if (ventanaControl10 == false) {
+                    ventanaControl10 = true;
                     new Controlador_Pantalla_Retiros(turno);
-                
-                
+                }
             }
         });
-        
+
         pantalla_Principal.jMenuItemInformacionSucursal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Controlador_Pantalla_Informacion();
+                if (ventanaControl11 == false) {
+                    ventanaControl11 = true;
+                    new Controlador_Pantalla_Informacion();
+                }
             }
         });
-        
+
         pantalla_Principal.jMenuItemBajas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Controlador_Pantalla_Bajas();
+                if (ventanaControl12 == false) {
+                    ventanaControl12 = true;
+                    new Controlador_Pantalla_Bajas();
+                }
             }
         });
-        
+
         pantalla_Principal.jMenuItemPromociones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //new Controlador_Promociones();
-                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>En reparacion. </h1></html>" , "Pronto" , JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>En reparacion. </h1></html>", "Pronto", JOptionPane.WARNING_MESSAGE);
             }
         });
 
@@ -361,7 +380,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemInformacionSucursal.setEnabled(false);
         pantalla_Principal.jMenuItemRetiro.setEnabled(false);
         pantalla_Principal.jMenuItemBajas.setEnabled(false);
-         pantalla_Principal.jMenuItemPromociones.setEnabled(false);
+        pantalla_Principal.jMenuItemPromociones.setEnabled(false);
         pantalla_Principal.jMenuAdmon.setEnabled(true);
         pantalla_Principal.jMenuCajero.setEnabled(true);
     }

@@ -315,7 +315,7 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
     }//GEN-LAST:event_productoAgregarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       
+       Controlador_PantallaPrincipal.ventanaControl2 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

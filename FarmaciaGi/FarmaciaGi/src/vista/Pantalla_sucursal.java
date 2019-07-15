@@ -5,6 +5,8 @@
  */
 package vista;
 
+import controlador.Controlador_PantallaPrincipal;
+
 /**
  *
  * @author alexwehrlein
@@ -35,6 +37,11 @@ public class Pantalla_sucursal extends javax.swing.JFrame {
         textIdSucursal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "INFORMACION DE LA SUCURSAL", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Noto Sans", 1, 24))); // NOI18N
@@ -102,6 +109,10 @@ public class Pantalla_sucursal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       Controlador_PantallaPrincipal.ventanaControl11 = false;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

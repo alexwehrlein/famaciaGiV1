@@ -5,6 +5,8 @@
  */
 package vista;
 
+import controlador.Controlador_PantallaPrincipal;
+
 /**
  *
  * @author alexwehrlein
@@ -42,6 +44,11 @@ public class Pantalla_Retiro extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(822, 599));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "RETIROS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Noto Sans", 1, 36))); // NOI18N
@@ -211,6 +218,10 @@ public class Pantalla_Retiro extends javax.swing.JFrame {
     private void jDateChooserFechaRetiroPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserFechaRetiroPropertyChange
 
     }//GEN-LAST:event_jDateChooserFechaRetiroPropertyChange
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Controlador_PantallaPrincipal.ventanaControl10 = false;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

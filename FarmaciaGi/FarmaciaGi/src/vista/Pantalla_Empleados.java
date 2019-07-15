@@ -150,7 +150,7 @@ public class Pantalla_Empleados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+        Controlador_PantallaPrincipal.ventanaControl1 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

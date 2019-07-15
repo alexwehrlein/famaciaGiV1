@@ -249,7 +249,7 @@ public class Pantalla_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_telefonoClienteActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+        Controlador_PantallaPrincipal.ventanaControl4 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

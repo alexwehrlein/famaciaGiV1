@@ -162,7 +162,7 @@ public class Pantalla_Proveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarProveedorActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       
+       Controlador_PantallaPrincipal.ventanaControl3 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

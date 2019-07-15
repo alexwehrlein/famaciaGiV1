@@ -233,7 +233,7 @@ public class Pantalla_GastosFarmacia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
+Controlador_PantallaPrincipal.ventanaControl6 = false;
     }//GEN-LAST:event_formWindowClosing
 
     private void jTextFieldTotalGastosIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTotalGastosIdActionPerformed

@@ -130,14 +130,13 @@ public class Controlador_PantallaProductos {
                                 filaseleccionada = pantalla_Productos.tablaProductos.getSelectedRow();
                                 long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
                                 String nombreM = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 1);
-                                String precio = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 3);
+                                String precio = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 3).toString();
                                 if (!precio.matches("^\\d+\\.?\\d?\\d?")) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad correcta. </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
                                     return;
                                 }
                                 double precio2 = Double.valueOf(precio);
                                 if (rol.equals("Cajero")) {
-                                    System.out.println(rol);
                                     productos = new Productos(codi);
                                     double precioActual = productos.PrrcioProducto();
                                     if (precio2 >= precioActual) {

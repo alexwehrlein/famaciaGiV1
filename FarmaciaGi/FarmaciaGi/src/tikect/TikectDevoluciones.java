@@ -8,6 +8,7 @@ package tikect;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vista.Pantalla_Devoluciones;
 
@@ -56,11 +57,14 @@ public class TikectDevoluciones {
         
         auxs+= "\n==========================================\n";
         auxs+= "Devolucion realizada\nRegrese Pronto\n\n\n\n\n";// Varios saltos para no cortar antes
+         try {
         impServicio.printCadena(impra, auxs);
         // Cortar el papel ....
         byte[] cutP = new byte[]{0x1d, 'V', 1}; // comado para cortar
         impServicio.printBytes(impra, cutP); // se imprime el bruto 
-        
+         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>","warning",JOptionPane.WARNING_MESSAGE);
+        }   
     }
     
 }

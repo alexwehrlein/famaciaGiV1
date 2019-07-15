@@ -53,7 +53,7 @@ public class Controlador_PantallaProveedor {
                         JButton boton = (JButton) value;
 
                         if (boton.getName().equals("btnModificar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Modificar Provvedor?", "Modificar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Modificar Proveedor? </h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
 
                                 filaseleccionada = pantalla_Proveedor.tablaProveedores.getSelectedRow();
@@ -64,12 +64,12 @@ public class Controlador_PantallaProveedor {
 
                                 proveedor = new Proveedor(id, nombre, telefono, correo);
                                 if (proveedor.ModificarRegristros()) {
-                                    JOptionPane.showMessageDialog(null, "Datos Modificados Correctamente");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
                                     Clear_Table();
                                     pantalla_Proveedor.tablaProveedores.setModel(new Proveedor().cargarRegistroEgreso(pantalla_Proveedor.tablaProveedores));
 
                                 } else {
-                                   JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                   JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
                                 
@@ -77,23 +77,20 @@ public class Controlador_PantallaProveedor {
 
                         }
                         if (boton.getName().equals("btnEliminar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Eliminar Proveedor?", "Modificar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Eliminar Proveedor? </h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                             filaseleccionada = pantalla_Proveedor.tablaProveedores.getSelectedRow();
                             int id = (int) pantalla_Proveedor.tablaProveedores.getValueAt(filaseleccionada, 0);
                             proveedor = new Proveedor(id);
                             if (proveedor.eliminarRegristro()) {
-                                JOptionPane.showMessageDialog(null, "Dato Eliminado Correctamente");
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Dato Eliminado Correctamente </h1></html>");
                                 Clear_Table();
                                 pantalla_Proveedor.tablaProveedores.setModel(new Proveedor().cargarRegistroEgreso(pantalla_Proveedor.tablaProveedores));
 
                             } else {
-                               JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                               JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
-                            }else{
-                                
                             }
-
                         }
 
                     }

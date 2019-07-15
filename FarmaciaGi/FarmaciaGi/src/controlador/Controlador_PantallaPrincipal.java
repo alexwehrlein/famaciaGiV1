@@ -19,6 +19,7 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import modelo.Empleado;
 import modelo.Ventas;
 import vista.Pantalla_principal;
@@ -71,6 +72,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.setVisible(true);
         pantalla_Principal.setExtendedState(MAXIMIZED_BOTH);
         inicioP();
+        UIManager.put("OptionPane.minimumSize", new Dimension(300, 200));//cambiar al tamño de los JoptionPane
 //abre ventana de login
         pantalla_Principal.jMenuItemIniciarSesion.addActionListener(new ActionListener() {
 
@@ -84,7 +86,7 @@ public class Controlador_PantallaPrincipal {
                     pantalla_Principal.jTextFieldUsuarioLogin.requestFocus();
 
                 } else {
-                    int m = JOptionPane.showConfirmDialog(pantalla_Principal, "Desea cerrar sesion ", "Confirmar salida", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int m = JOptionPane.showConfirmDialog(pantalla_Principal, "<html><h1 align='center'>Desea cerrar sesion </h1></html>", "Confirmar salida", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (m == 0) {
                         inicioP();
                         pantalla_Principal.jMenuItemIniciarSesion.setText("Iniciar Sesion");
@@ -120,22 +122,22 @@ public class Controlador_PantallaPrincipal {
                                 if (arr[2].equals("Administrador")) {
                                     activarAdministrador();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
-                                    JOptionPane.showMessageDialog(null, "Bienvenido: " + arr[3]);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Bienvenido: " + arr[3] + "</h1></html>");
                                 } else {
                                     activarCajero();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
-                                    JOptionPane.showMessageDialog(null, "Bienvenido: " + arr[3]);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
                                 }
                             } else {
                                 pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
-                                JOptionPane.showMessageDialog(null, "Contraseña Incorrecta");
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
                             }
                         } else {
                             pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
-                            JOptionPane.showMessageDialog(null, "Usuario Incorrecto");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Usuario Incorrecto </h1></html>");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Campos Vacios");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Campos Vacios </h1></html>");
                     }
                 }
 
@@ -160,23 +162,23 @@ public class Controlador_PantallaPrincipal {
                             if (arr[2].equals("Administrador")) {
                                 activarAdministrador();
                                 pantalla_Principal.jDialogLogin.setVisible(false);
-                                JOptionPane.showMessageDialog(null, "Bienvenido: " + arr[3]);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
 
                             } else {
                                 activarCajero();
                                 pantalla_Principal.jDialogLogin.setVisible(false);
-                                JOptionPane.showMessageDialog(null, "Bienvenido: " + arr[3]);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
                             }
                         } else {
                             pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
-                            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
                         }
                     } else {
                         pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
-                        JOptionPane.showMessageDialog(null, "Usuario Incorrecto");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Usuario Incorrecto </h1></html>");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Campos Vacios");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Campos Vacios </h1></html>");
                 }
 
             }
@@ -326,7 +328,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //new Controlador_Promociones();
-                JOptionPane.showMessageDialog(null, "En reparacion." , "Pronto" , JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>En reparacion. </h1></html>" , "Pronto" , JOptionPane.WARNING_MESSAGE);
             }
         });
 

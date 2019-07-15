@@ -117,23 +117,23 @@ public class Pantalla_Corte {
                         corte = new Corte(turno, tt);
                         if (true) {
                             corte.registrarCortes();
-                            JOptionPane.showMessageDialog(null, "El corte se a guardado");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                             tikectCorte = new TikectCorte();
                             tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal,abarrotesTotal,perfumeriaTotal, tk, turno,nombresClientes,arr,retiros,0);
                             tcc = new TikectCorteConsulta();
                             tcc.Tikect(ct, turno);
-                            JOptionPane.showMessageDialog(null, "Turno finalizado" , "Adios" , JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>" , "Adios" , JOptionPane.INFORMATION_MESSAGE);
                             System.exit(0);
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "El corte ya a sido realizado ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte ya a sido realizado </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
 
-                    JOptionPane.showMessageDialog(null, "No puedes hacer el corte distinto a tu turno", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes hacer el corte distinto a tu turno </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -171,7 +171,7 @@ public class Pantalla_Corte {
                 try {
                     fila = pantalla_Corte.tablaCortes.getSelectedRow();
                     if (fila == -1) {
-                        JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No ha seleccionado ninguna fila. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else {
                         String fecha = (String) pantalla_Corte.tablaCortes.getValueAt(fila, 2);
                         String turno = (String) pantalla_Corte.tablaCortes.getValueAt(fila, 3);

@@ -32,7 +32,7 @@ public class Controlador_EmpleadoAdd {
                 if (empleadoAdd.nombreEmpleados.getText().equals("") || empleadoAdd.telefonoEmpleados.getText().equals("") 
                       ||  empleadoAdd.correoEmpleados.getText().equals("") || empleadoAdd.direccionEmpleados.getText().equals("") ) {
                     
-                    JOptionPane.showMessageDialog(null, "No deje campos en blaco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No deje campos en blaco </h1></html>");
                 }else{
                     
                 
@@ -46,11 +46,11 @@ public class Controlador_EmpleadoAdd {
                 
                 empleado = new Empleado(0,nombre, telefono, correo, direccion, puesto,turno);
                 if (empleado.registrarEmpleado()) {
-                    JOptionPane.showMessageDialog(null, "Datos ingresados Correctamente");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos ingresados Correctamente </h1></html>");
                     limpiarCampos();
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>");
                     
                 }
                 }

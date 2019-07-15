@@ -36,7 +36,7 @@ public class Controlador_PandallaProveedorAdd {
                 if (pantalla_Proveedoradd.nombreProveedores.getText().equals("") || pantalla_Proveedoradd.telefonoProveedores.getText().equals("")
                         || pantalla_Proveedoradd.correoProveedores.getText().equals("")) {
 
-                    JOptionPane.showMessageDialog(null, "No deje campos en blaco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No deje campos en blaco </h1></html>");
                 } else {
                     
 
@@ -49,12 +49,12 @@ public class Controlador_PandallaProveedorAdd {
                     if (pass) {
                          proveedor = new Proveedor(0, nombre, telefono, correo);
                     if (proveedor.registrarProveedor()) {
-                        JOptionPane.showMessageDialog(null, "Datos ingresados Correctamente");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos ingresados Correctamente </h1></html>");
                         limpiarCampos();
                         pantalla_Proveedoradd.nombreProveedores.requestFocus();
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Error");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>");
                     }
                     }
 

@@ -60,7 +60,7 @@ public class Controlador_PantallaCliente {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (pantalla_Clientes.nombreCliente.getText().equals("") || pantalla_Clientes.correoCliente.getText().equals("") || pantalla_Clientes.telefonoCliente.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "No deje campos en blaco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No deje campos en blaco </h1></html>");
                 } else {
                     
                     String nombre = pantalla_Clientes.nombreCliente.getText();
@@ -72,11 +72,11 @@ public class Controlador_PantallaCliente {
                       if (pass) {
                          cliente = new Cliente(0, nombre, correo, telefono, password);
                     if (cliente.registrarCliente()) {
-                        JOptionPane.showMessageDialog(null, "Datos ingresados Correctamente");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos ingresados Correctamente </h1></html>");
                         limpiarCampos();
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                     }
                     
@@ -100,7 +100,7 @@ public class Controlador_PantallaCliente {
                         JButton boton = (JButton) value;
 
                         if (boton.getName().equals("btnModificar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Modificar Cliente?", "Modificar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'> ¿Modificar Cliente? </h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
 
                                 filaseleccionada = pantalla_Clientes.tablaClientes.getSelectedRow();
@@ -112,12 +112,12 @@ public class Controlador_PantallaCliente {
 
                                 cliente = new Cliente(id, nombre, correo, telefono,"");
                                 if (cliente.ModificarRegristros()) {
-                                    JOptionPane.showMessageDialog(null, "Datos Modificados Correctamente");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos Modificados Correctamente </h1></html>");
                                     Clear_Table();
                                     pantalla_Clientes.tablaClientes.setModel(new Cliente().cargarRegistroEgreso(pantalla_Clientes.tablaClientes));
 
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
 
@@ -125,18 +125,18 @@ public class Controlador_PantallaCliente {
 
                         }
                         if (boton.getName().equals("btnEliminar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Eliminar Cliente?", "Eliminarr", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'> ¿Eliminar Cliente? </h1></html>", "Eliminarr", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 filaseleccionada = pantalla_Clientes.tablaClientes.getSelectedRow();
                                 int id = (int) pantalla_Clientes.tablaClientes.getValueAt(filaseleccionada, 0);
                                 cliente = new Cliente(id);
                                 if (cliente.eliminarRegristro()) {
-                                    JOptionPane.showMessageDialog(null, "Dato Eliminado Correctamente");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Dato Eliminado Correctamente </h1></html>");
                                     Clear_Table();
                                     pantalla_Clientes.tablaClientes.setModel(new Cliente().cargarRegistroEgreso(pantalla_Clientes.tablaClientes));
 
                                 } else {
-                                   JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                   JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
 
@@ -204,16 +204,16 @@ public class Controlador_PantallaCliente {
                         next = true;
                         
                     }else{
-                        JOptionPane.showMessageDialog(null, "Escriba una direccion valida de correo");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Escriba una direccion valida de correo </h1></html>");
                          pantalla_Clientes.correoCliente.setBackground(Color.red);
                     }
                 
             }else{
-                JOptionPane.showMessageDialog(null, "Solo Numeros");
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Solo Numeros </h1></html>");
                   pantalla_Clientes.telefonoCliente.setBackground(Color.red);
             }
         } else {
-           JOptionPane.showMessageDialog(null, "Solo Letras En EL Nombre");
+           JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Solo Letras En EL Nombre </h1></html>");
              pantalla_Clientes.nombreCliente.setBackground(Color.red);
         }
         

@@ -50,12 +50,12 @@ public class Controlador_Pantalla_Bajas {
                 int existencias = Integer.parseInt(pantalla_bajas.txtExistencias.getText());
                 int piezas = Integer.parseInt(pantalla_bajas.txtPiezas.getText());
                 if (!String.valueOf(piezas).matches("[0-9]*")) {
-                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pantalla_bajas.txtPiezas.requestFocus();
                     return;
                 }
                 if (piezas > existencias) {
-                    JOptionPane.showMessageDialog(null, "No puede dar de baja mas de lo que existe" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede dar de baja mas de lo que existe </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int inventario = existencias - piezas;
@@ -65,7 +65,7 @@ public class Controlador_Pantalla_Bajas {
                 pantalla_bajas.tctCodigo.setText("");
                 pantalla_bajas.txtExistencias.setText("");
                 pantalla_bajas.txtPiezas.setText("");
-                JOptionPane.showMessageDialog(null, "El piezas se dieron de baja" , "SUCCESS" ,JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El piezas se dieron de baja </h1></html>" , "SUCCESS" ,JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }

@@ -51,7 +51,7 @@ public class Controlador_Pantalla_Informacion {
                 String telefono = pantalla_sucursal.textTelefono.getText();
                 
                 if (!telefono.matches("^\\d+$")) {
-                        JOptionPane.showMessageDialog(null, "TELEFONO INCORRECTO", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> TELEFONO INCORRECTO </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
                         pantalla_sucursal.textTelefono.setText("");
                         pantalla_sucursal.textTelefono.requestFocus();
                         return;
@@ -60,11 +60,11 @@ public class Controlador_Pantalla_Informacion {
                 s = new sucursal(id, direccion, telefono);
                 boolean next = s.updateSucursal();
                 if (next) {
-                    JOptionPane.showMessageDialog(null, "Informacion actualizada", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "I<html><h1 align='center'> nformacion actualizada </h1></html>", "EXITO", JOptionPane.INFORMATION_MESSAGE);
                     pantalla_sucursal.textDireccion.setEditable(false);
                     pantalla_sucursal.textTelefono.setEditable(false);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al actualizada Informacion", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error al actualizada Informacion</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

@@ -251,13 +251,13 @@ public class Pantalla_EmpleadosModificar extends javax.swing.JFrame {
        empleado = new Empleado(id, nombre, telefono, correo, direccion, puesto, turno);
        
         if (empleado.ModificarRegristros()) {
-             JOptionPane.showMessageDialog(null, "Datos Modificados Correctamente");
+             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente</h1></html>");
              new Controlador_PantallaEmpleado();
              this.dispose();
             
         }else{
             
-             JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_registroEmpleadosActionPerformed
 

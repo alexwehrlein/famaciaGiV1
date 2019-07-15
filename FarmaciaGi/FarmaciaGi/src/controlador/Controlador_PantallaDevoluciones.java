@@ -43,7 +43,7 @@ public class Controlador_PantallaDevoluciones {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (devoluciones.jTextFieldFolioDevoluciones.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Ingrese un folio de venta", "Devoluciones", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un folio de venta </h1></html>", "Devoluciones", JOptionPane.WARNING_MESSAGE);
                     } else {
                         Clear_Table();
                         int folio = Integer.parseInt(devoluciones.jTextFieldFolioDevoluciones.getText());
@@ -92,7 +92,7 @@ public class Controlador_PantallaDevoluciones {
                 if (devoluciones.jTableDeboluciones.getSelectedRow() >= 0) {
                     int filaSeleccionada = devoluciones.jTableDeboluciones.getSelectedRow();
 
-                    int m = JOptionPane.showConfirmDialog(null, "DESEA DEVOLVER EL PRODUCTO ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int m = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'> DESEA DEVOLVER EL PRODUCTO </h1></html>", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (m == 0) {
                         int filaseleccionada = devoluciones.jTableDeboluciones.getSelectedRow();
                         int piezas = Integer.parseInt(devoluciones.jTableDeboluciones.getValueAt(filaSeleccionada, 3).toString());
@@ -107,11 +107,11 @@ public class Controlador_PantallaDevoluciones {
                         double total = piezas * precio;
 
                         if (cantidadExistencias < piezas) {
-                            JOptionPane.showMessageDialog(null, "No puedes devolver mas de lo vendido  " + cantidadExistencias + " piezas", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes devolver mas de lo vendido </h1></html>  " + cantidadExistencias + " piezas", "ERROR", JOptionPane.ERROR_MESSAGE);
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else if (cantidadExistencias == 0) {
-                            JOptionPane.showMessageDialog(null, "Ya de devolvieron todos los productos  ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya de devolvieron todos los productos </h1></html> ", "ERROR", JOptionPane.ERROR_MESSAGE);
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else {
@@ -119,35 +119,35 @@ public class Controlador_PantallaDevoluciones {
                             devoluciones1 = new Devoluciones(codigo, total);
 
                             if (devoluciones1.registrarDevolucion(idEmpleado, idCliente, turno)) {
-                                JOptionPane.showMessageDialog(null, "Devolucion Registrada Correctamente");
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Devolucion Registrada Correctamente </h1></html>");
                                 devoluciones1 = new Devoluciones(codigo, piezas);
                                 tikectDevoluciones = new TikectDevoluciones();
                                 tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total);
                                 if (devoluciones1.RegresarProducto()) {
-                                    JOptionPane.showMessageDialog(null, "Medicamento Regresado al almacen");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Medicamento Regresado al almacen </h1></html>");
                                     devoluciones1 = new Devoluciones(IntFolio, codigo, piezas);
                                     boolean next = devoluciones1.detalleVenta(precio);
                                     Clear_Table();
                                     devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
-                                    int n = JOptionPane.showConfirmDialog(null, "DESEA DEVOLVER OTRO PRODUCTO ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                    int n = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>DESEA DEVOLVER OTRO PRODUCTO</h1></html> ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                                     if (n == 0) {
 
                                     } else {
                                         Clear_Table();
                                     }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
 
                             } else {
-                                JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
                         }
 
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Debe seleccionar un Producto", "Devoluciones", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Debe seleccionar un Producto </h1></html>", "Devoluciones", JOptionPane.WARNING_MESSAGE);
                 }
 
             }

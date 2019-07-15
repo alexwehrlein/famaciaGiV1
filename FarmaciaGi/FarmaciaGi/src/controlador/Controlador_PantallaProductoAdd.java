@@ -6,6 +6,7 @@
 package controlador;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import vista.Pantalla_ProductosAdd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import modelo.Productos;
 import modelo.Proveedor;
 
@@ -26,7 +28,7 @@ public class Controlador_PantallaProductoAdd {
     Pantalla_ProductosAdd productoAgregar;
     Productos productos;
 
-    public Controlador_PantallaProductoAdd(String rol , String turno) {
+    public Controlador_PantallaProductoAdd(String rol, String turno) {
         productoAgregar = new Pantalla_ProductosAdd();
         productoAgregar.setLocationRelativeTo(null);
         productoAgregar.setVisible(true);
@@ -39,13 +41,28 @@ public class Controlador_PantallaProductoAdd {
                         || productoAgregar.altaMedicamentoSustancia.getText().equals("") || productoAgregar.altaMedicamentoPrecio.getText().equals("")
                         || productoAgregar.altaMedicamentoCantidad.getText().equals("")) {
 
-                    JOptionPane.showMessageDialog(null, "No deje campos en blaco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No deje campos en blaco</h1></html>");
 
                 } else {
 
                     boolean next = validarFormulario(productoAgregar.altaMedicamentoPrecio.getText(), productoAgregar.altaMedicamentoCantidad.getText());
                     if (next) {
-
+                        if (!productoAgregar.altaMedicamentoCodigo.getText().matches("[0-9]*")) {
+                            JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un codigo correcto.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            productoAgregar.altaMedicamentoCodigo.requestFocus();
+                            return;
+                        }
+                        if (!productoAgregar.altaMedicamentoCantidad.getText().matches("[0-9]*")) {
+                            JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un cantidad correcta.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            productoAgregar.altaMedicamentoCantidad.requestFocus();
+                            return;
+                        }
+                        if (!productoAgregar.altaMedicamentoPrecio.getText().matches("\\d+\\.?\\d?\\d?")) {
+                            JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un precio correcta.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            productoAgregar.altaMedicamentoPrecio.requestFocus();
+                            return;
+                        }
+                        
                         long codigo = Long.valueOf(productoAgregar.altaMedicamentoCodigo.getText());
                         String marcaComercia = productoAgregar.altaMedicamentoMarcaComercial.getText();
                         String sustancia = productoAgregar.altaMedicamentoSustancia.getText();
@@ -54,22 +71,17 @@ public class Controlador_PantallaProductoAdd {
                         String laboratorio = productoAgregar.altaMedicamentoLavoratorio.getSelectedItem().toString();
                         Proveedor proveedor = (Proveedor) productoAgregar.altaMedicamentoProveedor.getSelectedItem();
                         int cantidad = Integer.parseInt(productoAgregar.altaMedicamentoCantidad.getText());
-                        if (!productoAgregar.altaMedicamentoCodigo.getText().matches("[0-9]*")) {
-                            JOptionPane.showMessageDialog(null, "Ingrese un codigo correcto.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            productoAgregar.altaMedicamentoCodigo.requestFocus();
-                            return;
-                        }
 
                         productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
 
                         if (productos.registrarProducto()) {
-                            JOptionPane.showMessageDialog(null, "Datos ingresados Correctamente");
+                            JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             productoAgregar.altaMedicamentoCodigo.requestFocus();
-                             productoAgregar.altaMedicamentoCodigo.setBackground(Color.WHITE);
+                            productoAgregar.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "Error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -81,7 +93,7 @@ public class Controlador_PantallaProductoAdd {
             @Override
             public void actionPerformed(ActionEvent e) {
                 productoAgregar.dispose();
-                new Controlador_PantallaProductos(rol , turno);
+                new Controlador_PantallaProductos(rol, turno);
 
             }
         });
@@ -93,19 +105,18 @@ public class Controlador_PantallaProductoAdd {
                     long codigo = Long.parseLong(productoAgregar.altaMedicamentoCodigo.getText());
                     productos = new Productos(codigo);
                     boolean next = productos.verificarCodigo();
-                    
+
                     if (next) {
-                            productoAgregar.altaMedicamentoCodigo.setBackground(Color.RED);
-                            productoAgregar.altaMedicamentoCodigo.setText("");
-                            JOptionPane.showMessageDialog(null, "El codigo ya a sido registrado");
-                            
-                        
-                    }else{
+                        productoAgregar.altaMedicamentoCodigo.setBackground(Color.RED);
+                        productoAgregar.altaMedicamentoCodigo.setText("");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El codigo ya a sido registrado </h1></html>");
+
+                    } else {
                         productoAgregar.altaMedicamentoCodigo.setBackground(Color.GREEN);
                         productoAgregar.altaMedicamentoMarcaComercial.requestFocus();
-                        
+
                     }
-                    
+
                 }
 
             }
@@ -126,11 +137,11 @@ public class Controlador_PantallaProductoAdd {
                 productoAgregar.altaMedicamentoCantidad.setBackground(Color.WHITE);
                 next = true;
             } else {
-                JOptionPane.showMessageDialog(null, "Solo Numeros");
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Solo Numeros </h1></html>");
                 productoAgregar.altaMedicamentoCantidad.setBackground(Color.red);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Solo Numeros");
+            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Solo Numeros </h1></html>");
             productoAgregar.altaMedicamentoPrecio.setBackground(Color.red);
         }
 

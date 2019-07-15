@@ -430,7 +430,7 @@ public class Ventas {
                 nombre = resultado.getString("marca_comercial");
             }
             if (cantidadExistencias <= 4) {
-                JOptionPane.showMessageDialog(null, "Quedan: " + cantidadExistencias + " De: " + nombre);
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Quedan: " + cantidadExistencias + " De: " + nombre + "</h1></html>");
             }
 
             stm.close();

@@ -56,7 +56,7 @@ public class Controlador_PantallaProductos {
                     tikectInventario.tikectInventario(turno, productosTikect);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "No hay productos agregados", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No hay productos agregados </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -74,11 +74,11 @@ public class Controlador_PantallaProductos {
             public void actionPerformed(ActionEvent e) {
                 int row = pantalla_Productos.tablaProductos.getSelectedRow();
                 if (row < 0) {
-                    JOptionPane.showMessageDialog(null, "Selecciona una fila", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Selecciona una fila </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (pantalla_Productos.campoAgregarExistencia.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "No deje el  campo en blanco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No deje el  campo en blanco </h1></html>");
                 } else {
                     int inventario = Integer.parseInt(pantalla_Productos.campoAgregarExistencia.getText());
                     if (inventario > 0) {
@@ -89,7 +89,7 @@ public class Controlador_PantallaProductos {
                         String producto = pantalla_Productos.nombre.getText();
                         productos = new Productos(codigo, agregarInventario);
                         if (productos.Modificarexistencias()) {
-                            JOptionPane.showMessageDialog(null, "Medicamento Agregado Correctamente");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> SE AGREGARON "+inventario+" PIEZAS A INVENTARIO </h1></html>");
                             productosTikect.get(0).add(producto);
                             productosTikect.get(1).add(String.valueOf(inventario));
                             Clear_Table();
@@ -101,11 +101,11 @@ public class Controlador_PantallaProductos {
                             pantalla_Productos.buscarProductos.setText("");
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Tiene que ser mayor a 0");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Tiene que ser mayor a 0 </h1></html>");
                     }
                 }
             }
@@ -125,14 +125,14 @@ public class Controlador_PantallaProductos {
                         JButton boton = (JButton) value;
 
                         if (boton.getName().equals("btnModificar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Modificar Medicamento?", "Modificar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'> Modificar Medicamento? </h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 filaseleccionada = pantalla_Productos.tablaProductos.getSelectedRow();
                                 long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
                                 String nombreM = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 1);
                                 String precio = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 3);
                                 if (!precio.matches("^\\d+\\.?\\d?\\d?")) {
-                                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad correcta." , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad correcta. </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
                                     return;
                                 }
                                 double precio2 = Double.valueOf(precio);
@@ -143,29 +143,29 @@ public class Controlador_PantallaProductos {
                                     if (precio2 >= precioActual) {
                                         productos = new Productos(codi, precio2, nombreM);
                                         if (productos.ModificarRegristros()) {
-                                            JOptionPane.showMessageDialog(null, "Datos Modificados Correctamente");
+                                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
                                             Clear_Table();
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                         } else {
-                                            JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                             Clear_Table();
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                         }
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "No puede modificar el precio a uno menor contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede modificar el precio a uno menor contacte al administrador </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                     }
                                 } else {
                                     productos = new Productos(codi, precio2, nombreM);
                                     if (productos.ModificarRegristros()) {
-                                        JOptionPane.showMessageDialog(null, "Datos Modificados Correctamente");
+                                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                     }
@@ -176,18 +176,18 @@ public class Controlador_PantallaProductos {
 
                         if (boton.getName().equals("btnEliminar")) {
                             filaseleccionada = pantalla_Productos.tablaProductos.getSelectedRow();
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Eliminar El Medicamento?", "Eliminar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Eliminar El Medicamento? </h1></html>", "Eliminar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
                                 productos = new Productos(codi);
 
                                 if (productos.eliminarMedicamento()) {
-                                    JOptionPane.showMessageDialog(null, "Medicamento Eliminado Correctamente");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Medicamento Eliminado Correctamente </h1></html>");
                                     Clear_Table();
                                     pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
 
                             }

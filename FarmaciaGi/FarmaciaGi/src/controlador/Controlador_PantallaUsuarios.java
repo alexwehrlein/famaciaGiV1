@@ -34,7 +34,7 @@ public class Controlador_PantallaUsuarios {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (pantalla_Usuarios.jTextFieldUsuario.getText().isEmpty() || pantalla_Usuarios.jTextFieldPassword.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No deje campos vacios");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No deje campos vacios</h1></html>");
                 } else {
                     String usuario = pantalla_Usuarios.jTextFieldUsuario.getText();
                     String passwork = pantalla_Usuarios.jTextFieldPassword.getText();
@@ -43,13 +43,13 @@ public class Controlador_PantallaUsuarios {
                     usuarios = new Usuarios(0, usuario, passwork, empleado.getIdEmpleado());
 
                     if (usuarios.registrarUsuario()) {
-                        JOptionPane.showMessageDialog(null, "Datos ingresados Correctamente");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos ingresados Correctamente </h1></html>");
                         limpiarCampos();
                         Clear_Table();
                         pantalla_Usuarios.jTableUsuarios.setModel(new Usuarios().cargarRegistroEgreso(pantalla_Usuarios.jTableUsuarios));
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
@@ -61,7 +61,7 @@ public class Controlador_PantallaUsuarios {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (pantalla_Usuarios.jTableUsuarios.getSelectedRow() >= 0) {
-                    int m = JOptionPane.showConfirmDialog(null, "DESEA ELIMINAR EL USUARIO ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int m = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿DESEA ELIMINAR EL USUARIO ? </h1></html>", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (m == 0) {
 
                         int filaSeleccionada = pantalla_Usuarios.jTableUsuarios.getSelectedRow();
@@ -70,16 +70,16 @@ public class Controlador_PantallaUsuarios {
                         usuarios = new Usuarios(idusuario);
 
                         if (usuarios.eliminarUsuario()) {
-                            JOptionPane.showMessageDialog(null, "Usuario Eliminado");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Usuario Eliminado </h1></html>");
                             Clear_Table();
                             limpiarCampos();
                             pantalla_Usuarios.jTableUsuarios.setModel(new Usuarios().cargarRegistroEgreso(pantalla_Usuarios.jTableUsuarios));
                         } else {
-                            JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </html></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Debe seleccionar un Usuario", "Usuarios", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Debe seleccionar un Usuario</h1></html>", "Usuarios", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
@@ -88,7 +88,7 @@ public class Controlador_PantallaUsuarios {
         pantalla_Usuarios.jButtonEditarUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int m = JOptionPane.showConfirmDialog(null, "DESEA MODIFICAR EL USUARIO ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int m = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿DESEA MODIFICAR EL USUARIO ? </h1></html> ", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (m == 0) {
                     int filaSeleccionada = pantalla_Usuarios.jTableUsuarios.getSelectedRow();
                     int idusuario = Integer.parseInt(pantalla_Usuarios.jTableUsuarios.getValueAt(filaSeleccionada, 0).toString());
@@ -99,13 +99,13 @@ public class Controlador_PantallaUsuarios {
                     usuarios = new Usuarios(idusuario, usuario, passwork, empleado.getIdEmpleado());
 
                     if (usuarios.ModificarRegristros()) {
-                        JOptionPane.showMessageDialog(null, "Usuario Modificado");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Usuario Modificado </h1></html>");
                         Clear_Table();
                         limpiarCampos();
                         pantalla_Usuarios.jTableUsuarios.setModel(new Usuarios().cargarRegistroEgreso(pantalla_Usuarios.jTableUsuarios));
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }

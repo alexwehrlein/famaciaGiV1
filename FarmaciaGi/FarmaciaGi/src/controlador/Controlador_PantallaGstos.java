@@ -49,7 +49,7 @@ public class Controlador_PantallaGstos {
             public void actionPerformed(ActionEvent e) {
 
                 if (gastosFarmacia.jTextFieldDescripcionGastos.getText().isEmpty() || gastosFarmacia.jTextFieldTotalGastos.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No dejar campos en blanco");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No dejar campos en blanco</h1></html>");
 
                 } else {
                     boolean pass = validarFormulario(gastosFarmacia.jTextFieldTotalGastos.getText());
@@ -61,7 +61,7 @@ public class Controlador_PantallaGstos {
                         gastos = new Gastos(descripcion, monto, turno);
 
                         if (gastos.registrarGastos()) {
-                            JOptionPane.showMessageDialog(null, "Gastos Registrados");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Gastos Registrados</h1></html>");
                             limpiarCampos();
                             Clear_Table();
                             gastosFarmacia.jTableGastos.setModel(new Gastos().cargarRegistroEgreso(gastosFarmacia.jTableGastos));
@@ -71,7 +71,7 @@ public class Controlador_PantallaGstos {
 
                         } else {
 
-                            JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
                     }
 
@@ -120,7 +120,7 @@ public class Controlador_PantallaGstos {
                 try {
                     fila = gastosFarmacia.jTableGastos.getSelectedRow();
                     if (fila == -1) {
-                        JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No ha seleccionado ninguna fila. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else {
                         String descripcion = (String) gastosFarmacia.jTableGastos.getValueAt(fila, 1);
                         String monto = (String) gastosFarmacia.jTableGastos.getValueAt(fila, 2);
@@ -146,7 +146,7 @@ public class Controlador_PantallaGstos {
             ) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (gastosFarmacia.jTextFieldDescripcionGastos.getText().isEmpty() || gastosFarmacia.jTextFieldTotalGastos.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "No dejar campos en blanco");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No dejar campos en blanco.</h1></html>");
 
                     } else {
                         boolean pass = validarFormulario(gastosFarmacia.jTextFieldTotalGastos.getText());
@@ -157,7 +157,7 @@ public class Controlador_PantallaGstos {
                             gastos = new Gastos(descripcion, monto, turno);
 
                             if (gastos.registrarGastos()) {
-                                JOptionPane.showMessageDialog(null, "Gastos Registrados");
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Gastos Registrados.</h1></html>");
                                 limpiarCampos();
                                 Clear_Table();
                                 gastosFarmacia.jTableGastos.setModel(new Gastos().cargarRegistroEgreso(gastosFarmacia.jTableGastos));
@@ -166,7 +166,7 @@ public class Controlador_PantallaGstos {
 
                             } else {
 
-                                JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                             }
                         }
 

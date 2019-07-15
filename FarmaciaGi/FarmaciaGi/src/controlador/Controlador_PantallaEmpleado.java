@@ -55,7 +55,7 @@ public class Controlador_PantallaEmpleado {
                         JButton boton = (JButton) value;
 
                         if (boton.getName().equals("btnModificar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Modificar Empleado?", "Modificar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Modificar Empleado?</h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
 
                                 filaseleccionada = pantalla_Empleados.tablaEmpleados.getSelectedRow();
@@ -92,18 +92,18 @@ public class Controlador_PantallaEmpleado {
 
                         }
                         if (boton.getName().equals("btnEliminar")) {
-                            int reply = JOptionPane.showConfirmDialog(null, "¿Eliminar Empleado?", "Eliminar", JOptionPane.YES_NO_OPTION);
+                            int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Eliminar Empleado?</h1></html>", "Eliminar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 filaseleccionada = pantalla_Empleados.tablaEmpleados.getSelectedRow();
                                 int id = (int) pantalla_Empleados.tablaEmpleados.getValueAt(filaseleccionada, 0);
                                 empleado = new Empleado(id);
                                 if (empleado.eliminarRegristro()) {
-                                    JOptionPane.showMessageDialog(null, "Dato Eliminado Correctamente");
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Dato Eliminado Correctamente </h1></html>");
                                     Clear_Table();
                                     pantalla_Empleados.tablaEmpleados.setModel(new Empleado().cargarRegistroEgreso(pantalla_Empleados.tablaEmpleados));
 
                                 } else {
-                                     JOptionPane.showMessageDialog(null, "error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
 

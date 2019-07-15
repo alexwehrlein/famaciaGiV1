@@ -55,7 +55,7 @@ public class TikectkArqueo {
             byte[] cutP = new byte[]{0x1d, 'V', 1}; // comado para cortar
             impServicio.printBytes(impra, cutP); // se imprime el bruto 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "El tikect no se pudo imprimir","warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h></html>","warning",JOptionPane.WARNING_MESSAGE);
         }
     }
 }

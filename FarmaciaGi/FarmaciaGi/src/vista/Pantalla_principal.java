@@ -44,9 +44,9 @@ public class Pantalla_principal extends javax.swing.JFrame {
     
     public void confirmarSalida(){
         Icon icono = new ImageIcon(getClass().getResource("/resources/logo22.png"));
-        int valor = JOptionPane.showConfirmDialog(this, "¿Esta seguro de cerrar la aplicacion?","Advertencia",JOptionPane.YES_NO_OPTION);
+        int valor = JOptionPane.showConfirmDialog(this, "<html><h1 align='center'> ¿Esta seguro de cerrar la aplicacion? </h1></html>","Advertencia",JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null,"Famacia Gi" , "Gracias", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"<html><h1 align='center'> Famacia Gi </html>" , "Gracias", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
             
         }

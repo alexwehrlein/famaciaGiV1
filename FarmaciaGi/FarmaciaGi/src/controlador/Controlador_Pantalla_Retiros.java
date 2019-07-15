@@ -48,7 +48,7 @@ public class Controlador_Pantalla_Retiros {
                     }
 
                     if (!pantalla_Retiro.jTextFieldRetiro.getText().matches("^[0-9]+([.])?([0-9]+)?$")) {
-                        JOptionPane.showMessageDialog(null, "INGERSE SOLO NUMEROS", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>INGERSE SOLO NUMEROS </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
                         pantalla_Retiro.jTextFieldRetiro.setText("");
                         return;
                     }
@@ -56,7 +56,7 @@ public class Controlador_Pantalla_Retiros {
                     retiros = new Retiros(cantidad, turno);
                     String[] next = retiros.registrarRetiro();
                     if (next[0] == "0") {
-                        JOptionPane.showMessageDialog(null, "Exito al guardar retiro", "success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Exito al guardar retiro </h1></html>", "success", JOptionPane.INFORMATION_MESSAGE);
                         retiros = new Retiros(Integer.parseInt(next[1]));
                         String arr[] = retiros.tikect();
                         tr = new TikectRetiros();
@@ -65,7 +65,7 @@ public class Controlador_Pantalla_Retiros {
                         Clear_Table();
                         pantalla_Retiro.jTableRetiros.setModel(new Retiros().cargarRetiros(pantalla_Retiro.jTableRetiros));
                     } else {
-                        JOptionPane.showMessageDialog(null, "Error", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -104,14 +104,13 @@ public class Controlador_Pantalla_Retiros {
                 try {
                     fila = pantalla_Retiro.jTableRetiros.getSelectedRow();
                     if (fila == -1) {
-                        JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No ha seleccionado ninguna fila. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     } else {
                         String id =  String.valueOf(pantalla_Retiro.jTableRetiros.getValueAt(fila, 0));
                         String retiro = String.valueOf(pantalla_Retiro.jTableRetiros.getValueAt(fila, 1));
                         arr[0] = id; arr[1] = retiro;
                         tr = new TikectRetiros();
                         tr.TikectRetiros(arr);
-                        System.out.println("agdshdtjy");
                     }
                 } catch (Exception ex) {
                     System.out.println(ex);

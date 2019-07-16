@@ -22,48 +22,41 @@ import modelo.Proveedor;
  * @author saube
  */
 public class Pantalla_Productos extends javax.swing.JFrame {
-DefaultTableModel modeloTabla = new DefaultTableModel();
- DefaultComboBoxModel <Proveedor> modeloCategorias;
-     Productos productos = new Productos();
-     Productos productoSeleccionado = null;
+
+    Pantalla_Productos pantalla_Productos;
+    DefaultTableModel modeloTabla = new DefaultTableModel();
+    DefaultComboBoxModel<Proveedor> modeloCategorias;
+    Productos productos = new Productos();
+
     /**
      * Creates new form Pantalla_Productos
      */
     public Pantalla_Productos() {
+        modeloCategorias = new DefaultComboBoxModel<Proveedor>();
+        cargarModeloCat();
         initComponents();
-        tablaProductos.getTableHeader().setReorderingAllowed(false) ;
+        tablaProductos.getTableHeader().setReorderingAllowed(false);
         this.setResizable(false);
-        
-       
-        
-       
-        this.getContentPane().setBackground(new java.awt.Color(0,112,192));
-        
-       
+        this.getContentPane().setBackground(new java.awt.Color(0, 112, 192));
     }
-    
-     @Override
+
+    @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("resources/logo22.png"));
 
-
         return retValue;
     }
-    
-    public void cargarModeloCat(){
-        
+
+    public void cargarModeloCat() {
+
         ArrayList<Proveedor> listaCategorias;
         listaCategorias = productos.octenerProveedores();
 
-        for(Proveedor categoria : listaCategorias){
-             modeloCategorias.addElement(categoria);
+        for (Proveedor categoria : listaCategorias) {
+            modeloCategorias.addElement(categoria);
         }
     }
-    
-     
-    
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +68,25 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jDialogAddProducto = new javax.swing.JDialog(this,true);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        altaMedicamentoCodigo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        altaMedicamentoMarcaComercial = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        altaMedicamentoSustancia = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        altaMedicamentoPrecio = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        altaMedicamentoTipoMedicamento = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        altaMedicamentoLavoratorio = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        altaMedicamentoProveedor = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        altaMedicamentoCantidad = new javax.swing.JTextField();
+        altaMedicamentoGuardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
@@ -112,6 +124,170 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
         busquedaNombre = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         agregarInventarioTikect = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jDialogAddProducto.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jDialogAddProductoWindowClosing(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(0, 112, 192));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ALTA DE MEDICAMENTO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 36))); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel8.setText("Codigo:");
+
+        altaMedicamentoCodigo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel9.setText("Marca Comercial: ");
+
+        altaMedicamentoMarcaComercial.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel10.setText("Sustancia: ");
+
+        altaMedicamentoSustancia.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel11.setText("Precio: ");
+
+        altaMedicamentoPrecio.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel12.setText("Tipo de Medicamento: ");
+
+        altaMedicamentoTipoMedicamento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        altaMedicamentoTipoMedicamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA" }));
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel13.setText("Laboratorio: ");
+
+        altaMedicamentoLavoratorio.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        altaMedicamentoLavoratorio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GI", "LEVIC", "AMSA", "REDER", "OFASA", "NADRO", "FLOR DE LIZ", "MONTECORSO" }));
+
+        jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel14.setText("Proveedor: ");
+
+        altaMedicamentoProveedor.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        altaMedicamentoProveedor.setModel(modeloCategorias);
+
+        jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel15.setText("Cantidad: ");
+
+        altaMedicamentoCantidad.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        altaMedicamentoGuardar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        altaMedicamentoGuardar.setText("Guardar");
+        altaMedicamentoGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                altaMedicamentoGuardarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel12))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(altaMedicamentoMarcaComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(31, 31, 31)
+                            .addComponent(jLabel10)
+                            .addGap(18, 18, 18)
+                            .addComponent(altaMedicamentoSustancia, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(altaMedicamentoLavoratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(altaMedicamentoTipoMedicamento, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(altaMedicamentoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel15)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(altaMedicamentoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(18, 18, 18)
+                                .addComponent(altaMedicamentoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(152, 152, 152))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(altaMedicamentoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(104, 104, 104)))))
+                .addGap(0, 58, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(altaMedicamentoGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(182, 182, 182))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(altaMedicamentoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(altaMedicamentoMarcaComercial, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(altaMedicamentoSustancia, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(altaMedicamentoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(altaMedicamentoTipoMedicamento, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(altaMedicamentoLavoratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(altaMedicamentoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(altaMedicamentoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(altaMedicamentoGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogAddProductoLayout = new javax.swing.GroupLayout(jDialogAddProducto.getContentPane());
+        jDialogAddProducto.getContentPane().setLayout(jDialogAddProductoLayout);
+        jDialogAddProductoLayout.setHorizontalGroup(
+            jDialogAddProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialogAddProductoLayout.setVerticalGroup(
+            jDialogAddProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAddProductoLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(getIconImage());
@@ -140,6 +316,7 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
                 return canEdit [columnIndex];
             }
         });
+        tablaProductos.setGridColor(new java.awt.Color(51, 204, 255));
         jScrollPane1.setViewportView(tablaProductos);
 
         buscarProductos.setBackground(new java.awt.Color(153, 255, 153));
@@ -154,6 +331,7 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
 
         productoAgregar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         productoAgregar.setText(" ALTA DE NUEVO MEDICAMENTO");
+        productoAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         productoAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productoAgregarActionPerformed(evt);
@@ -185,6 +363,7 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
 
         agregarInventario.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         agregarInventario.setText("INGRESAR");
+        agregarInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         buttonGroup1.add(busquedaCodigo);
         busquedaCodigo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -200,6 +379,13 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
 
         agregarInventarioTikect.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         agregarInventarioTikect.setText("TIKECT INVENTARIO");
+        agregarInventarioTikect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update.png"))); // NOI18N
+        jButton1.setText("Refrescar");
+        jButton1.setToolTipText("Refrescar Tabla.");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,7 +404,9 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
                                 .addComponent(busquedaCodigo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(busquedaNombre)
-                                .addGap(140, 140, 140)
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton1)
+                                .addGap(39, 39, 39)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(productoAgregar)
@@ -277,7 +465,8 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(productoAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(busquedaNombre)
-                        .addComponent(busquedaCodigo))
+                        .addComponent(busquedaCodigo)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -311,12 +500,21 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
     }//GEN-LAST:event_buscarProductosActionPerformed
 
     private void productoAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productoAgregarActionPerformed
-       
+
     }//GEN-LAST:event_productoAgregarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-       Controlador_PantallaPrincipal.ventanaControl2 = false;
+        Controlador_PantallaPrincipal.ventanaControl2 = false;       
     }//GEN-LAST:event_formWindowClosing
+
+    private void altaMedicamentoGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altaMedicamentoGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_altaMedicamentoGuardarActionPerformed
+
+    private void jDialogAddProductoWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogAddProductoWindowClosing
+//        pantalla_Productos = new Pantalla_Productos();
+//        pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
+    }//GEN-LAST:event_jDialogAddProductoWindowClosing
 
     /**
      * @param args the command line arguments
@@ -357,6 +555,15 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton agregarInventario;
     public javax.swing.JButton agregarInventarioTikect;
+    public javax.swing.JTextField altaMedicamentoCantidad;
+    public javax.swing.JTextField altaMedicamentoCodigo;
+    public javax.swing.JButton altaMedicamentoGuardar;
+    public javax.swing.JComboBox<String> altaMedicamentoLavoratorio;
+    public javax.swing.JTextField altaMedicamentoMarcaComercial;
+    public javax.swing.JTextField altaMedicamentoPrecio;
+    public javax.swing.JComboBox<Proveedor> altaMedicamentoProveedor;
+    public javax.swing.JTextField altaMedicamentoSustancia;
+    public javax.swing.JComboBox<String> altaMedicamentoTipoMedicamento;
     public javax.swing.JTextField buscarProductos;
     public javax.swing.JRadioButton busquedaCodigo;
     public javax.swing.JRadioButton busquedaNombre;
@@ -364,12 +571,23 @@ DefaultTableModel modeloTabla = new DefaultTableModel();
     public javax.swing.JTextField campoAgregarExistencia;
     public javax.swing.JTextField codigo;
     public javax.swing.JTextField existenciasM;
+    private javax.swing.JButton jButton1;
+    public javax.swing.JDialog jDialogAddProducto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextField nombre;
     public javax.swing.JButton productoAgregar;

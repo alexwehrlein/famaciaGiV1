@@ -134,7 +134,7 @@ public class Pantalla_bajas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPiezasActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Controlador_PantallaPrincipal.ventanaControl2 = false;
+        Controlador_PantallaPrincipal.ventanaControl12 = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

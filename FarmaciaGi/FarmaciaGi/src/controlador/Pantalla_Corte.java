@@ -55,19 +55,19 @@ public class Pantalla_Corte {
         pantalla_Corte = new Pantalla_CorteCaja();
         pantalla_Corte.setVisible(true);
         pantalla_Corte.setLocationRelativeTo(null);
-
+        pantalla_Corte.txtTurno.setText(turno.toUpperCase());
         pantalla_Corte.jButtonCorte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (pantalla_Corte.jComboBoxTurno.getSelectedItem().toString().equals(turnoF)) {
+//                if (pantalla_Corte.jComboBoxTurno.getSelectedItem().toString().equals(turnoF)) {
 
                     corte = new Corte(turnoF);
                     boolean next = corte.Corte();
 
                     if (next) {
 
-                        String turno = pantalla_Corte.jComboBoxTurno.getSelectedItem().toString();
+                        //String turno = pantalla_Corte.jComboBoxTurno.getSelectedItem().toString();
                         corte = new Corte(turno);
 
                         id = corte.folio();
@@ -105,11 +105,11 @@ public class Pantalla_Corte {
                         double tt = t - dt - gt - r;//total a estregar
                         double tk =tt - ct - r;//el total menos las consultas
                         
-                        System.out.println(r);
-                        System.out.println(ct);
-                        System.out.println(t);
-                        System.out.println(tt);
-                        System.out.println(tk);
+                        System.out.println(r);//retiros
+                        System.out.println(ct);//consultas
+                        System.out.println(t);//total
+                        System.out.println(tt);//total final
+                        System.out.println(tk);//total menos las consultas
                         
 
                         pantalla_Corte.jTextFieldTEntregar.setText("$ " +String.format("%.2f", tt) );
@@ -131,10 +131,10 @@ public class Pantalla_Corte {
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte ya a sido realizado </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes hacer el corte distinto a tu turno </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
+//                } else {
+//
+//                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes hacer el corte distinto a tu turno </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+//                }
             }
         });
         
@@ -158,7 +158,6 @@ public class Pantalla_Corte {
                 if (fecha != null) {
                     Clear_Table();
                     SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
-                    System.out.println(Formato.format(fecha));
                    pantalla_Corte.tablaCortes.setModel(new Corte().buscarCorte(pantalla_Corte.tablaCortes , Formato.format(fecha)));
                 }
             }

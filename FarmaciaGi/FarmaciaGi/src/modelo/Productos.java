@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
 import java.sql.Connection;
@@ -40,6 +41,7 @@ public class Productos {
     Conexion conn = new Conexion();
     Conexion conexion;
     Pantalla_Productos pantalla_Productos;
+    ArchivoLog log;
 
     public String getNombreProveedor() {
         return nombreProveedor;
@@ -70,8 +72,8 @@ public class Productos {
         this.proveedor = proveedor;
         this.cantidad = cantidad;
     }
-    
-     public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
+
+    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -167,36 +169,39 @@ public class Productos {
     public Productos(String sustancias) {
         this.sustancias = sustancias;
     }
-    
-    
 
     public double PrrcioProducto() {
         double precio = 0;
-        int num;
 
         try {
             String sql = "SELECT precio FROM productos WHERE codigo = " + codigo;
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet resultado = pst.executeQuery();
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
                 precio = resultado.getDouble("precio");
-
             }
-
-            pst.close();
-            pst = null;
-            con.close();
-
+            stm.close();
+            resultado.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, " Error ", ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error " + ex);
+            }
         }
-
         return precio;
     }
-    
+
     public int productoCero() {
-        String sql = null ; int cantidad = 0;
+        String sql = null;
+        int cantidad = 0;
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -211,14 +216,17 @@ public class Productos {
             rs.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
             try {
                 con.close();
-
             } catch (SQLException ex) {
-                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
             }
         }
 
@@ -228,15 +236,24 @@ public class Productos {
 
     public boolean ModificarRegristros() {
         try {
-            Connection con = new Conexion().getConnection();
-            com.mysql.jdbc.Statement stm = (com.mysql.jdbc.Statement) con.createStatement();
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
             stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " WHERE codigo=" + getCodigo());
             con.setAutoCommit(true);
-            con.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println(ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
     }
 
@@ -244,27 +261,29 @@ public class Productos {
         String sql = null, resultadoSql;
         boolean veCo = false;
         try {
-            Connection con = new Conexion().getConnection();
+            con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
 
             sql = "SELECT marca_comercial FROM productos WHERE codigo=" + getCodigo();
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
                 resultadoSql = resultado.getString("marca_comercial");
-
-                if (resultadoSql != null) {
-                    veCo = true;
-                } else {
-                    veCo = false;
-                }
-
+                veCo = true;
             }
             stm.close();
-            stm = null;
-            con.close();
+            resultado.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
-
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
         return veCo;
 
@@ -275,20 +294,28 @@ public class Productos {
 
         try {
             String sql = "SELECT * FROM productos WHERE sustancia like  '%" + sustancia + "%'";
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet resultado = pst.executeQuery();
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
                 Productos r = new Productos();
                 r.setSustancias(resultado.getString("sustancia"));
                 arrayRegistros.add(r);
             }
-            pst.close();
-            pst = null;
-            con.close();
-
+            stm.close();
+            resultado.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
 
         return arrayRegistros;
@@ -298,10 +325,9 @@ public class Productos {
         ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
         try {
             String sql = "SELECT * FROM proveedor";
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 int id = rs.getInt("id_proveedor");
                 String nombre = rs.getString("nombre");
@@ -311,53 +337,90 @@ public class Productos {
                 Proveedor proveedor = new Proveedor(id, nombre, telefono, correo);
                 listaProveedor.add(proveedor);
             }
-            pst.close();
-            pst = null;
-            con.close();
-        } catch (Exception e) {
+            stm.close();
+            rs.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
         return listaProveedor;
     }
 
     public boolean registrarProducto() {
         try {
-            Connection connection = new Conexion().getConnection();
-            Statement stm = (Statement) connection.createStatement();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
             stm.execute("INSERT INTO productos VALUES(" + getCodigo() + ",'" + getMarcaComercial() + "','" + getSustancias() + "'," + getPrecio() + ",'"
                     + getTipoMedicamento() + "','" + getLaboratorio() + "'," + getProveedor() + "," + getCantidad() + ")");
-            connection.close();
             return true;
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
 
     }
 
     public boolean Modificarexistencias() {
         try {
-            Connection connection = new Conexion().getConnection();
-            com.mysql.jdbc.Statement stm = (com.mysql.jdbc.Statement) connection.createStatement();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
             stm.execute("UPDATE productos SET cantidad='" + getCantidad() + "' WHERE codigo=" + getCodigo());
-            connection.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println(ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
             return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
     }
 
     public boolean eliminarMedicamento() {
         try {
-            Connection connection = new Conexion().getConnection();
-            com.mysql.jdbc.Statement stm = (com.mysql.jdbc.Statement) connection.createStatement();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
             stm.execute("DELETE FROM productos WHERE codigo=" + getCodigo());
-            connection.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println(ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
             return false;
 
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
     }
 
@@ -385,9 +448,9 @@ public class Productos {
             String sql = "SELECT codigo,marca_comercial,sustancia,precio,tipo_medicamento,laboratorio,"
                     + "proveedor.nombre,cantidad FROM productos JOIN proveedor "
                     + "on productos.proveedor=proveedor.id_proveedor order by marca_comercial";
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet resultado = pst.executeQuery();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
                 arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
@@ -395,13 +458,22 @@ public class Productos {
             for (int i = 0; i < arrayProductos.size(); i++) {
                 modelo.addRow(new Object[]{arrayProductos.get(i).getCodigo(), arrayProductos.get(i).getMarcaComercial(),
                     arrayProductos.get(i).getSustancias(), arrayProductos.get(i).getPrecio(), arrayProductos.get(i).getTipoMedicamento(), arrayProductos.get(i).getLaboratorio(),
-                     btnModificar});
+                    btnModificar});
             }
-            pst.close();
-            pst = null;
-            con.close();
+            stm.close();
+            resultado.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
 
         return modelo;
@@ -431,9 +503,9 @@ public class Productos {
             String sql = "SELECT codigo,marca_comercial,sustancia,precio,tipo_medicamento,laboratorio,"
                     + "proveedor.nombre,cantidad FROM productos JOIN proveedor "
                     + "on productos.proveedor=proveedor.id_proveedor  WHERE codigo=" + codigo;
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet resultado = pst.executeQuery();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
                 arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
@@ -442,8 +514,8 @@ public class Productos {
 
             for (int i = 0; i < arrayProductos.size(); i++) {
                 modelo.addRow(new Object[]{arrayProductos.get(i).getCodigo(), arrayProductos.get(i).getMarcaComercial(),
-                    arrayProductos.get(i).getSustancias(), arrayProductos.get(i).getPrecio(), arrayProductos.get(i).getTipoMedicamento(), arrayProductos.get(i).getLaboratorio()
-                    , btnModificar});
+                    arrayProductos.get(i).getSustancias(), arrayProductos.get(i).getPrecio(), arrayProductos.get(i).getTipoMedicamento(), arrayProductos.get(i).getLaboratorio(),
+                    btnModificar});
             }
             System.out.println(num);
             if (num < 1) {
@@ -453,11 +525,20 @@ public class Productos {
             } else {
 
             }
-            pst.close();
-            pst = null;
-            con.close();
+            stm.close();
+            resultado.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
 
         return modelo;
@@ -487,9 +568,9 @@ public class Productos {
             String sql = "SELECT codigo,marca_comercial,sustancia,precio,tipo_medicamento,laboratorio,"
                     + "proveedor.nombre,cantidad FROM productos JOIN proveedor "
                     + "on productos.proveedor=proveedor.id_proveedor  WHERE marca_comercial like '%" + codigo + "%'";
-            Connection con = new Conexion().getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet resultado = pst.executeQuery();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
                 arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
@@ -499,11 +580,20 @@ public class Productos {
                     arrayProductos.get(i).getSustancias(), arrayProductos.get(i).getPrecio(), arrayProductos.get(i).getTipoMedicamento(), arrayProductos.get(i).getLaboratorio(),
                     btnModificar});
             }
-            pst.close();
-            pst = null;
-            con.close();
+            stm.close();
+            resultado.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
         }
 
         return modelo;

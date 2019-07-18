@@ -55,10 +55,10 @@ public class Controlador_PantallaProductos {
                 if (productosTikect.get(0).size() > 0 && productosTikect.get(1).size() > 0) {
                     tikectInventario = new TikectInventario();
                     tikectInventario.tikectInventario(turno, productosTikect);
-                     for (int i = 0; i <= productosTikect.get(0).size() - 1; i++){
+                    for (int i = 0; i <= productosTikect.get(0).size() - 1; i++) {
                         productosTikect.get(0).clear();
                         productosTikect.get(1).clear();
-                     }
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No hay productos agregados </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -74,6 +74,14 @@ public class Controlador_PantallaProductos {
                 pantalla_Productos.jDialogAddProducto.setResizable(false);
                 pantalla_Productos.jDialogAddProducto.setVisible(true);
                 pantalla_Productos.altaMedicamentoCodigo.requestFocus();
+            }
+        });
+
+        pantalla_Productos.actuslizartabla.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clear_Table();
+                pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
             }
         });
 

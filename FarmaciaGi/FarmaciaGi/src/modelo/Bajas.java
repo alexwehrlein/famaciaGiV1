@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,10 +18,12 @@ import java.util.logging.Logger;
  * @author alexwehrlein
  */
 public class Bajas {
+
     private Connection con;
     private String codigo;
     private int piezas;
     private int existenxias;
+    ArchivoLog log = new ArchivoLog();
     Conexion conn = new Conexion();
 
     public String getCodigo() {
@@ -51,7 +54,7 @@ public class Bajas {
         this.codigo = codigo;
     }
 
-    public Bajas(String codigo, int piezas , int existenxias) {
+    public Bajas(String codigo, int piezas, int existenxias) {
         this.codigo = codigo;
         this.piezas = piezas;
         this.existenxias = existenxias;
@@ -59,9 +62,9 @@ public class Bajas {
 
     public Bajas() {
     }
-    
+
     public String Producto() {
-        String sql = null , existencias = "" ;
+        String sql = null, existencias = "";
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -76,51 +79,54 @@ public class Bajas {
             rs.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
             try {
                 con.close();
-
             } catch (SQLException ex) {
-                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+                log.crearLog(ex);
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
             }
         }
 
         return existencias;
     }
-    
-     public void actualizarExistencias() {
+
+    public void actualizarExistencias() {
         String sql = null;
 
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            sql = "UPDATE productos SET cantidad = "+getExistenxias()+" WHERE codigo = "+getCodigo();
+            sql = "UPDATE productos SET cantidad = " + getExistenxias() + " WHERE codigo = " + getCodigo();
             stm.execute(sql);
 
             stm.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
             conn.getClose();
         }
 
     }
-     
-      public void insertarBajas() {
+
+    public void insertarBajas() {
         String sql = null;
 
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            sql = "INSERT INTO bajas (codigo,piezas) VALUES ( "+getCodigo()+" , "+getExistenxias()+")";
+            sql = "INSERT INTO bajas (codigo,piezas) VALUES ( " + getCodigo() + " , " + getExistenxias() + ")";
             stm.execute(sql);
 
             stm.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
             conn.getClose();

@@ -124,7 +124,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         busquedaNombre = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         agregarInventarioTikect = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        actuslizartabla = new javax.swing.JButton();
 
         jDialogAddProducto.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -381,11 +381,11 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         agregarInventarioTikect.setText("TIKECT INVENTARIO");
         agregarInventarioTikect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update.png"))); // NOI18N
-        jButton1.setText("Refrescar");
-        jButton1.setToolTipText("Refrescar Tabla.");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        actuslizartabla.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        actuslizartabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update.png"))); // NOI18N
+        actuslizartabla.setText("Refrescar");
+        actuslizartabla.setToolTipText("Refrescar Tabla.");
+        actuslizartabla.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -405,7 +405,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(busquedaNombre)
                                 .addGap(28, 28, 28)
-                                .addComponent(jButton1)
+                                .addComponent(actuslizartabla)
                                 .addGap(39, 39, 39)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -466,7 +466,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                         .addComponent(productoAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(busquedaNombre)
                         .addComponent(busquedaCodigo)
-                        .addComponent(jButton1))
+                        .addComponent(actuslizartabla))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -553,6 +553,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton actuslizartabla;
     public javax.swing.JButton agregarInventario;
     public javax.swing.JButton agregarInventarioTikect;
     public javax.swing.JTextField altaMedicamentoCantidad;
@@ -571,7 +572,6 @@ public class Pantalla_Productos extends javax.swing.JFrame {
     public javax.swing.JTextField campoAgregarExistencia;
     public javax.swing.JTextField codigo;
     public javax.swing.JTextField existenciasM;
-    private javax.swing.JButton jButton1;
     public javax.swing.JDialog jDialogAddProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

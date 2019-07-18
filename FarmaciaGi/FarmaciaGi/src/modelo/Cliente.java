@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,6 +33,7 @@ public class Cliente {
     private String telefono;
     private String password;
     Conexion conn = new Conexion();
+    ArchivoLog log = new ArchivoLog();
 
     public String getPassword() {
         return password;
@@ -90,7 +92,7 @@ public class Cliente {
         try {
             con.setAutoCommit(false);
         } catch (SQLException ex) {
-            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -106,7 +108,8 @@ public class Cliente {
             }
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
         }
 
         return modelo;
@@ -146,7 +149,8 @@ public class Cliente {
             }
             con.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
         }
 
         return modelo;
@@ -159,8 +163,9 @@ public class Cliente {
             stm.execute("INSERT INTO cliente VALUES(null,'" + getNombre() + "','" + getCorreo() + "','" + getTelefono() + "' , '" + getPassword() + "')");
             connection.close();
             return true;
-        } catch (Exception e) {
-
+        } catch (SQLException ex) {
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
             return false;
         }
 
@@ -174,7 +179,8 @@ public class Cliente {
             connection.close();
             return true;
         } catch (SQLException ex) {
-
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
             return false;
         }
     }
@@ -187,29 +193,31 @@ public class Cliente {
             connection.close();
             return true;
         } catch (SQLException ex) {
-
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
             return false;
 
         }
     }
 
-    public boolean validarPassword(String clave , String password) {
-        boolean next=true;
+    public boolean validarPassword(String clave, String password) {
+        boolean next = true;
         try {
             con = conn.getConnection();
             java.sql.Statement stm = (java.sql.Statement) con.createStatement();
 
-            String sql = "SELECT password FROM cliente WHERE password='"+password+"' AND id_cliente="+clave;
+            String sql = "SELECT password FROM cliente WHERE password='" + password + "' AND id_cliente=" + clave;
             ResultSet rs = stm.executeQuery(sql);
-            if ( rs.next()){
+            if (rs.next()) {
                 next = true;
-            }else{
+            } else {
                 next = false;
             }
             stm.close();
             rs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log.crearLog(ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
             conn.getClose();

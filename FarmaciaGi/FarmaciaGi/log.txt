@@ -1,0 +1,1 @@
+[18/7/2019 12:51:58][INFO] com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'codig' in 'where clause'

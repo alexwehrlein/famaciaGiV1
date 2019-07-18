@@ -1,50 +1,25 @@
 package controlador;
 
+import ArchivoLog.ArchivoLog;
 import com.placeholder.PlaceHolder;
-import com.sun.java.accessibility.util.AWTEventMonitor;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+import static controlador.Controlador_PantallaPrincipal.ventanaControl2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Action;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
-import javax.swing.WindowConstants;
-import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import modelo.Cliente;
 import modelo.Productos;
-import modelo.Render;
 import modelo.Ventas;
-import tikect.TikectGasto;
-import tikect.TikectInventario;
 import tikect.TikectR;
 import tikect.TikectVentas;
 import tikect.TikectkArqueo;
@@ -67,19 +42,20 @@ public class Controlador_Pantalla_Ventas {
     private DefaultTableModel modeloPausarVenta;
     //  private float totalFinal = 0;
     private TableRowSorter trsFiltro;
-    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, rol;
+    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, rolEmpleado;
     int folio;
     Productos productos;
     PlaceHolder placeHolder;
     String TotalVentaFinal;
     int pausaVenta = 1;
     float precioMayorista = 0;
+    ArchivoLog log;
 
     public Controlador_Pantalla_Ventas(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String rol) {
         this.idEmpleado = idEmpleado;
         this.nombreEmpleado = nombreEmpleado;
         this.turno = turnoEmpleado;
-        this.rol = rol;
+        this.rolEmpleado = rol;
         pantalla_Ventas = new Pantalla_Ventas();
         pantalla_Ventas.setTitle("Punto de Venta");
         pantalla_Ventas.setVisible(true);
@@ -114,6 +90,7 @@ public class Controlador_Pantalla_Ventas {
         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
         tablaDes();
         pantalla_Ventas.btnMas.setMnemonic(KeyEvent.VK_PLUS);
+        log = new ArchivoLog();
 
         pantalla_Ventas.btnMas.addActionListener(new ActionListener() {
             @Override
@@ -127,7 +104,7 @@ public class Controlador_Pantalla_Ventas {
                         String codigo = (String) pantalla_Ventas.jTableProductosVenta.getValueAt(fila, 0);
                         boolean netx = true;
                         int canProductos = ventas.productoCero(codigo);
-                        if (canProductos != 0) {
+                        if (canProductos > 0) {
 
                             for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
@@ -138,7 +115,7 @@ public class Controlador_Pantalla_Ventas {
                                         netx = false;
                                         break;
                                     }
-                                } 
+                                }
                             }
 
                             if (netx) {
@@ -163,17 +140,24 @@ public class Controlador_Pantalla_Ventas {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia</h1></html>");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                                new Controlador_PantallaProductos(rol, turno);
+                                if (ventanaControl2 == false) {
+                                    ventanaControl2 = true;
+                                    new Controlador_PantallaProductos(rolEmpleado, turno);
+                                }
                             }
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                            new Controlador_PantallaProductos(rol, turno);
+                            if (ventanaControl2 == false) {
+                                ventanaControl2 = true;
+                                new Controlador_PantallaProductos(rolEmpleado, turno);
+                            }
                         }
                     }
                 } catch (Exception ex) {
+                    log.crearLogException(ex);
                 }
             }
         });
@@ -196,22 +180,21 @@ public class Controlador_Pantalla_Ventas {
 
                     }
                 } catch (Exception ex) {
+                    log.crearLogException(ex);
                 }
             }
         }
         );
 
-        pantalla_Ventas.jComboBoxSustancia.addKeyListener(
-                new KeyAdapter() {
+        pantalla_Ventas.jComboBoxSustancia.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e
-            ) {
+            public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String sustancia = pantalla_Ventas.jComboBoxSustancia.getSelectedItem().toString();
                     String codigo = ventas.OctenerCodigo(sustancia);
-                     int canProductos = ventas.productoCero(codigo);
-                     boolean netx = true;
-                        if (canProductos != 0) {
+                    int canProductos = ventas.productoCero(codigo);
+                    boolean netx = true;
+                    if (canProductos > 0) {
 
                         for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
@@ -222,7 +205,7 @@ public class Controlador_Pantalla_Ventas {
                                     netx = false;
                                     break;
                                 }
-                            } 
+                            }
                         }
 
                         if (netx) {
@@ -247,14 +230,20 @@ public class Controlador_Pantalla_Ventas {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                            new Controlador_PantallaProductos(rol, turno);
+                            if (ventanaControl2 == false) {
+                                ventanaControl2 = true;
+                                new Controlador_PantallaProductos(rolEmpleado, turno);
+                            }
                         }
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                        new Controlador_PantallaProductos(rol, turno);
+                        if (ventanaControl2 == false) {
+                            ventanaControl2 = true;
+                            new Controlador_PantallaProductos(rolEmpleado, turno);
+                        }
                     }
                 }
 
@@ -263,8 +252,7 @@ public class Controlador_Pantalla_Ventas {
         }
         );
 
-        pantalla_Ventas.jButtonVentaM.addActionListener(
-                new ActionListener() {
+        pantalla_Ventas.jButtonVentaM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
@@ -369,7 +357,7 @@ public class Controlador_Pantalla_Ventas {
                     }
                     boolean netx = true;
                     int canProductos = ventas.productoCero(codigo);
-                    if (canProductos != 0) {
+                    if (canProductos > 0) {
                         if (canProductos >= piezas) {
 
                             canProductos = ventas.productoCero(codigo);
@@ -381,7 +369,7 @@ public class Controlador_Pantalla_Ventas {
                                     if (cantidadTabla > canProductos) {
                                         netx = false;
                                         break;
-                                    } 
+                                    }
                                 }
                             }
 
@@ -422,43 +410,139 @@ public class Controlador_Pantalla_Ventas {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                        new Controlador_PantallaProductos(rol, turno);
+                        if (ventanaControl2 == false) {
+                            ventanaControl2 = true;
+                            new Controlador_PantallaProductos(rolEmpleado, turno);
+                        }
                     }
                 }
             }
         }
         );
 
-        pantalla_Ventas.jTextFieldFolioProductoVenta.addKeyListener(
-                new KeyAdapter() {
+        pantalla_Ventas.jTextFieldFolioProductoVenta.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e
             ) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
-                    String codigo = pantalla_Ventas.jTextFieldFolioProductoVenta.getText();
+                    try {
 
-                    if (codigo.isEmpty()) {
-                        //JOptionPane.showMessageDialog(null, "CAMPO VACIO..", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
+                        String codigo = pantalla_Ventas.jTextFieldFolioProductoVenta.getText();
+
+                        if (codigo.isEmpty()) {
+                            //JOptionPane.showMessageDialog(null, "CAMPO VACIO..", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
+                            return;
+                        }
+
+                        if (!codigo.matches("^\\d+$")) {
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>CODIGO INCORRECTO </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                            pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                            return;
+                        }
+                        if (!new Ventas().existeRegistroProducto(codigo)) {
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                            pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                            return;
+
+                        }
+
+                        boolean netx = true;
+                        int canProductos = ventas.productoCero(codigo);
+                        if (canProductos > 0) {
+
+                            for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
+
+                                String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
+                                if (art.equals(codigo)) {
+                                    int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
+                                    if (cantidadTabla >= canProductos) {
+                                        netx = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (netx) {
+                                agregarProducto(codigo, "1");//agrega producto a la tabla
+                                agregarSubTotalporTipo();
+                                if (!pantalla_Ventas.jTextFieldClienteVenta.getText().equals("PUBLICO EN GENERAL")) {
+                                    for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
+                                        switch (modelo.getValueAt(i, 3).toString()) {
+                                            case "PATENTE":
+                                                pantalla_Ventas.jComboBoxPatente.setEnabled(true);
+                                                break;
+                                            case "GENÉRICO":
+                                                pantalla_Ventas.jComboBoxGenerico.setEnabled(true);
+                                                break;
+
+                                        }
+                                    }
+
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
+                                pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                                pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
+                                if (ventanaControl2 == false) {
+                                    ventanaControl2 = true;
+                                    new Controlador_PantallaProductos(rolEmpleado, turno);
+                                }
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
+                            pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                            pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
+                            if (ventanaControl2 == false) {
+                                ventanaControl2 = true;
+                                new Controlador_PantallaProductos(rolEmpleado, turno);
+                            }
+                        }
+
+                    } catch (Exception ex) {
+                        log.crearLogException(ex);
+                    }
+                }
+            }
+
+        }
+        );
+
+        pantalla_Ventas.jTextFieldSustancia.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e
+            ) {
+                String sustancia = pantalla_Ventas.jTextFieldSustancia.getText();
+                productos = new Productos();
+                pantalla_Ventas.jComboBoxSustancia.removeAllItems();
+                ArrayList<Productos> datos = productos.Sustancia(sustancia);
+                for (Productos r : datos) {
+                    pantalla_Ventas.jComboBoxSustancia.addItem(r.getSustancias());
+
+                }
+
+            }
+        }
+        );
+
+        pantalla_Ventas.jButtonAgregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+
+                    if (pantalla_Ventas.jComboBoxSustancia.getItemCount() == 0) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>NO HAY PRODUCTO QUE AGREGAR </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-
-                    if (!codigo.matches("^\\d+$")) {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>CODIGO INCORRECTO </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
-                        pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
-                        return;
-                    }
-                    if (!new Ventas().existeRegistroProducto(codigo)) {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
-                        pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
-                        return;
-
-                    }
-
-                    boolean netx = true;    
+                    String sustancia = pantalla_Ventas.jComboBoxSustancia.getSelectedItem().toString();
+                    String codigo = ventas.OctenerCodigo(sustancia);
+                    boolean netx = true;
                     int canProductos = ventas.productoCero(codigo);
-                    if (canProductos != 0) {
+                    if (canProductos > 0) {
 
                         for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
@@ -473,7 +557,7 @@ public class Controlador_Pantalla_Ventas {
                         }
 
                         if (netx) {
-                            agregarProducto(codigo, "1");//agrega producto a la tabla
+                            agregarProducto2(codigo);//agrega producto a la tabla
                             agregarSubTotalporTipo();
                             if (!pantalla_Ventas.jTextFieldClienteVenta.getText().equals("PUBLICO EN GENERAL")) {
                                 for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
@@ -491,104 +575,29 @@ public class Controlador_Pantalla_Ventas {
                             }
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia</h1></html>");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                            new Controlador_PantallaProductos(rol, turno);
+                            if (ventanaControl2 == false) {
+                                ventanaControl2 = true;
+                                new Controlador_PantallaProductos(rolEmpleado, turno);
+                            }
                         }
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                        new Controlador_PantallaProductos(rol, turno);
-                    }
-
-                    //pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                }
-            }
-
-        }
-        );
-
-        pantalla_Ventas.jTextFieldSustancia.addKeyListener(
-                new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e
-            ) {
-                String sustancia = pantalla_Ventas.jTextFieldSustancia.getText();
-                productos = new Productos();
-                pantalla_Ventas.jComboBoxSustancia.removeAllItems();
-                ArrayList<Productos> datos = productos.Sustancia(sustancia);
-                for (Productos r : datos) {
-                    pantalla_Ventas.jComboBoxSustancia.addItem(r.getSustancias());
-
-                }
-
-            }
-        }
-        );
-
-        pantalla_Ventas.jButtonAgregar.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e
-            ) {
-
-                if (pantalla_Ventas.jComboBoxSustancia.getItemCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>NO HAY PRODUCTO QUE AGREGAR </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String sustancia = pantalla_Ventas.jComboBoxSustancia.getSelectedItem().toString();
-                String codigo = ventas.OctenerCodigo(sustancia);
-                boolean netx = true;
-                int canProductos = ventas.productoCero(codigo);
-                if (canProductos != 0) {
-                    
-                    for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
-
-                        String art = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 0).toString();
-                        if (art.equals(codigo)) {
-                            int cantidadTabla = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                            if (cantidadTabla >= canProductos) {
-                                netx = false;
-                                break;
-                            }
+                        if (ventanaControl2 == false) {
+                            ventanaControl2 = true;
+                            new Controlador_PantallaProductos(rolEmpleado, turno);
                         }
                     }
 
-                    if (netx) {
-                        agregarProducto2(codigo);//agrega producto a la tabla
-                        agregarSubTotalporTipo();
-                        if (!pantalla_Ventas.jTextFieldClienteVenta.getText().equals("PUBLICO EN GENERAL")) {
-                            for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
-                                switch (modelo.getValueAt(i, 3).toString()) {
-                                    case "PATENTE":
-                                        pantalla_Ventas.jComboBoxPatente.setEnabled(true);
-                                        break;
-                                    case "GENÉRICO":
-                                        pantalla_Ventas.jComboBoxGenerico.setEnabled(true);
-                                        break;
+                } catch (Exception ex) {
+                    log.crearLogException(ex);
 
-                                }
-                            }
-
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia</h1></html>");
-                        pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
-                        pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                        new Controlador_PantallaProductos(rol, turno);
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
-                    pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
-                    pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                    new Controlador_PantallaProductos(rol, turno);
                 }
-
             }
         }
         );
@@ -601,7 +610,6 @@ public class Controlador_Pantalla_Ventas {
 
                 }
             }
-
         }
         );
 
@@ -687,13 +695,9 @@ public class Controlador_Pantalla_Ventas {
                                 }
                             }
                         }
-                    } else {
-                        //   agregarTotal();
                     }
                 }
-
             }
-
         });
 
         pantalla_Ventas.btnCambioCliente.addKeyListener(new KeyAdapter() {
@@ -744,6 +748,7 @@ public class Controlador_Pantalla_Ventas {
 
             }
         });
+
         pantalla_Ventas.jButtonPausarVenta1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -980,7 +985,7 @@ public class Controlador_Pantalla_Ventas {
     public void ingresarVentaPausada(String codigo) {
         boolean netx = true;
         int canProductos = ventas.productoCero(codigo);
-        if (canProductos != 0) {
+        if (canProductos > 0) {
 
             for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
 
@@ -1016,14 +1021,20 @@ public class Controlador_Pantalla_Ventas {
                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                new Controlador_PantallaProductos(rol, turno);
+                if (ventanaControl2 == false) {
+                    ventanaControl2 = true;
+                    new Controlador_PantallaProductos(rolEmpleado, turno);
+                }
             }
 
         } else {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-            new Controlador_PantallaProductos(rol, turno);
+            if (ventanaControl2 == false) {
+                ventanaControl2 = true;
+                new Controlador_PantallaProductos(rolEmpleado, turno);
+            }
 
         }
 

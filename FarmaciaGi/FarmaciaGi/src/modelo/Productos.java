@@ -38,10 +38,35 @@ public class Productos {
     private String nombreProveedor;
     private int cantidad;
     private Connection con;
+    private int id_empleado;
+    private int piezasAdd;
     Conexion conn = new Conexion();
     Conexion conexion;
     Pantalla_Productos pantalla_Productos;
     ArchivoLog log;
+
+    public Productos(long codigo, int cantidad, int id_empleado, int piezasAdd) {
+        this.codigo = codigo;
+        this.cantidad = cantidad;
+        this.id_empleado = id_empleado;
+        this.piezasAdd = piezasAdd;
+    }
+
+    public int getId_empleado() {
+        return id_empleado;
+    }
+
+    public void setId_empleado(int id_empleado) {
+        this.id_empleado = id_empleado;
+    }
+
+    public int getPiezasAdd() {
+        return piezasAdd;
+    }
+
+    public void setPiezasAdd(int piezasAdd) {
+        this.piezasAdd = piezasAdd;
+    }
 
     public String getNombreProveedor() {
         return nombreProveedor;
@@ -381,11 +406,27 @@ public class Productos {
 
     public boolean Modificarexistencias() {
         try {
+
             con = conn.getConnection();
+            con.setAutoCommit(false);
+
             Statement stm = (Statement) con.createStatement();
             stm.execute("UPDATE productos SET cantidad='" + getCantidad() + "' WHERE codigo=" + getCodigo());
+
+            Statement stm2 = (Statement) con.createStatement();
+            stm2.execute("INSERT INTO compraproductos(codigo, id_empleado, piezas) VALUES (" + getCodigo() + " , " + getId_empleado() + " , " + getPiezasAdd() + ")");
+            con.commit();
+            stm.close();
+            stm2.close();
             return true;
         } catch (SQLException ex) {
+            try {
+                con.rollback();
+            } catch (SQLException ex1) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex1);
+            }
             log = new ArchivoLog();
             log.crearLog(ex);
             Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);

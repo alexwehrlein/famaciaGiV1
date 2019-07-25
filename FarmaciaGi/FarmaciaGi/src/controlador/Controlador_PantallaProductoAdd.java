@@ -28,7 +28,7 @@ public class Controlador_PantallaProductoAdd {
     Pantalla_ProductosAdd productoAgregar;
     Productos productos;
 
-    public Controlador_PantallaProductoAdd(String rol, String turno) {
+    public Controlador_PantallaProductoAdd(String rol, String turno ,int  idEmpleado) {
         productoAgregar = new Pantalla_ProductosAdd();
         productoAgregar.setLocationRelativeTo(null);
         productoAgregar.setVisible(true);
@@ -93,7 +93,7 @@ public class Controlador_PantallaProductoAdd {
             @Override
             public void actionPerformed(ActionEvent e) {
                 productoAgregar.dispose();
-                new Controlador_PantallaProductos(rol, turno);
+                new Controlador_PantallaProductos(rol, turno ,idEmpleado );
 
             }
         });

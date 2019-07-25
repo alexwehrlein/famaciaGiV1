@@ -36,15 +36,17 @@ public class Controlador_PantallaProductos {
     Pantalla_Productos pantalla_Productos;
     Productos productos;
     TikectInventario tikectInventario;
+    int idEmpleado;
 
-    public Controlador_PantallaProductos(String rol, String turno) {
+    public Controlador_PantallaProductos(String rol, String turno , int idEmpleado) {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
         pantalla_Productos.existenciasM.setVisible(false);
         pantalla_Productos.codigo.setVisible(false);
-
+        this.idEmpleado = idEmpleado;
+        
         List<List<String>> productosTikect = new ArrayList<List<String>>();
         productosTikect.add(new ArrayList<String>());
         productosTikect.add(new ArrayList<String>());
@@ -103,7 +105,7 @@ public class Controlador_PantallaProductos {
                         int existencias = productos.productoCero();
                         int agregarInventario = inventario + existencias;
                         String producto = pantalla_Productos.nombre.getText();
-                        productos = new Productos(codigo, agregarInventario);
+                        productos = new Productos(codigo, agregarInventario , idEmpleado ,inventario );
                         if (productos.Modificarexistencias()) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> SE AGREGARON " + inventario + " PIEZAS A INVENTARIO </h1></html>");
                             productosTikect.get(0).add(producto);

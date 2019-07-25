@@ -221,7 +221,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno);
+                    new Controlador_PantallaProductos(rol, turno , Integer.parseInt(idEmpleado));
                 }
 
             }
@@ -233,7 +233,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno);
+                    new Controlador_PantallaProductos(rol, turno , Integer.parseInt(idEmpleado));
                 }
             }
         });

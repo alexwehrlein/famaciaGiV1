@@ -365,8 +365,9 @@ public class Ventas {
         return true;
     }
 
-    public boolean registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g) {
-        String idv = null, sql = null;
+    public String[] registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g) {
+        String idv = null, sql = null; 
+       String[] arr = {"", ""};
         pv  = new  Pantalla_Ventas();
         double totalV = Double.valueOf(total);
 
@@ -389,6 +390,7 @@ public class Ventas {
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
                 idv = resultado.getString("last_id");
+                arr[0] = idv;
             }
             pv.folioTikect.setText(idv);
             for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -405,16 +407,17 @@ public class Ventas {
                 }
 
             }
-
+            arr[1] = "0";
             stm.close();
             resultado.close();
         } catch (SQLException ex) {
             Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            arr[1] = "1";
+            return arr;
         } finally {
             conn.getClose();
         }
-        return true;
+        return arr;
     }
 
     public void faltantes(String codigoProducto) {

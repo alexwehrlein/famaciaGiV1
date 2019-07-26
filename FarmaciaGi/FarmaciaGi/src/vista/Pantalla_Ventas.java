@@ -616,7 +616,8 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
         jLabel13.setText("Genérico%");
 
         jComboBoxGenerico.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBoxGenerico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "10", "15", "20", "25", "30" }));
+        jComboBoxGenerico.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jComboBoxGenerico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "10", "15", "20", "30" }));
 
         jComboBoxPatente.setBackground(new java.awt.Color(240, 240, 240));
         jComboBoxPatente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "10" }));

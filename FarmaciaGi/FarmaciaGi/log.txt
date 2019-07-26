@@ -1,1 +1,5 @@
 [18/7/2019 12:51:58][INFO] com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'codig' in 'where clause'
+[26/7/2019 13:39:11][INFO] java.sql.SQLException: Column 'password' not found.
+[26/7/2019 13:39:29][INFO] java.sql.SQLException: Column count doesn't match value count at row 1
+[26/7/2019 13:39:57][INFO] java.sql.SQLException: Column 'password' not found.
+[26/7/2019 13:40:13][INFO] java.sql.SQLException: Column count doesn't match value count at row 1

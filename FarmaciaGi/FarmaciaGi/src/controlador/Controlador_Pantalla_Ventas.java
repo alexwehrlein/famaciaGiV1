@@ -142,7 +142,7 @@ public class Controlador_Pantalla_Ventas {
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
                                     ventanaControl2 = true;
-                                    new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                                 }
                             }
 
@@ -152,7 +152,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                             }
                         }
                     }
@@ -232,7 +232,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                             }
                         }
 
@@ -242,7 +242,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                         }
                     }
                 }
@@ -398,7 +398,7 @@ public class Controlador_Pantalla_Ventas {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ya no hay producto en existencia </h1></html>");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                                new Controlador_PantallaProductos(rol, turno , Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Solo quedan en existencia </h1></html>" + canProductos);
@@ -412,7 +412,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                         }
                     }
                 }
@@ -488,7 +488,7 @@ public class Controlador_Pantalla_Ventas {
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
                                     ventanaControl2 = true;
-                                    new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                                 }
                             }
 
@@ -498,7 +498,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                             }
                         }
 
@@ -580,7 +580,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                             }
                         }
 
@@ -590,7 +590,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
                         }
                     }
 
@@ -844,10 +844,41 @@ public class Controlador_Pantalla_Ventas {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int porcentaje = Integer.parseInt(pantalla_Ventas.jComboBoxGenerico.getSelectedItem().toString());
-                float totalTipoAnti = Float.parseFloat(modeloTabDescuento.getValueAt(1, 2).toString());//sin descuento
-                modeloTabDescuento.setValueAt(sacarDesc(porcentaje, totalTipoAnti), 1, 3);//con descuento
-                pantalla_Ventas.jTextFieldTotalVenta.setText(String.format(Locale.US, "%.2f", obtenerT()));
-                pantalla_Ventas.jLabelSubtotalVenta.setText(String.format(Locale.US, "%.2f", obtenerT()));
+                switch (porcentaje) {
+                    case 20:
+                        int productos = 0;
+                        for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
+                            String tipoMedicamento = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 3).toString();
+                            if (tipoMedicamento.equals("GENÉRICO")) {
+                                int piezas = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
+                                productos = productos + piezas;
+                            }
+                        }
+                        if (productos >= 10) {
+                            descuentoGenericos(porcentaje);
+                        } else {
+                            pantalla_Ventas.jComboBoxGenerico.setSelectedIndex(0);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No hay productos genéricos suficientes para aplicar el descuento.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    case 30:
+                        float precioGenerico = 0;
+                        for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
+                            precioGenerico = precioGenerico + Float.parseFloat(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 6).toString());
+
+                        }
+                        if (precioGenerico >= 800) {
+                            descuentoGenericos(porcentaje);
+                        } else {
+                            pantalla_Ventas.jComboBoxGenerico.setSelectedIndex(0);
+                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>La compra tiene que ser mayor a 800 en productos genéricos..</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    default:
+                        descuentoGenericos(porcentaje);
+                        break;
+                }
+
             }
         });
 
@@ -870,7 +901,7 @@ public class Controlador_Pantalla_Ventas {
             public void actionPerformed(ActionEvent e) {
                 float total = obtenerT();
                 pantalla_Ventas.jTextFieldTotalVenta.setText((String.format(Locale.US, "%.2f", total)));
-                //pantalla_Ventas.btnCambioCliente.requestFocusInWindow();
+                pantalla_Ventas.btnCambioCliente.requestFocus();
                 pantalla_Ventas.jDialogCobro.setTitle("Cobro");
                 pantalla_Ventas.jDialogCobro.setBounds(249, 154, 626, 440);
                 pantalla_Ventas.jDialogCobro.setResizable(false);
@@ -1033,7 +1064,7 @@ public class Controlador_Pantalla_Ventas {
             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
             if (ventanaControl2 == false) {
                 ventanaControl2 = true;
-                new Controlador_PantallaProductos(rolEmpleado, turno , Integer.parseInt(idEmpleado));
+                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
             }
 
         }
@@ -1063,13 +1094,13 @@ public class Controlador_Pantalla_Ventas {
         return Float.parseFloat(modeloTabDescuento.getValueAt(0, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(1, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(2, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(3, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(4, 3).toString());
     }
 
-    public void enviarDatosTikect() {
+    public void enviarDatosTikect(String folioCom) {
         int porcentajeGenerico = Integer.parseInt(pantalla_Ventas.jComboBoxGenerico.getSelectedItem().toString());
         int porcentajePatente = Integer.parseInt(pantalla_Ventas.jComboBoxPatente.getSelectedItem().toString());
         int filas = 0;
-        String folio = pantalla_Ventas.jTextFieldFolio.getText();
+        String folioT = folioCom;
         String empleada = pantalla_Ventas.jLabelNombreEmpleado.getText();
-        String cliente = pantalla_Ventas.jTextFieldClienteVenta.getText();
+        String clienteT = pantalla_Ventas.jTextFieldClienteVenta.getText();
         int piezas = Integer.parseInt(pantalla_Ventas.jLabelCantidadProductos.getText());
         String total = pantalla_Ventas.jTextFieldTotalVenta.getText();
         String pago = pantalla_Ventas.btnCambioCliente.getText();
@@ -1086,7 +1117,7 @@ public class Controlador_Pantalla_Ventas {
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
             float descuentoGenerico = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajeGenerico / 100.0);
-            float descuentoPatente = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajeGenerico / 100.0);
+            float descuentoPatente = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajePatente / 100.0);
             String tipo_m = modelo.getValueAt(i, 3).toString();
             prod[i] = modelo.getValueAt(i, 1).toString();
             prec[i] = modelo.getValueAt(i, 5).toString();
@@ -1106,7 +1137,7 @@ public class Controlador_Pantalla_Ventas {
             System.out.println(impor[i]);
         }
         tikectVentas = new TikectVentas();
-        tikectVentas.tikectVentas(folio, empleada, cliente, piezas, total, pago, cambio, prod, prec, cant, impor);
+        tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor);
 
     }
 
@@ -1276,6 +1307,13 @@ public class Controlador_Pantalla_Ventas {
         return -1;
     }
 
+    private void descuentoGenericos(int porcentaje) {
+        float totalTipoAnti = Float.parseFloat(modeloTabDescuento.getValueAt(1, 2).toString());//sin descuento
+        modeloTabDescuento.setValueAt(sacarDesc(porcentaje, totalTipoAnti), 1, 3);//con descuento
+        pantalla_Ventas.jTextFieldTotalVenta.setText(String.format(Locale.US, "%.2f", obtenerT()));
+        pantalla_Ventas.jLabelSubtotalVenta.setText(String.format(Locale.US, "%.2f", obtenerT()));
+    }
+
     private void ventaRegistrar() {
         if (modelo.getRowCount() <= 0) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>AGREGUE PRODUCTOS</h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
@@ -1296,9 +1334,11 @@ public class Controlador_Pantalla_Ventas {
         String tipoVenta = modelo.getValueAt(0, 3).toString();
         int des_p = Integer.parseInt((String) pantalla_Ventas.jComboBoxPatente.getSelectedItem());
         int des_g = Integer.parseInt((String) pantalla_Ventas.jComboBoxGenerico.getSelectedItem());
-        if (new Ventas().registrarVenta(idEmpleado, idCli, cantidad, String.valueOf(obtenerT()), modelo, turno, tipoVenta, des_p, des_g)) {
+        String[] arr = new Ventas().registrarVenta(idEmpleado, idCli, cantidad, String.valueOf(obtenerT()), modelo, turno, tipoVenta, des_p, des_g);
 
-            enviarDatosTikect();
+        if (arr[1] == "0") {
+
+            enviarDatosTikect(arr[0]);
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>La venta se registro con exito</h1></html>");
             pantalla_Ventas.jDialogCobro.dispose();
             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");

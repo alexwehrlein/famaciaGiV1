@@ -845,22 +845,6 @@ public class Controlador_Pantalla_Ventas {
             public void actionPerformed(ActionEvent e) {
                 int porcentaje = Integer.parseInt(pantalla_Ventas.jComboBoxGenerico.getSelectedItem().toString());
                 switch (porcentaje) {
-                    case 20:
-                        int productos = 0;
-                        for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {
-                            String tipoMedicamento = pantalla_Ventas.jTableProductosVenta.getValueAt(i, 3).toString();
-                            if (tipoMedicamento.equals("GENÉRICO")) {
-                                int piezas = Integer.parseInt(pantalla_Ventas.jTableProductosVenta.getValueAt(i, 4).toString());
-                                productos = productos + piezas;
-                            }
-                        }
-                        if (productos >= 10) {
-                            descuentoGenericos(porcentaje);
-                        } else {
-                            pantalla_Ventas.jComboBoxGenerico.setSelectedIndex(0);
-                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No hay productos genéricos suficientes para aplicar el descuento.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
-                        break;
                     case 30:
                         float precioGenerico = 0;
                         for (int i = 0; i < pantalla_Ventas.jTableProductosVenta.getRowCount(); i++) {

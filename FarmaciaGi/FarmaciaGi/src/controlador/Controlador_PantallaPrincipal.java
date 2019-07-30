@@ -49,6 +49,7 @@ public class Controlador_PantallaPrincipal {
     public static boolean ventanaControl10 = false;
     public static boolean ventanaControl11 = false;
     public static boolean ventanaControl12 = false;
+    public static boolean ventanaControl13 = false;
 
     public class Imagen extends javax.swing.JPanel {
 
@@ -221,7 +222,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno , Integer.parseInt(idEmpleado));
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
                 }
 
             }
@@ -233,7 +234,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno , Integer.parseInt(idEmpleado));
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
                 }
             }
         });
@@ -351,6 +352,16 @@ public class Controlador_PantallaPrincipal {
             }
         });
 
+        pantalla_Principal.jMenuItemSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ventanaControl13 == false) {
+                    ventanaControl13 = true;
+                    new Controlador_PantallaConfing();
+                }
+            }
+        });
+
         pantalla_Principal.jMenuItemRealizarVenta.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         pantalla_Principal.jMenuItemGrstionGastos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK));
         pantalla_Principal.jMenuItemDevoluciones.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
@@ -381,6 +392,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemRetiro.setEnabled(false);
         pantalla_Principal.jMenuItemBajas.setEnabled(false);
         pantalla_Principal.jMenuItemPromociones.setEnabled(false);
+        pantalla_Principal.jMenuItemSettings.setEnabled(false);
         pantalla_Principal.jMenuAdmon.setEnabled(true);
         pantalla_Principal.jMenuCajero.setEnabled(true);
     }
@@ -394,6 +406,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemProductosAdmin.setEnabled(true);
         pantalla_Principal.jMenuItemInformacionSucursal.setEnabled(true);
         pantalla_Principal.jMenuItemBajas.setEnabled(true);
+        pantalla_Principal.jMenuItemSettings.setEnabled(true);
         pantalla_Principal.jMenuItemPromociones.setEnabled(true);
         pantalla_Principal.jMenuItemIniciarSesion.setText("Cerrar Sesion");
 

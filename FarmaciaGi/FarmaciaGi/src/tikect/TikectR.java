@@ -10,14 +10,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Confings;
 
 /**
  *
  * @author saube
  */
 public class TikectR {
+    Confings confings;
      public void tikectR( String [] infoT , List<List<String>>productos){
-         
+         confings = new Confings();
+        String[] arr = confings.settings();
+        
           Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
@@ -27,12 +31,12 @@ public class TikectR {
         String auxs = "";
         String prod = "";
         float total = 0;
-        String impra = "MP-4200 TH"; // Nombre de la impresora
+        String impra = arr[0]; // Nombre de la impresora
 
         // Se llama al metodo para imprimir una cadena
         auxs += "COMPROBANTE DE VENTA\n\n";
         auxs += "FARMACIAS GI\n";
-        auxs += "AltaMIRANO #6-A\n";
+        auxs += arr[1]+"\n";
         auxs += "Iguala de la Independencia\n";
         auxs += "Folio: " + infoT[0] + "\n";
         auxs += "Le atendio: " + infoT[3] + "\n";

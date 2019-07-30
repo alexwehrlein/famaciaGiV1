@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Confings;
 import vista.Pantalla_Devoluciones;
 
 /**
@@ -19,24 +20,27 @@ import vista.Pantalla_Devoluciones;
 public class TikectDevoluciones {
     Pantalla_Devoluciones devoluciones;
      private DefaultTableModel modelo;
+    Confings confings;
     
     public void  TikectDevoluciones(String folio ,String nombre, int piezas, double precio, double total){
+        
+        confings = new Confings();
+        String[] arr = confings.settings();
+        
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        
-        
         
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
          String auxs="";
        
-        String impra = "MP-4200 TH"; // Nombre de la impresora
+        String impra = arr[0]; // Nombre de la impresora
 
         // Se llama al metodo para imprimir una cadena
         auxs+= "DEVOLUCION\n\n";
         auxs+= "FARMACIAS GI\n";
-        auxs+= "Altamirano #6-A\n";
+        auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
         auxs+= "Folio: " + folio + "\n";
         auxs+= "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";

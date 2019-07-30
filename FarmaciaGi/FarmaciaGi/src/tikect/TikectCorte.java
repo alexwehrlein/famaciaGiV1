@@ -10,33 +10,36 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import modelo.Confings;
 
 /**
  *
  * @author saube
  */
 public class TikectCorte {
+    Confings confings;
     
     public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos,String abarrotes, String perfumeria, double total,String turno, ArrayList<String>clientes , String [] consultas , String retiros, int clave){
+        
+        confings = new Confings();
+        String[] arr = confings.settings();
         
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
-        
-        
-        
+
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
         int clientesNum = clientes.size();
         String auxs="";
         int num = 0 , num2 = 1 , num3 = 2;
-        String impra = "MP-4200 TH"; // Nombre de la impresora
+        String impra = arr[0]; // Nombre de la impresora
 
         // Se llama al metodo para imprimir una cadena
         auxs+= "CORTE DE CAJA\n\n";
         auxs+= "==========================================\n";
         auxs+= "FARMACIAS GI\n";
-        auxs+= "Altamirano #6-A\n";
+        auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
         auxs+= "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";

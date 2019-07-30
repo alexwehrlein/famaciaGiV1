@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Confings;
 import vista.Pantalla_Ventas;
 
 /**
@@ -18,9 +19,13 @@ import vista.Pantalla_Ventas;
  * @author saube
  */
 public class TikectVentas {
+    Confings confings;
 
     public void tikectVentas(String folio, String empleada, String cliente, int piezas, String total, String pago, String cambio, String[] prod, String[] prec, String[] cant, String[] impor) {
-
+        
+        confings = new Confings();
+        String[] arr = confings.settings();
+        
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
@@ -29,12 +34,12 @@ public class TikectVentas {
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
         String auxs = "";
 
-        String impra = "MP-4200 TH"; // Nombre de la impresora
+        String impra = arr[0]; // Nombre de la impresora
 
         // Se llama al metodo para imprimir una cadena
         auxs += "COMPROBANTE DE VENTA\n\n";
         auxs += "FARMACIAS GI\n";
-        auxs += "AltaMIRANO #6-A\n";
+        auxs += arr[1]+"\n";
         auxs += "Iguala de la Independencia\n";
         auxs += "Folio: " + folio + "\n";
         auxs += "Le atendio: " + empleada + "\n";

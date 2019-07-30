@@ -11,14 +11,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Confings;
 
 /**
  *
  * @author saube
  */
 public class TikectInventario {
+    Confings confings;
     
     public void tikectInventario(String turno,  List<List<String>>productos ){
+        confings = new Confings();
+        String[] arr = confings.settings();
         
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -28,12 +32,12 @@ public class TikectInventario {
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
         String auxs = "";
         String prod = "";
-        String impra = "MP-4200 TH"; // Nombre de la impresora
+        String impra = arr[0]; // Nombre de la impresora
         
          // Se llama al metodo para imprimir una cadena
         auxs += "PRODUCTOS AGREGADOS\n\n";
         auxs += "FARMACIAS GI\n";
-        auxs += "AltaMIRANO #6-A\n";
+        auxs += arr[1]+"\n";
         auxs += "Iguala de la Independencia\n";
         auxs += "Turno: " + turno + "\n";
         auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";

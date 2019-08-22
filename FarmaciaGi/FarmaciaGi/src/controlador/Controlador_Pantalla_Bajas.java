@@ -21,13 +21,16 @@ public class Controlador_Pantalla_Bajas {
 
     Pantalla_bajas pantalla_bajas;
     Bajas bajas;
-    public Controlador_Pantalla_Bajas() {
+    int id_empleado;
+    
+    public Controlador_Pantalla_Bajas(int id) {
+        this.id_empleado = id;
         pantalla_bajas = new Pantalla_bajas();
         pantalla_bajas.setVisible(true);
         pantalla_bajas.setLocationRelativeTo(null);
-        
+
         pantalla_bajas.tctCodigo.addKeyListener(new KeyAdapter() {
-              @Override
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String codigo = pantalla_bajas.tctCodigo.getText();
@@ -38,7 +41,7 @@ public class Controlador_Pantalla_Bajas {
                 }
             }
         });
-        
+
         pantalla_bajas.btnBajas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,17 +58,22 @@ public class Controlador_Pantalla_Bajas {
                     return;
                 }
                 if (piezas > existencias) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede dar de baja mas de lo que existe </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede dar de baja mas de lo que existe </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int inventario = existencias - piezas;
-                bajas = new Bajas(codigo, piezas, inventario);
-                bajas.actualizarExistencias();
-                bajas.insertarBajas();
-                pantalla_bajas.tctCodigo.setText("");
-                pantalla_bajas.txtExistencias.setText("");
-                pantalla_bajas.txtPiezas.setText("");
-                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El piezas se dieron de baja </h1></html>" , "SUCCESS" ,JOptionPane.INFORMATION_MESSAGE);
+                bajas = new Bajas(codigo, piezas, inventario , id_empleado);
+                //bajas.actualizarExistencias();
+                boolean flag = bajas.insertarBajas();
+                if (flag) {
+                    pantalla_bajas.tctCodigo.setText("");
+                    pantalla_bajas.txtExistencias.setText("");
+                    pantalla_bajas.txtPiezas.setText("");
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El piezas se dieron de baja </h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
         });
     }

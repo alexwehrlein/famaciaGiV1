@@ -50,6 +50,7 @@ public class Controlador_PantallaPrincipal {
     public static boolean ventanaControl11 = false;
     public static boolean ventanaControl12 = false;
     public static boolean ventanaControl13 = false;
+    public static boolean ventanaControl14 = false;
 
     public class Imagen extends javax.swing.JPanel {
 
@@ -339,7 +340,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl12 == false) {
                     ventanaControl12 = true;
-                    new Controlador_Pantalla_Bajas();
+                    new Controlador_Pantalla_Bajas(Integer.parseInt(idEmpleado));
                 }
             }
         });
@@ -358,6 +359,16 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl13 == false) {
                     ventanaControl13 = true;
                     new Controlador_PantallaConfing();
+                }
+            }
+        });
+        
+        pantalla_Principal.jMenuItemCompras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ventanaControl14 == false) {
+                    ventanaControl14 = true;
+                    new Controlador_PantallaCompras();
                 }
             }
         });
@@ -393,6 +404,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemBajas.setEnabled(false);
         pantalla_Principal.jMenuItemPromociones.setEnabled(false);
         pantalla_Principal.jMenuItemSettings.setEnabled(false);
+        pantalla_Principal.jMenuItemCompras.setEnabled(false);
         pantalla_Principal.jMenuAdmon.setEnabled(true);
         pantalla_Principal.jMenuCajero.setEnabled(true);
     }
@@ -408,6 +420,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemBajas.setEnabled(true);
         pantalla_Principal.jMenuItemSettings.setEnabled(true);
         pantalla_Principal.jMenuItemPromociones.setEnabled(true);
+         pantalla_Principal.jMenuItemCompras.setEnabled(true);
         pantalla_Principal.jMenuItemIniciarSesion.setText("Cerrar Sesion");
 
     }

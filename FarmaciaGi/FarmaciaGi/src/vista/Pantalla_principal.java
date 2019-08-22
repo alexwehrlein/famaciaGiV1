@@ -93,6 +93,7 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemBajas = new javax.swing.JMenuItem();
         jMenuItemPromociones = new javax.swing.JMenuItem();
         jMenuItemSettings = new javax.swing.JMenuItem();
+        jMenuItemCompras = new javax.swing.JMenuItem();
         jMenuCajero = new javax.swing.JMenu();
         jMenuItemRealizarVenta = new javax.swing.JMenuItem();
         jMenuItemGrstionGastos = new javax.swing.JMenuItem();
@@ -278,6 +279,10 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemSettings.setText("Configuraciones");
         jMenuAdmon.add(jMenuItemSettings);
 
+        jMenuItemCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compras.png"))); // NOI18N
+        jMenuItemCompras.setText("Compras");
+        jMenuAdmon.add(jMenuItemCompras);
+
         jMenuBar1.add(jMenuAdmon);
 
         jMenuCajero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cajero1.png"))); // NOI18N
@@ -424,6 +429,7 @@ public class Pantalla_principal extends javax.swing.JFrame {
     public javax.swing.JMenu jMenuCajero;
     public javax.swing.JMenu jMenuInicioSesion;
     public javax.swing.JMenuItem jMenuItemBajas;
+    public javax.swing.JMenuItem jMenuItemCompras;
     public javax.swing.JMenuItem jMenuItemDevoluciones;
     public javax.swing.JMenuItem jMenuItemGestionCliente;
     public javax.swing.JMenuItem jMenuItemGestionEmp;

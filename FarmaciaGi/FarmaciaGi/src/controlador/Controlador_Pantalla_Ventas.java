@@ -885,13 +885,26 @@ public class Controlador_Pantalla_Ventas {
             public void actionPerformed(ActionEvent e) {
                 float total = obtenerT();
                 pantalla_Ventas.jTextFieldTotalVenta.setText((String.format(Locale.US, "%.2f", total)));
-                pantalla_Ventas.btnCambioCliente.requestFocus();
+                 if (!pantalla_Ventas.btnCambioCliente.getText().isEmpty()) {
+                    System.out.println("entro");
+                    float cantidadIngresada = Float.parseFloat(pantalla_Ventas.btnCambioCliente.getText());
+                    float cantidadTotal = Float.parseFloat(pantalla_Ventas.jTextFieldTotalVenta.getText()); 
+                    System.out.println("total: "+cantidadTotal+ " cambio: "+cantidadIngresada);
+                    if (cantidadTotal <= cantidadIngresada) {
+                        String cambioVenta = String.format(Locale.US, "%.2f", cantidadIngresada - cantidadTotal);
+                        pantalla_Ventas.jTextFieldCambio.setText("" + cambioVenta);
+                    } else {
+                        pantalla_Ventas.btnCambioCliente.setText("");
+                        pantalla_Ventas.btnCambioCliente.requestFocus();
+                        pantalla_Ventas.jTextFieldCambio.setText("$ 0.00");
+                    }
+                }
                 pantalla_Ventas.jDialogCobro.setTitle("Cobro");
                 pantalla_Ventas.jDialogCobro.setBounds(249, 154, 626, 440);
                 pantalla_Ventas.jDialogCobro.setResizable(false);
                 pantalla_Ventas.jDialogCobro.setVisible(true);
                 pantalla_Ventas.btnCambioCliente.requestFocus();
-
+  
             }
         });
 

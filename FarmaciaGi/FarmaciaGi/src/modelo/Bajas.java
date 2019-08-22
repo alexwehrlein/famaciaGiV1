@@ -23,9 +23,18 @@ public class Bajas {
     private String codigo;
     private int piezas;
     private int existenxias;
+    private int id_empleado;
     ArchivoLog log = new ArchivoLog();
     Conexion conn = new Conexion();
 
+    public int getId_empleado() {
+        return id_empleado;
+    }
+
+    public void setId_empleado(int id_empleado) {
+        this.id_empleado = id_empleado;
+    }
+    
     public String getCodigo() {
         return codigo;
     }
@@ -54,10 +63,11 @@ public class Bajas {
         this.codigo = codigo;
     }
 
-    public Bajas(String codigo, int piezas, int existenxias) {
+    public Bajas(String codigo, int piezas, int existenxias , int id) {
         this.codigo = codigo;
         this.piezas = piezas;
         this.existenxias = existenxias;
+        this.id_empleado = id;
     }
 
     public Bajas() {
@@ -66,7 +76,7 @@ public class Bajas {
     public String Producto() {
         String sql = null, existencias = "";
         try {
-            con = new Conexion().getConnection();
+            con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
 
             sql = "SELECT cantidad FROM productos WHERE codigo=" + getCodigo() + "";
@@ -83,12 +93,7 @@ public class Bajas {
             Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
 
         } finally {
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                log.crearLog(ex);
-                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
-            }
+            conn.getClose();
         }
 
         return existencias;
@@ -114,23 +119,39 @@ public class Bajas {
 
     }
 
-    public void insertarBajas() {
+    public boolean insertarBajas() {
         String sql = null;
-
+        boolean flag = true;
+        
         try {
             con = conn.getConnection();
+            con.setAutoCommit(false);
+            
             Statement stm = (Statement) con.createStatement();
-            sql = "INSERT INTO bajas (codigo,piezas) VALUES ( " + getCodigo() + " , " + getExistenxias() + ")";
+            sql = "INSERT INTO bajas (codigo,piezas,id_empleado) VALUES ( " + getCodigo() + " , " + getExistenxias() + " , "+getId_empleado()+")";
             stm.execute(sql);
-
+            
+            Statement stm2 = (Statement) con.createStatement();
+            sql = "UPDATE productos SET cantidad = " + getExistenxias() + " WHERE codigo = " + getCodigo();
+            stm2.execute(sql);
+            
+            con.commit();
+            stm.close();
             stm.close();
         } catch (SQLException ex) {
-            log.crearLog(ex);
-            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
+            try {
+                flag = false;
+                con.rollback();
+                log.crearLog(ex);
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error "+ ex1);
+            }
 
         } finally {
             conn.getClose();
         }
+        return flag;
 
     }
 

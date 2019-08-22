@@ -24,14 +24,14 @@ public class ArchivoLog {
     public void crearLog(SQLException Operacion){
          try {
              //Pregunta el archivo existe, caso contrario crea uno con el nombre log.txt
-             if (new File("log.txt").exists() == false) {
+             if (new File("C:/farmacia/log1.txt").exists() == false) {
                  try {
-                     archivo = new FileWriter(new File("log.txt"), false);
+                     archivo = new FileWriter(new File("C:/farmacia/log1.txt"), false);
                  } catch (IOException ex) {
                      Logger.getLogger(ArchivoLog.class.getName()).log(Level.SEVERE, "Error "+ ex);
                  }
              }
-             archivo = new FileWriter(new File("log.txt"), true);
+             archivo = new FileWriter(new File("C:/farmacia/log1.txt"), true);
              Calendar fechaActual = Calendar.getInstance(); //Para poder utilizar el paquete calendar
              //Empieza a escribir en el archivo
              archivo.write("[" + (String.valueOf(fechaActual.get(Calendar.DAY_OF_MONTH))
@@ -50,14 +50,14 @@ public class ArchivoLog {
      public void crearLogException(Exception Operacion){
          try {
              //Pregunta el archivo existe, caso contrario crea uno con el nombre log.txt
-             if (new File("log.txt").exists() == false) {
+             if (new File("C:/farmacia/log2.txt").exists() == false) {
                  try {
-                     archivo = new FileWriter(new File("log.txt"), false);
+                     archivo = new FileWriter(new File("C:/farmacia/log2.txt"), false);
                  } catch (IOException ex) {
                      Logger.getLogger(ArchivoLog.class.getName()).log(Level.SEVERE, "Error "+ ex);
                  }
              }
-             archivo = new FileWriter(new File("log.txt"), true);
+             archivo = new FileWriter(new File("C:/farmacia/log2.txt"), true);
              Calendar fechaActual = Calendar.getInstance(); //Para poder utilizar el paquete calendar
              //Empieza a escribir en el archivo
              archivo.write("[" + (String.valueOf(fechaActual.get(Calendar.DAY_OF_MONTH))

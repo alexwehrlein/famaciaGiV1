@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,7 @@ public class sucursal {
     private String direccion;
     private String telefono;
     private Connection con;
+    ArchivoLog log;
 
     public String getId() {
         return id;
@@ -90,9 +92,9 @@ public class sucursal {
             stm.close();
             resultado.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-            conn.getClose();
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR "+ ex);
         } finally {
             conn.getClose();
         }
@@ -109,7 +111,9 @@ public class sucursal {
             stm.execute("UPDATE sucursal SET direccion='" + getDireccion() + "', telefono='" + getTelefono() + "' WHERE id_sucursal='" + getId() + "'");
             stm.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR "+ ex);
             return false;
         } finally {
             conn.getClose();

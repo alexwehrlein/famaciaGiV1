@@ -33,9 +33,9 @@ public class Controlador_PantallaPrincipal {
 
     Pantalla_principal pantalla_Principal;
     Ventas ventas;
-    String idEmpleado, nombreEmpleado, turno, rol;
+    String idEmpleado, nombreEmpleado, turno, rol,pc;
     String id = "";
-    int folio;
+    int folio ;
 
     public static boolean ventanaControl1 = false;
     public static boolean ventanaControl2 = false;
@@ -134,6 +134,7 @@ public class Controlador_PantallaPrincipal {
                                 nombreEmpleado = arr[3];
                                 rol = arr[2];
                                 turno = arr[4];
+                                pc = arr[5];
                                 if (arr[2].equals("Administrador")) {
                                     activarAdministrador();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
@@ -174,6 +175,7 @@ public class Controlador_PantallaPrincipal {
                             idEmpleado = arr[1];
                             nombreEmpleado = arr[3];
                             turno = arr[4];
+                            pc = arr[5];
                             if (arr[2].equals("Administrador")) {
                                 activarAdministrador();
                                 pantalla_Principal.jDialogLogin.setVisible(false);
@@ -223,7 +225,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado) , pc);
                 }
 
             }
@@ -235,7 +237,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado),pc);
                 }
             }
         });
@@ -257,7 +259,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl9 == false) {
                     ventanaControl9 = true;
-                    new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno, rol);
+                    new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno, rol,pc);
                 }
 
             }
@@ -279,7 +281,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl5 == false) {
                     ventanaControl5 = true;
-                    new Controlador_PantallaDevoluciones(idEmpleado, nombreEmpleado, turno);
+                    new Controlador_PantallaDevoluciones(idEmpleado, nombreEmpleado, turno , pc);
                 }
             }
         });
@@ -300,7 +302,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl7 == false) {
                     ventanaControl7 = true;
-                    new Controlador_PantallaGstos(turno);
+                    new Controlador_PantallaGstos(turno,pc);
                 }
             }
         });
@@ -310,7 +312,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl8 == false) {
                     ventanaControl8 = true;
-                    new Pantalla_Corte(turno);
+                    new Pantalla_Corte(turno,pc);
                 }
             }
         });
@@ -358,7 +360,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl13 == false) {
                     ventanaControl13 = true;
-                    new Controlador_PantallaConfing();
+                    new Controlador_PantallaConfing(pc);
                 }
             }
         });

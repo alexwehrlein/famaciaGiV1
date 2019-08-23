@@ -231,9 +231,9 @@ public class Empleado {
     
    
     public String[] obtenerContraUsuario(String usuario){
-        String []arr = {"","","","",""};
+        String []arr = {"","","","","",""};
         try {
-            String sql = "select contrasena,login.id_empleado,empleado.puesto,empleado.nombre,empleado.turno from login join empleado on login.id_empleado=empleado.id_empleado where usuario= '" + usuario + "'";
+            String sql = "select contrasena,login.id_empleado,empleado.puesto,empleado.nombre,empleado.turno,pc from login join empleado on login.id_empleado=empleado.id_empleado where usuario= '" + usuario + "'";
             java.sql.Statement sta = con.createStatement();
             ResultSet resultado = sta.executeQuery(sql);
             if(resultado.next()){
@@ -242,7 +242,7 @@ public class Empleado {
                 arr[2]=resultado.getString("puesto");
                 arr[3]=resultado.getString("nombre");
                 arr[4]=resultado.getString("turno");
-                
+                arr[5]=resultado.getString("PC");
             }
             con.close();
         } catch (SQLException ex) {

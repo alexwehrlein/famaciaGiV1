@@ -18,8 +18,8 @@ import modelo.Confings;
  */
 public class TikectR {
     Confings confings;
-     public void tikectR( String [] infoT , List<List<String>>productos){
-         confings = new Confings();
+     public void tikectR( String [] infoT , List<List<String>>productos , String pc){
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
           Date date = new Date();

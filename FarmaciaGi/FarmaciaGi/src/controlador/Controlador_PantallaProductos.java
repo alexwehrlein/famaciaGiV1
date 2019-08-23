@@ -38,7 +38,7 @@ public class Controlador_PantallaProductos {
     TikectInventario tikectInventario;
     int idEmpleado;
 
-    public Controlador_PantallaProductos(String rol, String turno , int idEmpleado) {
+    public Controlador_PantallaProductos(String rol, String turno , int idEmpleado , String pc) {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
@@ -56,7 +56,7 @@ public class Controlador_PantallaProductos {
             public void actionPerformed(ActionEvent e) {
                 if (productosTikect.get(0).size() > 0 && productosTikect.get(1).size() > 0) {
                     tikectInventario = new TikectInventario();
-                    tikectInventario.tikectInventario(turno, productosTikect);
+                    tikectInventario.tikectInventario(turno, productosTikect,pc);
                     for (int i = 0; i <= productosTikect.get(0).size() - 1; i++) {
                         productosTikect.get(0).clear();
                         productosTikect.get(1).clear();

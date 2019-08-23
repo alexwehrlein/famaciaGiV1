@@ -21,9 +21,9 @@ import vista.Pantalla_Ventas;
 public class TikectVentas {
     Confings confings;
 
-    public void tikectVentas(String folio, String empleada, String cliente, int piezas, String total, String pago, String cambio, String[] prod, String[] prec, String[] cant, String[] impor) {
+    public void tikectVentas(String folio, String empleada, String cliente, int piezas, String total, String pago, String cambio, String[] prod, String[] prec, String[] cant, String[] impor , String pc) {
         
-        confings = new Confings();
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

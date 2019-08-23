@@ -18,9 +18,9 @@ import modelo.Confings;
 public class TikectGasto {
     Confings confings;
     
-    public void TikectGasto(String descripcion, String total){
+    public void TikectGasto(String descripcion, String total , String pc){
        
-        confings = new Confings();
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

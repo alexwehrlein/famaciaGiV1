@@ -31,7 +31,7 @@ public class Controlador_PantallaDevoluciones {
     TikectDevoluciones tikectDevoluciones;
     int cantidadExistencias;
 
-    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado) {
+    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado , String pc) {
         devoluciones = new Pantalla_Devoluciones();
         devoluciones.setLocationRelativeTo(null);
         devoluciones.setVisible(true);
@@ -122,7 +122,7 @@ public class Controlador_PantallaDevoluciones {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Devolucion Registrada Correctamente </h1></html>");
                                 devoluciones1 = new Devoluciones(codigo, piezas);
                                 tikectDevoluciones = new TikectDevoluciones();
-                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total);
+                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total,pc);
                                 if (devoluciones1.RegresarProducto()) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Medicamento Regresado al almacen </h1></html>");
                                     devoluciones1 = new Devoluciones(IntFolio, codigo, piezas);

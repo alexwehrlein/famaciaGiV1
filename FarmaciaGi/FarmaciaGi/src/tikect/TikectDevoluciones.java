@@ -22,9 +22,9 @@ public class TikectDevoluciones {
      private DefaultTableModel modelo;
     Confings confings;
     
-    public void  TikectDevoluciones(String folio ,String nombre, int piezas, double precio, double total){
+    public void  TikectDevoluciones(String folio ,String nombre, int piezas, double precio, double total , String pc){
         
-        confings = new Confings();
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

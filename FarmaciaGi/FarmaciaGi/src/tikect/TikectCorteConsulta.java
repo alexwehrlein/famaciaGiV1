@@ -18,9 +18,9 @@ import modelo.Confings;
 public class TikectCorteConsulta {
     Confings confings;
     
-    public void Tikect(double consultas,String turno){
+    public void Tikect(double consultas,String turno, String pc){
         
-        confings = new Confings();
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

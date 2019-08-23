@@ -19,9 +19,9 @@ import modelo.Confings;
 public class TikectCorte {
     Confings confings;
     
-    public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos,String abarrotes, String perfumeria, double total,String turno, ArrayList<String>clientes , String [] consultas , String retiros, int clave){
+    public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos,String abarrotes, String perfumeria, double total,String turno, ArrayList<String>clientes , String [] consultas , String retiros, int clave , String pc){
         
-        confings = new Confings();
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

@@ -89,14 +89,14 @@ public class Controlador_PantallaProductoAdd {
             }
         });
 
-        productoAgregar.altaMedicamentoRegresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                productoAgregar.dispose();
-                new Controlador_PantallaProductos(rol, turno ,idEmpleado );
-
-            }
-        });
+//        productoAgregar.altaMedicamentoRegresar.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                productoAgregar.dispose();
+//                new Controlador_PantallaProductos(rol, turno ,idEmpleado );
+//
+//            }
+//        });
 
         productoAgregar.altaMedicamentoCodigo.addKeyListener(new KeyAdapter() {
             @Override

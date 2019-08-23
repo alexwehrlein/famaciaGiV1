@@ -42,7 +42,7 @@ public class Controlador_Pantalla_Ventas {
     private DefaultTableModel modeloPausarVenta;
     //  private float totalFinal = 0;
     private TableRowSorter trsFiltro;
-    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, rolEmpleado;
+    String idEmpleado, nombreEmpleado, cantidad, idCli = "1", turno, id, rolEmpleado,pc;
     int folio;
     Productos productos;
     PlaceHolder placeHolder;
@@ -51,11 +51,12 @@ public class Controlador_Pantalla_Ventas {
     float precioMayorista = 0;
     ArchivoLog log;
 
-    public Controlador_Pantalla_Ventas(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String rol) {
+    public Controlador_Pantalla_Ventas(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String rol , String pc) {
         this.idEmpleado = idEmpleado;
         this.nombreEmpleado = nombreEmpleado;
         this.turno = turnoEmpleado;
         this.rolEmpleado = rol;
+        this.pc = pc;
         pantalla_Ventas = new Pantalla_Ventas();
         pantalla_Ventas.setTitle("Punto de Venta");
         pantalla_Ventas.setVisible(true);
@@ -142,7 +143,7 @@ public class Controlador_Pantalla_Ventas {
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
                                     ventanaControl2 = true;
-                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado), pc);
                                 }
                             }
 
@@ -152,7 +153,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                             }
                         }
                     }
@@ -232,7 +233,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                             }
                         }
 
@@ -242,7 +243,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                         }
                     }
                 }
@@ -398,7 +399,7 @@ public class Controlador_Pantalla_Ventas {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ya no hay producto en existencia </h1></html>");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                                new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado),pc);
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Solo quedan en existencia </h1></html>" + canProductos);
@@ -412,7 +413,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                         }
                     }
                 }
@@ -488,7 +489,7 @@ public class Controlador_Pantalla_Ventas {
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
                                     ventanaControl2 = true;
-                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                                 }
                             }
 
@@ -498,7 +499,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                             }
                         }
 
@@ -580,7 +581,7 @@ public class Controlador_Pantalla_Ventas {
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
-                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                             }
                         }
 
@@ -590,7 +591,7 @@ public class Controlador_Pantalla_Ventas {
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
                             ventanaControl2 = true;
-                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                            new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                         }
                     }
 
@@ -993,7 +994,7 @@ public class Controlador_Pantalla_Ventas {
                     List<List<String>> productos = ventas.infoTikectProductos(folio);
 
                     tikectR = new TikectR();
-                    tikectR.tikectR(arr, productos);
+                    tikectR.tikectR(arr, productos,pc);
                 }
             }
         });
@@ -1051,7 +1052,7 @@ public class Controlador_Pantalla_Ventas {
                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                    new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
                 }
             }
 
@@ -1061,7 +1062,7 @@ public class Controlador_Pantalla_Ventas {
             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
             if (ventanaControl2 == false) {
                 ventanaControl2 = true;
-                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado));
+                new Controlador_PantallaProductos(rolEmpleado, turno, Integer.parseInt(idEmpleado),pc);
             }
 
         }
@@ -1134,7 +1135,7 @@ public class Controlador_Pantalla_Ventas {
             System.out.println(impor[i]);
         }
         tikectVentas = new TikectVentas();
-        tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor);
+        tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor,pc);
 
     }
 

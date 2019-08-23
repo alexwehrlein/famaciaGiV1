@@ -50,7 +50,7 @@ public class Pantalla_Corte {
     String turnoF;
      ArrayList<String> nombresClientes = new ArrayList<String>();
 
-    public Pantalla_Corte(String turno) {
+    public Pantalla_Corte(String turno, String pc) {
         this.turnoF = turno;
         pantalla_Corte = new Pantalla_CorteCaja();
         pantalla_Corte.setVisible(true);
@@ -119,9 +119,9 @@ public class Pantalla_Corte {
                             corte.registrarCortes();
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                             tikectCorte = new TikectCorte();
-                            tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal,abarrotesTotal,perfumeriaTotal, tk, turno,nombresClientes,arr,retiros,0);
+                            tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal,abarrotesTotal,perfumeriaTotal, tk, turno,nombresClientes,arr,retiros,0,pc);
                             tcc = new TikectCorteConsulta();
-                            tcc.Tikect(ct, turno);
+                            tcc.Tikect(ct, turno,pc);
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>" , "Adios" , JOptionPane.INFORMATION_MESSAGE);
                             System.exit(0);
 
@@ -198,9 +198,9 @@ public class Pantalla_Corte {
                         double tk =tt-ct-r;//el total menos las consultas
                         
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal,abarrotesTotal,perfumeriaTotal, tk, turno,nombresClientes,arr,retiros,0);
+                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal,abarrotesTotal,perfumeriaTotal, tk, turno,nombresClientes,arr,retiros,0,pc);
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno);
+                        tcc.Tikect(ct, turno,pc);
                     }
                 } catch (Exception ex) {
                 }

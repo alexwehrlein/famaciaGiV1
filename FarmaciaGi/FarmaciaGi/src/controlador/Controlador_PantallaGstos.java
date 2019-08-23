@@ -37,7 +37,7 @@ public class Controlador_PantallaGstos {
     String turno;
     TikectGasto tikectGastos;
 
-    public Controlador_PantallaGstos(String turnoE) {
+    public Controlador_PantallaGstos(String turnoE , String pc) {
         this.turno = turnoE;
         gastosFarmacia = new Pantalla_GastosFarmacia();
         gastosFarmacia.setVisible(true);
@@ -67,7 +67,7 @@ public class Controlador_PantallaGstos {
                             gastosFarmacia.jTableGastos.setModel(new Gastos().cargarRegistroEgreso(gastosFarmacia.jTableGastos));
                             gastosFarmacia.jTextFieldTotalGastos.setBackground(Color.WHITE);
                             tikectGastos = new TikectGasto();
-                            tikectGastos.TikectGasto(descripcion, monto);
+                            tikectGastos.TikectGasto(descripcion, monto,pc);
 
                         } else {
 
@@ -125,7 +125,7 @@ public class Controlador_PantallaGstos {
                         String descripcion = (String) gastosFarmacia.jTableGastos.getValueAt(fila, 1);
                         String monto = (String) gastosFarmacia.jTableGastos.getValueAt(fila, 2);
                         tikectGastos = new TikectGasto();
-                        tikectGastos.TikectGasto(descripcion, monto);
+                        tikectGastos.TikectGasto(descripcion, monto,pc);
                     }
                 } catch (Exception ex) {
                 }

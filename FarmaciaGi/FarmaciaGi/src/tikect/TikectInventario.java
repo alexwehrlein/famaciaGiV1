@@ -20,8 +20,8 @@ import modelo.Confings;
 public class TikectInventario {
     Confings confings;
     
-    public void tikectInventario(String turno,  List<List<String>>productos ){
-        confings = new Confings();
+    public void tikectInventario(String turno,  List<List<String>>productos , String pc ){
+        confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
         Date date = new Date();

@@ -101,7 +101,27 @@ public class Usuarios {
     public Usuarios() {
 
     }
+    
+    public boolean validarUser(){
+        boolean flag = false;
+        try {
+            String sql = "SELECT * FROM login WHERE id_empleado = "+getIdEmpleado();
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
 
+            if(rs.next()) {
+                flag = true;
+            }
+            stm.close();
+        } catch (Exception e) {
+             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+        } finally {
+            conn.getClose();
+        }
+        return flag;
+    }
+    
     public boolean registrarUsuario() {
         try {
             con = conn.getConnection();
@@ -110,7 +130,7 @@ public class Usuarios {
             stm.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
             return false;
         } finally {
             conn.getClose();
@@ -125,8 +145,8 @@ public class Usuarios {
             stm.execute("UPDATE login SET usuario='" + getUsuario() + "', contrasena='" + getPasswork() + "',id_empleado=" + getIdEmpleado() + " , PC = "+getPc()+" WHERE id_login=" + getIdLogin());
             stm.close();
             return true;
-        } catch (SQLException ex) {
-            System.out.println(ex);
+        } catch (SQLException e) {
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
             return false;
         } finally {
             conn.getClose();
@@ -141,7 +161,7 @@ public class Usuarios {
             stm.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println(ex);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ ex);
             return false;
         } finally {
             conn.getClose();
@@ -166,7 +186,7 @@ public class Usuarios {
             }
             stm.close();
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
         } finally {
             conn.getClose();
         }
@@ -241,7 +261,7 @@ public class Usuarios {
             stm.close();
             con.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ ex);
         }
 
         return modelo;

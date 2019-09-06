@@ -94,12 +94,39 @@ public class sucursal {
         } catch (SQLException ex) {
             log = new ArchivoLog();
             log.crearLog(ex);
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR "+ ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR " + ex);
         } finally {
             conn.getClose();
         }
         return num;
 
+    }
+
+    public String[] datosSucursal() {
+        String[] num = {"", "", ""};
+        String sql = "";
+        ResultSet resultado;
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+
+            sql = "SELECT  * FROM sucursal LIMIT 1";
+            resultado = stm.executeQuery(sql);
+            if (resultado.next()) {;
+                num[0] = resultado.getString("id_sucursal");
+                num[1] = resultado.getString("direccion");
+                num[2] = resultado.getString("telefono");
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR " + ex);
+        } finally {
+            conn.getClose();
+        }
+        return num;
     }
 
     public boolean updateSucursal() {
@@ -113,7 +140,7 @@ public class sucursal {
         } catch (SQLException ex) {
             log = new ArchivoLog();
             log.crearLog(ex);
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR "+ ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "ERROR " + ex);
             return false;
         } finally {
             conn.getClose();

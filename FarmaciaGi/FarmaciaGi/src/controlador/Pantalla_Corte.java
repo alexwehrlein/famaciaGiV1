@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mail.Mail;
 import modelo.Corte;
 import modelo.Gastos;
 import tikect.TikectCorte;

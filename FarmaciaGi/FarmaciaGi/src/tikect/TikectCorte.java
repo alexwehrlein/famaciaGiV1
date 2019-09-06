@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import mail.Mail;
 import modelo.Confings;
+import modelo.sucursal;
 
 /**
  *
@@ -20,7 +22,7 @@ public class TikectCorte {
     Confings confings;
     
     public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos,String abarrotes, String perfumeria, double total,String turno, ArrayList<String>clientes , String [] consultas , String retiros, int clave , String pc){
-        
+        String mensaje = "";
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         
@@ -71,6 +73,35 @@ public class TikectCorte {
         
         auxs+= "==========================================\n\n\n\n\n";
         
+        sucursal su = new sucursal();
+        String datSucursal[] = su.datosSucursal();
+        Mail mail = new Mail();
+        mensaje += "FARMACIAS GI \n";
+        mensaje += datSucursal[1].toUpperCase()+" \n";
+        mensaje += "Iguala de la Independencia\n";
+        mensaje += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
+        mensaje += "Turno:    "+turno+"\n\n";
+        mensaje += "VENTAS FARMACIA:        $ "+ventas+"\n";
+        mensaje += "VENTAS PERFUMERIA:    $ "+perfumeria+"\n";
+        mensaje += "VENTAS ABARROTES:      $ "+abarrotes+"\n";
+        mensaje += "==========================================\n";
+        mensaje += "DEVOLUCIONES:            $ "+devoluciones+"\n";
+        mensaje += "GASTOS:                   $ "+gastos+"\n";
+        if (clave == 0) {
+            mensaje += "RETIROS:                $ "+retiros+"\n";
+        }
+        mensaje += "==========================================\n";
+        mensaje += "Cantidad de descuentos:   "+clientesNum+"\n";
+        mensaje += "Clientes con descuento:   Des. Patente  Des. Generico \n";
+        for (String string : clientes) {
+            
+            mensaje += string+". \n";
+        }
+        mensaje += "==========================================\n";
+        mensaje += "TOTAL VENTAS:     $ "+String.format("%.2f", total)+"\n";
+        mensaje += "_________________________________________\n";
+        
+        mail.send_mail("farmaciagi08@gmail.com", mensaje , "CORTE DE CAJA TURNO: "+turno.toUpperCase()); //farmaciagi08@gmail.com
        try {
             impServicio.printCadena(impra, auxs);
             // Cortar el papel ....

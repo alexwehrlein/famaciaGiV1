@@ -60,7 +60,7 @@ public class Controlador_Pantalla_Informacion {
                 s = new sucursal(id, direccion, telefono);
                 boolean next = s.updateSucursal();
                 if (next) {
-                    JOptionPane.showMessageDialog(null, "I<html><h1 align='center'> nformacion actualizada </h1></html>", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Informacion actualizada </h1></html>", "EXITO", JOptionPane.INFORMATION_MESSAGE);
                     pantalla_sucursal.textDireccion.setEditable(false);
                     pantalla_sucursal.textTelefono.setEditable(false);
                 } else {

@@ -126,6 +126,7 @@ public class Controlador_PantallaPrincipal {
                         pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.white);
                         pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.white);
                         String[] arr = new Empleado().obtenerContraUsuario(pantalla_Principal.jTextFieldUsuarioLogin.getText());
+                        System.out.println(pantalla_Principal.jTextFieldUsuarioLogin.getText());
                         if (!arr[0].equals("")) {
                             if (arr[0].equals(pantalla_Principal.jTextFieldPasswordLogin.getText())) {
                                 pantalla_Principal.jTextFieldUsuarioLogin.setText("");

@@ -246,6 +246,7 @@ public class Empleado {
             }
             con.close();
         } catch (SQLException ex) {
+            System.out.println(ex);
         }
         return arr;
     }

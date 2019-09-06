@@ -28,39 +28,34 @@ public class Mail {
     
     public  void send_mail(String correo , String text , String sub){
         this.To = correo; this.Mensage = text; this.Subject = sub;
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
- 
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(Username, PassWord);
-                    }
-                });
- 
-        try {
- 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(Username));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(To));
-            message.setSubject(Subject);
-            message.setText(Mensage);
- 
-            Transport.send(message);
-            JOptionPane.showMessageDialog(null, "Su mensaje ha sido enviado");
- 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+        
+        Properties props = System.getProperties();
+    props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+    props.put("mail.smtp.user", Username);
+    props.put("mail.smtp.clave", "miClaveDeGMail");    //La clave de la cuenta
+    props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
+    props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
+    props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
+
+    Session session = Session.getDefaultInstance(props);
+    MimeMessage message = new MimeMessage(session);
+
+    try {
+        message.setFrom(new InternetAddress(Username));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(To));   //Se podrían añadir varios de la misma manera
+        message.setSubject(Subject);
+        message.setText(Mensage);
+        Transport transport = session.getTransport("smtp");
+        transport.connect("smtp.gmail.com", Username, PassWord);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
+        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Correo enviado</h1></html>" , "SUCCESS" , JOptionPane.INFORMATION_MESSAGE);
     }
-    
-     public static void main(String[] args) {
-       Mail mail = new Mail();
-        mail.send_mail("sauber_alex@outlook.com", "Prueba" , "Soy un correo");
+    catch (MessagingException me) {
+        me.printStackTrace();   //Si se produce un error
+        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error al enviar el correo </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+    }
+   
     }
     
 }

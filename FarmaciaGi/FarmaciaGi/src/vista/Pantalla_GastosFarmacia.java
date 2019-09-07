@@ -73,13 +73,18 @@ public class Pantalla_GastosFarmacia extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Serif", 1, 36)); // NOI18N
         jLabel1.setText("GASTOS DE  FARMACIA");
 
-        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel2.setBackground(new java.awt.Color(153, 153, 255));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel2.setText("DESCRIPCION DEL GASTO:");
 
+        jTextFieldDescripcionGastos.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("MONTO DEL GASTO:");
+
+        jTextFieldTotalGastos.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jTextFieldTotalGastos.setForeground(new java.awt.Color(255, 51, 51));
 
         jButtonRegistrar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButtonRegistrar.setText("REGISTRAR GASTO");
@@ -215,7 +220,7 @@ public class Pantalla_GastosFarmacia extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,7 +231,7 @@ public class Pantalla_GastosFarmacia extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

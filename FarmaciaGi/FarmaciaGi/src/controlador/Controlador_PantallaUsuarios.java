@@ -86,7 +86,7 @@ public class Controlador_PantallaUsuarios {
         pantalla_Usuarios.jButtonEliminarUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (pantalla_Usuarios.jTableUsuarios.getSelectedRow() >= 0) {
+                if (pantalla_Usuarios.jTableUsuarios.getSelectedRow() > 0) {
                     int m = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿DESEA ELIMINAR EL USUARIO ? </h1></html>", "CONFIRMAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (m == 0) {
 

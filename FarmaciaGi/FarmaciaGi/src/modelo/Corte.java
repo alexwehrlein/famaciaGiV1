@@ -6,13 +6,12 @@
 package modelo;
 
 import com.mysql.jdbc.PreparedStatement;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -345,16 +344,37 @@ public class Corte {
 
     }
 
-    public boolean registrarCortes() {
+    public boolean registrarCortes(List<String> list) {
+        Connection connection = new Conexion().getConnection();
+        String idv = null;
         try {
-            Connection connection = new Conexion().getConnection();
+            connection.setAutoCommit(false);
             com.mysql.jdbc.Statement stm = (com.mysql.jdbc.Statement) connection.createStatement();
             stm.execute("INSERT INTO cortes VALUES(null,CURDATE()," + getTotal() + " , '" + getTurno() + "')");
-            connection.close();
+            String sql = "SELECT last_insert_id() AS last_id FROM cortes";
+            ResultSet resultado = stm.executeQuery(sql);
+            if (resultado.next()) {
+                idv = resultado.getString("last_id");
+            }
+            com.mysql.jdbc.Statement stm2 = (com.mysql.jdbc.Statement) connection.createStatement();
+            stm2.execute("INSERT corte_datos_extras  VALUES(null , "+idv+" , "+list.get(0)+","+list.get(1)+","+list.get(2)+","+list.get(3)+","+list.get(4)+","+list.get(5)+","+list.get(6)+","+list.get(7)+","+list.get(8)+","+list.get(9)+","+list.get(10)+","+list.get(11)+","+list.get(12)+","+list.get(13)+","+list.get(14)+" , "+list.get(15)+")");
+
+            connection.commit();
             return true;
         } catch (Exception e) {
-
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, ""+ex);
+            }
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "" + e);
             return false;
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, ""+ex);
+            }
         }
 
     }

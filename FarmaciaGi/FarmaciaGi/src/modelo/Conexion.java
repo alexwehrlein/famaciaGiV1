@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author saube
  */
 public class Conexion {
-    private static String bd = "farmaciagi";
+    private static String bd = "farmaciagijava";
     private static String login = "root";
     private static String password = "";
     //private static String password = "1234";

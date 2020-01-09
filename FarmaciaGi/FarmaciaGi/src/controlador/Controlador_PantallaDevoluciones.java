@@ -14,9 +14,11 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import mail.MailBug;
 import modelo.Devoluciones;
 import modelo.Proveedor;
 import tikect.TikectDevoluciones;
+import utilerias.Utilerias;
 import vista.Pantalla_Devoluciones;
 
 /**
@@ -24,14 +26,14 @@ import vista.Pantalla_Devoluciones;
  * @author saube
  */
 public class Controlador_PantallaDevoluciones {
-
+    MailBug mailbug = new MailBug();
     Pantalla_Devoluciones devoluciones;
     Devoluciones devoluciones1;
     String idEmpleado, turno;
     TikectDevoluciones tikectDevoluciones;
     int cantidadExistencias;
 
-    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado , String pc) {
+    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String pc) {
         devoluciones = new Pantalla_Devoluciones();
         devoluciones.setLocationRelativeTo(null);
         devoluciones.setVisible(true);
@@ -63,6 +65,7 @@ public class Controlador_PantallaDevoluciones {
             public void mouseClicked(MouseEvent me) {
 
                 System.out.println(cantidadExistencias);
+
             }
 
             @Override
@@ -108,10 +111,13 @@ public class Controlador_PantallaDevoluciones {
 
                         if (cantidadExistencias < piezas) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes devolver mas de lo vendido </h1></html>  " + cantidadExistencias + " piezas", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO PUEDES DEVOLVER MAS DE LO VENDIDO "  +Utilerias.SUCURSALE, "CANTIDAD DEVUELTA BUG");
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else if (cantidadExistencias == 0) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya de devolvieron todos los productos </h1></html> ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "YA DEVOLVIERON TODOS LOS PRODUCTOS "  +Utilerias.SUCURSALE, "INTENTAR DEVOLVER MAS PRODUCTOS");
+
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else {
@@ -122,7 +128,8 @@ public class Controlador_PantallaDevoluciones {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Devolucion Registrada Correctamente </h1></html>");
                                 devoluciones1 = new Devoluciones(codigo, piezas);
                                 tikectDevoluciones = new TikectDevoluciones();
-                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total,pc);
+                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total, pc);
+
                                 if (devoluciones1.RegresarProducto()) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Medicamento Regresado al almacen </h1></html>");
                                     devoluciones1 = new Devoluciones(IntFolio, codigo, piezas);
@@ -137,10 +144,13 @@ public class Controlador_PantallaDevoluciones {
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "OCURRRIO UN ERROR AL DEVOLVER EL PRODUCTO LINEA 132 METODO DEVOLUCIONES CONTROLADOR " +Utilerias.SUCURSALE, "BUG DEVOLUCIONES");
                                 }
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "OCURRRIO UN ERROR AL DEVOLVER EL PRODUCTO 2DO BUG "  +Utilerias.SUCURSALE, "BUG DEVOLUCIONES");
+
                             }
                         }
 

@@ -122,11 +122,67 @@ public class Usuarios {
         return flag;
     }
     
+    public boolean validarRecargaTurno(String turno){
+        boolean flag = false;
+        try {
+            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '"+turno+"'";
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+
+            if(rs.next()) {
+                flag = true;
+            }
+            stm.close();
+        } catch (Exception e) {
+             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+        } finally {
+            conn.getClose();
+        }
+        return flag;
+    }
+    
+    public String recargaTurno(String turno){
+        String monto = null;
+        try {
+            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '"+turno+"'";
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+
+            if(rs.next()) {
+                monto = String.valueOf(rs.getDouble("monto"));
+            }
+            stm.close();
+        } catch (Exception e) {
+             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+        } finally {
+            conn.getClose();
+        }
+        return monto;
+    }
+    
     public boolean registrarUsuario() {
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
             stm.execute("INSERT INTO login VALUES(null,'" + getUsuario() + "','" + getPasswork() + "', "+getPc()+" , " + getIdEmpleado() + ")");
+            stm.close();
+            return true;
+        } catch (Exception e) {
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            return false;
+        } finally {
+            conn.getClose();
+        }
+
+    }
+    
+    public boolean registrarSaldoRecarga(String turno , String  monto) {
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            stm.execute("INSERT INTO recargas VALUES(null,'" + turno + "', CURDATE() , " + monto + ")");
             stm.close();
             return true;
         } catch (Exception e) {

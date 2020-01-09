@@ -31,10 +31,9 @@ public class Pantalla_bajas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        tctCodigo = new rojeru_san.RSMTextFull();
-        txtExistencias = new rojeru_san.RSMTextFull();
-        txtPiezas = new rojeru_san.RSMTextFull();
         btnBajas = new rojerusan.RSMaterialButtonRectangle();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtableBjas = new rojerusan.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -49,25 +48,27 @@ public class Pantalla_bajas extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 112, 192));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        tctCodigo.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        tctCodigo.setPlaceholder("Código");
-
-        txtExistencias.setEditable(false);
-        txtExistencias.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtExistencias.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        txtExistencias.setPlaceholder("Existencias ");
-
-        txtPiezas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPiezas.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        txtPiezas.setPlaceholder("Piezas");
-        txtPiezas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPiezasActionPerformed(evt);
-            }
-        });
-
         btnBajas.setBackground(new java.awt.Color(153, 153, 255));
         btnBajas.setText("Dar de baja ");
+
+        jtableBjas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "Cantidad"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtableBjas.setRowHeight(25);
+        jScrollPane1.setViewportView(jtableBjas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -76,30 +77,21 @@ public class Pantalla_bajas extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tctCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
+                        .addGap(104, 104, 104)
                         .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(txtPiezas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tctCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addComponent(txtPiezas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(btnBajas, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -128,10 +120,6 @@ public class Pantalla_bajas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtPiezasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPiezasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPiezasActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Controlador_PantallaPrincipal.ventanaControl12 = false;
@@ -176,8 +164,7 @@ public class Pantalla_bajas extends javax.swing.JFrame {
     public rojerusan.RSMaterialButtonRectangle btnBajas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public rojeru_san.RSMTextFull tctCodigo;
-    public rojeru_san.RSMTextFull txtExistencias;
-    public rojeru_san.RSMTextFull txtPiezas;
+    private javax.swing.JScrollPane jScrollPane1;
+    public rojerusan.RSTableMetro jtableBjas;
     // End of variables declaration//GEN-END:variables
 }

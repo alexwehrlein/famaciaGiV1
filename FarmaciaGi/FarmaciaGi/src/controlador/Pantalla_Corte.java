@@ -19,10 +19,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mail.MailBug;
 import modelo.Corte;
 import modelo.Gastos;
+import modelo.Usuarios;
 import tikect.TikectCorte;
 import tikect.TikectCorteConsulta;
+import utilerias.Utilerias;
 import vista.Pantalla_CorteCaja;
 import vista.Pantalla_Ventas;
 import vista.Pantalla_principal;
@@ -33,6 +36,7 @@ import vista.Pantalla_principal;
  */
 public class Pantalla_Corte {
 
+    MailBug mailbug = new MailBug();
     Pantalla_CorteCaja pantalla_Corte;
     Controlador_PantallaPrincipal controlador_PantallaPrincipal;
     Pantalla_Ventas pantalla_Ventas;
@@ -64,9 +68,7 @@ public class Pantalla_Corte {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
-                pantalla_Corte.txtDinero.setText("");
-                pantalla_Corte.txtRecargasV.setText("");
-                pantalla_Corte.txtRecargasD.setText("");
+                pantalla_Corte.txtRecargas.setText("");
                 modelo.setValueAt("", 0, 1);
                 modelo.setValueAt("", 1, 1);
                 modelo.setValueAt("", 2, 1);
@@ -80,7 +82,7 @@ public class Pantalla_Corte {
                 modelo.setValueAt("", 5, 3);
                 modelo.setValueAt("", 6, 1);
                 modelo.setValueAt("", 6, 3);
-                pantalla_Corte.jDialogDatalles.setBounds(249, 124, 767, 574);
+                pantalla_Corte.jDialogDatalles.setBounds(249, 105, 767, 520);
                 pantalla_Corte.jDialogDatalles.setResizable(false);
                 pantalla_Corte.jDialogDatalles.setVisible(true);
 
@@ -134,8 +136,8 @@ public class Pantalla_Corte {
                         nombresClientes = corte.descuentos(1);
                         retiros = corte.retiros(1);
                         String arr[] = corte.totalesC(1);
-                        ArrayList<Gastos> gastosT = gastos.gastosT(turno , fecha , 1);
-                        
+                        ArrayList<Gastos> gastosT = gastos.gastosT(turno, fecha, 1);
+
                         double vt = Double.parseDouble(ventaTotal);
                         double ct = Double.parseDouble(consultorioTotal);
                         double dt = Double.parseDouble(devolucionesTotal);
@@ -149,9 +151,9 @@ public class Pantalla_Corte {
                         double tk = tt - ct - r;//el total menos las consultas
 
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc , gastosT , "0" , "0" , "0" , "0");
+                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT, "0", "0","0");
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc);
+                        tcc.Tikect(ct, turno, pc,null);
                     }
                 } catch (Exception ex) {
                 }
@@ -181,15 +183,19 @@ public class Pantalla_Corte {
                         if (clave1 == 0) {
                             if (!validarCantidad(modelo.getValueAt(i, 1).toString())) {
                                 modelo.setValueAt("", i, 1);
-                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA AL REAL " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
                                 return;
                             }
                             moneda = Integer.parseInt(modelo.getValueAt(i, 1).toString());
                         }
                         if (clave3 == 0) {
-                             if (!validarCantidad(modelo.getValueAt(i, 3).toString())) {
-                                 modelo.setValueAt("", i, 3);
-                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                            if (!validarCantidad(modelo.getValueAt(i, 3).toString())) {
+                                modelo.setValueAt("", i, 3);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad valida .</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
                                 return;
                             }
                             billete = Integer.parseInt(modelo.getValueAt(i, 3).toString());
@@ -202,8 +208,13 @@ public class Pantalla_Corte {
                         }
 
                     }
+                    int clave6 = 0;
+                    
+                    if (modelo.getValueAt(6, 1).toString().equals("")) {
+                            clave6 = 1;
+                    }
 
-                    if (modelo.getValueAt(6, 1) != null) {
+                    if (clave6 == 0) {
                         terminal = Integer.parseInt(modelo.getValueAt(6, 1).toString());
                     }
 
@@ -217,24 +228,14 @@ public class Pantalla_Corte {
         pantalla_Corte.btnGuadarDatosExtras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String dineroCaja = pantalla_Corte.txtDinero.getText();
-                String ventaRecatgas = pantalla_Corte.txtRecargasV.getText();
-                String recargas = pantalla_Corte.txtRecargasD.getText();
+                String recargas = pantalla_Corte.txtRecargas.getText();
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
 
-                if (dineroCaja.isEmpty() || validarCantidad(dineroCaja) == false) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtDinero.requestFocus();
-                    return;
-                }
-                if (ventaRecatgas.isEmpty() || validarCantidad(ventaRecatgas) == false) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtRecargasV.requestFocus();
-                    return;
-                }
                 if (recargas.isEmpty() || validarCantidad(recargas) == false) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtRecargasD.requestFocus();
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
+                    pantalla_Corte.txtRecargas.requestFocus();
                     return;
                 }
                 if (modelo.getValueAt(0, 1) == null || modelo.getValueAt(1, 1) == null || modelo.getValueAt(2, 1) == null
@@ -242,13 +243,15 @@ public class Pantalla_Corte {
                         || modelo.getValueAt(0, 3) == null || modelo.getValueAt(1, 3) == null || modelo.getValueAt(2, 3) == null
                         || modelo.getValueAt(3, 3) == null || modelo.getValueAt(4, 3) == null || modelo.getValueAt(5, 3) == null) {
                     JOptionPane.showMessageDialog(null, "Ingresar todas las denominaciones", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN LAS DENOMINACIONES CORRECTAS AL REALIZAR CORTE " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
                     return;
                 }
-
+                Usuarios obj = new Usuarios();
+                String recargasF = obj.recargaTurno(turno);
                 List<String> extras = new ArrayList<String>();
-                extras.add(pantalla_Corte.txtDinero.getText());
-                extras.add(pantalla_Corte.txtRecargasV.getText());
-                extras.add(pantalla_Corte.txtRecargasD.getText());
+                extras.add(pantalla_Corte.txtRecargas.getText());
+                extras.add(recargasF);
                 extras.add(modelo.getValueAt(0, 1).toString());
                 extras.add(modelo.getValueAt(1, 1).toString());
                 extras.add(modelo.getValueAt(2, 1).toString());
@@ -263,9 +266,6 @@ public class Pantalla_Corte {
                 extras.add(modelo.getValueAt(6, 1).toString());
                 extras.add(modelo.getValueAt(6, 3).toString());
                 String total = modelo.getValueAt(6, 3).toString();
-                String recargav = pantalla_Corte.txtRecargasV.getText();
-                String recargad = pantalla_Corte.txtRecargasD.getText();
-                String dinero = pantalla_Corte.txtDinero.getText();
 
                 corte = new Corte(turnoF);
                 boolean next = corte.Corte();
@@ -274,7 +274,6 @@ public class Pantalla_Corte {
 
                     corte = new Corte(turno);
                     gastos = new Gastos();
-
                     id = corte.folio();
                     folio = Integer.parseInt(id) + 1;
                     pantalla_Corte.jTextFieldFolio.setText(String.valueOf(folio));
@@ -287,7 +286,8 @@ public class Pantalla_Corte {
                     nombresClientes = corte.descuentos(0);
                     retiros = corte.retiros(0);
                     String arr[] = corte.totalesC(0);
-                    ArrayList<Gastos> gastosT = gastos.gastosT(turno , "" , 0);
+                    String consultorio[] = corte.consultaD();
+                    ArrayList<Gastos> gastosT = gastos.gastosT(turno, "", 0);
 
                     double vt = Double.parseDouble(ventaTotal);
                     double ct = Double.parseDouble(consultorioTotal);
@@ -298,12 +298,12 @@ public class Pantalla_Corte {
                     double r = Double.parseDouble(retiros);
 
                     /*pantalla_Corte.jTextFieldTVenta.setText("$ " + String.format("%.2f", vt));
-                        pantalla_Corte.jTextFieldTConsultorio.setText("$ "+String.format("%.2f", ct));
-                        pantalla_Corte.jTextFieldTDevoluciones.setText("$ " + String.format("%.2f",dt));
-                        pantalla_Corte.jTextFieldTAbarrotes.setText("$ " + String.format("%.2f", at));
-                        pantalla_Corte.jTextFieldTPerfumeria.setText("$ " + String.format("%.2f", pt));
-                        pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
-                        pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
+                     pantalla_Corte.jTextFieldTConsultorio.setText("$ "+String.format("%.2f", ct));
+                     pantalla_Corte.jTextFieldTDevoluciones.setText("$ " + String.format("%.2f",dt));
+                     pantalla_Corte.jTextFieldTAbarrotes.setText("$ " + String.format("%.2f", at));
+                     pantalla_Corte.jTextFieldTPerfumeria.setText("$ " + String.format("%.2f", pt));
+                     pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
+                     pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
                     double t = vt + ct + at + pt;//total de los tipos de venta
                     double tt = t - dt - gt - r;//total a estregar
                     double tk = tt - ct - r;//el total menos las consultas
@@ -318,9 +318,7 @@ public class Pantalla_Corte {
 
                     corte = new Corte(turno, tt);
                     if (corte.registrarCortes(extras)) {
-                        pantalla_Corte.txtDinero.setText("");
-                        pantalla_Corte.txtRecargasV.setText("");
-                        pantalla_Corte.txtRecargasD.setText("");
+                        pantalla_Corte.txtRecargas.setText("");
                         modelo.setValueAt("", 0, 1);
                         modelo.setValueAt("", 1, 1);
                         modelo.setValueAt("", 2, 1);
@@ -336,17 +334,20 @@ public class Pantalla_Corte {
                         pantalla_Corte.jDialogDatalles.setVisible(false);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc , gastosT , recargav , recargad ,dinero , total);
+                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc);
+                        tcc.Tikect(ct, turno, pc, consultorio);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR AL REALIZAR EL CORTE  " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte ya a sido realizado </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                 }
 
             }

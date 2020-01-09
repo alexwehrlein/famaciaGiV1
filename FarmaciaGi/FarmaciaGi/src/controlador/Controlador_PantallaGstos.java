@@ -5,7 +5,6 @@
  */
 package controlador;
 
-import java.awt.AWTEventMulticaster;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,18 +19,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.Conexion;
-import modelo.Empleado;
+import mail.MailBug;
 import modelo.Gastos;
 import tikect.TikectGasto;
+import utilerias.Utilerias;
 import vista.Pantalla_GastosFarmacia;
 
-/**
- *
- * @author saube
- */
-public class Controlador_PantallaGstos {
 
+public class Controlador_PantallaGstos {
+        MailBug mailbug = new MailBug();
+        Utilerias o = new Utilerias();
     Pantalla_GastosFarmacia gastosFarmacia;
     Gastos gastos;
     String turno;
@@ -72,6 +69,7 @@ public class Controlador_PantallaGstos {
                         } else {
 
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+ mailbug.send_mail("guzmangaleanacarlos@gmail.com", "ERROR GENERADO AL REGISTRAR GASTOS "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
                         }
                     }
 
@@ -128,6 +126,10 @@ public class Controlador_PantallaGstos {
                         tikectGastos.TikectGasto(descripcion, monto,pc);
                     }
                 } catch (Exception ex) {
+ mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR REVISAR METODO  "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
+
+                    
+                    
                 }
             }
         });
@@ -167,6 +169,8 @@ public class Controlador_PantallaGstos {
                             } else {
 
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+ mailbug.send_mail("guzmangaleanacarlos@gmail.com", "2DO ERROR GENERADO AL REGISTRAR GASTOS CONTROLER "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
+
                             }
                         }
 

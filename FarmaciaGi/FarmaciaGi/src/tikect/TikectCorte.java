@@ -23,7 +23,7 @@ public class TikectCorte {
 
     Confings confings;
 
-    public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos, String abarrotes, String perfumeria, double total, String turno, ArrayList<String> clientes, String[] consultas, String retiros, int clave, String pc, ArrayList<Gastos> gastosT, String vR, String dR , String dineroCaja , String totalTabla) {
+    public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos, String abarrotes, String perfumeria, double total, String turno, ArrayList<String> clientes, String[] consultas, String retiros, int clave, String pc, ArrayList<Gastos> gastosT, String vR, String dR , String totalTabla ) {
         String mensaje = "";
         String prod = "";
         confings = new Confings(Integer.parseInt(pc));
@@ -46,20 +46,23 @@ public class TikectCorte {
         auxs += "FARMACIAS GI\n";
         auxs += arr[1] + "\n";
         auxs += "Iguala de la Independencia\n";
+        auxs += "\n";
         auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
         auxs += "Turno:    " + turno + "\n\n";
-
+        auxs += "===============INGRESOS===============\n";
         auxs += "VENTAS FARMACIA:      $ " + ventas + "\n";
         auxs += "VENTAS PERFUMERIA:    $ " + perfumeria + "\n";
         auxs += "VENTAS ABARROTES:     $ " + abarrotes + "\n";
         auxs += "DIFERENCIA:     $ " + diferencia + "\n";
         auxs += "==========================================\n";
         auxs += "DEVOLUCIONES:         $ " + devoluciones + "\n";
+        auxs += "===============GASTOS===============\n";
         auxs += "GASTOS:               $ " + gastos + "\n";
+        auxs += "===============RETIROS===============\n";
         if (clave == 0) {
             auxs += "RETIROS:               $ " + retiros + "\n";
         }
-        auxs += "==========================================\n";
+        auxs += "===============DESCUENTOS===============\n";
         auxs += "Cantidad de descuentos:   " + clientesNum + "\n";
         auxs += "Clientes con descuento:   Des. Patente  Des. Generico \n";
         for (String string : clientes) {
@@ -80,22 +83,25 @@ public class TikectCorte {
         sucursal su = new sucursal();
         String datSucursal[] = su.datosSucursal();
         Mail mail = new Mail();
-        mensaje += "FARMACIAS GI \n";
+        mensaje += "FARMACIAS GI Altamirano #6\n";
         mensaje += datSucursal[1].toUpperCase() + " \n";
         mensaje += "Iguala de la Independencia\n";
+         mensaje += "\n";
         mensaje += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
         mensaje += "Turno:    " + turno + "\n\n";
+        mensaje += "===============INGRESOS===============\n";
         mensaje += "VENTAS FARMACIA:        $ " + ventas + "\n";
         mensaje += "VENTAS PERFUMERIA:    $ " + perfumeria + "\n";
         mensaje += "VENTAS ABARROTES:      $ " + abarrotes + "\n";
-        mensaje += "==========================================\n";
-        mensaje += "DEVOLUCIONES:            $ " + devoluciones + "\n";
-        mensaje += "RECARGAS VENDIDAS:            $ " + vR + "\n";
-        mensaje += "DINERO EN CAJA:            $ " + dineroCaja + "\n";
-        mensaje += "SALDO RECARGAS:            $ " + dR + "\n";
-        if (Integer.parseInt(dR) <= 800) {
-            mensaje += "QUEDA EN RECARGAS $ "+dR+" Y SE DEBE DE DEPOSITAR URGENTEMENTE" + dR + "\n";
+                mensaje += "DEVOLUCIONES:            $ " + devoluciones + "\n";
+        mensaje += "===============RECARGAS===============\n";
+        mensaje += "RECARGAS INICIALES:            $ " + dR + "\n";
+        mensaje += "RECARGAS FINALES:            $ " + vR + "\n";
+        mensaje += "TOTAL VENTAS RECARGAS:            $ " + (Double.parseDouble(dR) - Double.parseDouble(vR))  + "\n";
+        if (Double.parseDouble(dR) <= 800) {
+            mensaje += "QUEDA EN RECARGAS $ "+(Double.parseDouble(dR) - Double.parseDouble(vR))+" Y SE DEBE DE DEPOSITAR URGENTEMENTE" + "\n";
         }
+        mensaje += "===============GASTOS===============\n";
         mensaje += "GASTOS:                   $ " + gastos + "\n";
         for (int i = 0; i < gastosT.size(); i++) {
             if (gastosT.get(i).getDescripcion().length() > 17) { // si la descripcion_producto es mayor a 17 la corta
@@ -107,10 +113,11 @@ public class TikectCorte {
             mensaje += String.format("%-18s" + " " + "%-5s", prod, gastosT.get(i).getTotal());
             mensaje += "\n";
         }
+        mensaje += "===============RETIROS===============\n";
         if (clave == 0) {
             mensaje += "RETIROS:                $ " + retiros + "\n";
         }
-        mensaje += "==========================================\n";
+        mensaje += "===============DESCUENTOS===============\n";
         mensaje += "Cantidad de descuentos:   " + clientesNum + "\n";
         mensaje += "Clientes con descuento:   Des. Patente  Des. Generico \n";
         for (String string : clientes) {
@@ -118,12 +125,13 @@ public class TikectCorte {
             mensaje += string + ". \n";
         }
         mensaje += "==========================================\n";
+        mensaje += "ENTREGA CAJEROS:     $ " + totalTabla + "\n";
         mensaje += "TOTAL VENTAS:     $ " + String.format("%.2f", total) + "\n";
         mensaje += "_________________________________________\n";
 
-        mail.send_mail("farmaciagi08@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+        mail.send_mail("guzmangaleanacarlos@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
         try {
-            impServicio.printCadena(impra, auxs);
+            impServicio.printCadena(impra, mensaje );
             // Cortar el papel ....
             byte[] cutP = new byte[]{0x1d, 'V', 1}; // comado para cortar
             impServicio.printBytes(impra, cutP); // se imprime el bruto 

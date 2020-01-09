@@ -8,12 +8,10 @@ package mail;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,11 +47,11 @@ public class Mail {
         transport.connect("smtp.gmail.com", Username, PassWord);
         transport.sendMessage(message, message.getAllRecipients());
         transport.close();
-        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Correo enviado</h1></html>" , "SUCCESS" , JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Correo enviado</h1></html>" , "SUCCESS" , JOptionPane.INFORMATION_MESSAGE);
     }
     catch (MessagingException me) {
         me.printStackTrace();   //Si se produce un error
-        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error al enviar el correo </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error al enviar el correo </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
     }
    
     }

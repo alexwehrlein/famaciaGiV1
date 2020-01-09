@@ -9,21 +9,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import mail.MailBug;
 import modelo.Empleado;
+import modelo.Usuarios;
 import modelo.Ventas;
 import vista.Pantalla_principal;
-import vista.Pantalla_sucursal;
+
+import utilerias.Utilerias;
 
 /**
  *
@@ -31,14 +32,19 @@ import vista.Pantalla_sucursal;
  */
 public class Controlador_PantallaPrincipal {
 
+    MailBug mailbug = new MailBug();
+
+    //pones esto
+    Utilerias n = new Utilerias();
+
     Pantalla_principal pantalla_Principal;
     Ventas ventas;
-    String idEmpleado, nombreEmpleado, turno, rol,pc;
+    String idEmpleado, nombreEmpleado, turno, rol, pc;
     String id = "";
-    int folio ;
+    int folio;
 
     public static boolean ventanaControl1 = false;
-    public static boolean ventanaControl2 = false;
+    public static boolean ventanaControl2 = false;//productos
     public static boolean ventanaControl3 = false;
     public static boolean ventanaControl4 = false;
     public static boolean ventanaControl5 = false;
@@ -51,6 +57,7 @@ public class Controlador_PantallaPrincipal {
     public static boolean ventanaControl12 = false;
     public static boolean ventanaControl13 = false;
     public static boolean ventanaControl14 = false;
+    public static boolean ventanaControl15 = false;
 
     public class Imagen extends javax.swing.JPanel {
 
@@ -75,7 +82,6 @@ public class Controlador_PantallaPrincipal {
 
     public Controlador_PantallaPrincipal() {
         Dimension dim;
-
         pantalla_Principal = new Pantalla_principal();
         dim = pantalla_Principal.getToolkit().getScreenSize();
         pantalla_Principal.setSize(dim);
@@ -144,10 +150,25 @@ public class Controlador_PantallaPrincipal {
                                     activarCajero();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
+                                    Usuarios obj = new Usuarios();
+                                    boolean next = obj.validarRecargaTurno(turno);
+                                    if (!next) {
+                                        pantalla_Principal.jDialogRecarga.setBounds(249, 154, 409, 150);
+                                        pantalla_Principal.jDialogRecarga.setUndecorated(true);
+                                        pantalla_Principal.jDialogRecarga.setLocationRelativeTo(null);
+                                        pantalla_Principal.jDialogRecarga.setResizable(false);
+                                        pantalla_Principal.jDialogRecarga.setVisible(true);
+                                        pantalla_Principal.recargaMonto.requestFocus();
+                                        pantalla_Principal.recargaMonto.setText("");
+                                    }
+                                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
                                 }
                             } else {
                                 pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
+                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "CONTRASENA INCORRECTA " + Utilerias.SUCURSALE, "ACCESO DENEGADO EN SISTEMA");
+
                             }
                         } else {
                             pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
@@ -186,10 +207,23 @@ public class Controlador_PantallaPrincipal {
                                 activarCajero();
                                 pantalla_Principal.jDialogLogin.setVisible(false);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
+                                Usuarios obj = new Usuarios();
+                                    boolean next = obj.validarRecargaTurno(turno);
+                                    if (!next) {
+                                        pantalla_Principal.jDialogRecarga.setBounds(249, 154, 409, 150);
+                                        pantalla_Principal.jDialogRecarga.setUndecorated(true);
+                                        pantalla_Principal.jDialogRecarga.setLocationRelativeTo(null);
+                                        pantalla_Principal.jDialogRecarga.setResizable(false);
+                                        pantalla_Principal.jDialogRecarga.setVisible(true);
+                                        pantalla_Principal.recargaMonto.requestFocus();
+                                        pantalla_Principal.recargaMonto.setText("");
+                                    }
                             }
                         } else {
                             pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "CONTRASENA INCORRECTA SEGUNDA VEZ " + Utilerias.SUCURSALE, "ACCESO DENEGADO EN SISTEMA");
+
                         }
                     } else {
                         pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
@@ -199,6 +233,28 @@ public class Controlador_PantallaPrincipal {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Campos Vacios </h1></html>");
                 }
 
+            }
+        });
+        pantalla_Principal.btnRecarga.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String respuesta = pantalla_Principal.recargaMonto.getText();
+                if (respuesta.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingresar una cantidad </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_Principal.recargaMonto.requestFocus();
+                    return;
+                }
+                if (respuesta.matches("^[0-9]+([.])?([0-9]+)?$")) {
+                    System.out.println(respuesta);
+                    Usuarios obj = new Usuarios();
+                    obj.registrarSaldoRecarga(turno, respuesta);
+                    pantalla_Principal.jDialogRecarga.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingresar una cantidad correcta </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_Principal.recargaMonto.requestFocus();
+                    return;
+                }
             }
         });
 
@@ -213,6 +269,13 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
+                    return;
+                }
                 if (ventanaControl1 == false) {
                     ventanaControl1 = true;
                     new Controlador_PantallaEmpleado();
@@ -224,9 +287,10 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado) , pc);
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado), pc);
                 }
 
             }
@@ -238,7 +302,7 @@ public class Controlador_PantallaPrincipal {
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl2 == false) {
                     ventanaControl2 = true;
-                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado),pc);
+                    new Controlador_PantallaProductos(rol, turno, Integer.parseInt(idEmpleado), pc);
                 }
             }
         });
@@ -247,6 +311,13 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
+                    return;
+                }
                 if (ventanaControl3 == false) {
                     ventanaControl3 = true;
                     new Controlador_PantallaProveedor();
@@ -258,9 +329,16 @@ public class Controlador_PantallaPrincipal {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
+                    return;
+                }
                 if (ventanaControl9 == false) {
                     ventanaControl9 = true;
-                    new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno, rol,pc);
+                    new Controlador_Pantalla_Ventas(idEmpleado, nombreEmpleado, turno, rol, pc);
                 }
 
             }
@@ -269,6 +347,13 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemGestionCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
+                    return;
+                }
                 if (ventanaControl4 == false) {
                     ventanaControl4 = true;
                     new Controlador_PantallaCliente();
@@ -280,9 +365,16 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemDevoluciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
+
+                    return;
+                }
                 if (ventanaControl5 == false) {
                     ventanaControl5 = true;
-                    new Controlador_PantallaDevoluciones(idEmpleado, nombreEmpleado, turno , pc);
+                    new Controlador_PantallaDevoluciones(idEmpleado, nombreEmpleado, turno, pc);
                 }
             }
         });
@@ -290,6 +382,11 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemUsuarios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl6 == false) {
                     ventanaControl6 = true;
                     new Controlador_PantallaUsuarios();
@@ -301,9 +398,14 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemGrstionGastos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl7 == false) {
                     ventanaControl7 = true;
-                    new Controlador_PantallaGstos(turno,pc);
+                    new Controlador_PantallaGstos(turno, pc);
                 }
             }
         });
@@ -311,9 +413,14 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemRealizarCorteCaja.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl8 == false) {
                     ventanaControl8 = true;
-                    new Pantalla_Corte(turno,pc);
+                    new Pantalla_Corte(turno, pc);
                 }
             }
         });
@@ -321,6 +428,11 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemRetiro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl10 == false) {
                     ventanaControl10 = true;
                     new Controlador_Pantalla_Retiros(turno);
@@ -331,6 +443,11 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemInformacionSucursal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl11 == false) {
                     ventanaControl11 = true;
                     new Controlador_Pantalla_Informacion();
@@ -341,6 +458,11 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemBajas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl13 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl12 == false) {
                     ventanaControl12 = true;
                     new Controlador_Pantalla_Bajas(Integer.parseInt(idEmpleado));
@@ -359,19 +481,44 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemSettings.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl14) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl13 == false) {
                     ventanaControl13 = true;
                     new Controlador_PantallaConfing(pc);
                 }
             }
         });
-        
+
         pantalla_Principal.jMenuItemCompras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if (ventanaControl14 == false) {
                     ventanaControl14 = true;
                     new Controlador_PantallaCompras();
+                }
+            }
+        });
+        
+        pantalla_Principal.jMenuItemBajasTemporales.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14  ) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (ventanaControl15 == false) {
+                    ventanaControl15 = true;
+                    new Controlador_Pantalla_bajas_temporal();
                 }
             }
         });
@@ -408,6 +555,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemPromociones.setEnabled(false);
         pantalla_Principal.jMenuItemSettings.setEnabled(false);
         pantalla_Principal.jMenuItemCompras.setEnabled(false);
+        pantalla_Principal.jMenuItemBajasTemporales.setEnabled(false);
         pantalla_Principal.jMenuAdmon.setEnabled(true);
         pantalla_Principal.jMenuCajero.setEnabled(true);
     }
@@ -423,7 +571,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemBajas.setEnabled(true);
         pantalla_Principal.jMenuItemSettings.setEnabled(true);
         pantalla_Principal.jMenuItemPromociones.setEnabled(true);
-         pantalla_Principal.jMenuItemCompras.setEnabled(true);
+        pantalla_Principal.jMenuItemCompras.setEnabled(true);
         pantalla_Principal.jMenuItemIniciarSesion.setText("Cerrar Sesion");
 
     }
@@ -437,7 +585,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemGestionProducto.setEnabled(true);
         pantalla_Principal.jMenuItemInformacionSucursal.setEnabled(false);
         pantalla_Principal.jMenuItemRetiro.setEnabled(true);
-        pantalla_Principal.jMenuItemBajas.setEnabled(false);
+        pantalla_Principal.jMenuItemBajasTemporales.setEnabled(true);
         pantalla_Principal.jMenuItemIniciarSesion.setText("Cerrar Sesion");
 
     }

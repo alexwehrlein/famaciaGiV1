@@ -357,7 +357,7 @@ public class Corte {
                 idv = resultado.getString("last_id");
             }
             com.mysql.jdbc.Statement stm2 = (com.mysql.jdbc.Statement) connection.createStatement();
-            stm2.execute("INSERT corte_datos_extras  VALUES(null , "+idv+" , "+list.get(0)+","+list.get(1)+","+list.get(2)+","+list.get(3)+","+list.get(4)+","+list.get(5)+","+list.get(6)+","+list.get(7)+","+list.get(8)+","+list.get(9)+","+list.get(10)+","+list.get(11)+","+list.get(12)+","+list.get(13)+","+list.get(14)+" , "+list.get(15)+")");
+            stm2.execute("INSERT corte_datos_extras  VALUES(null , "+idv+" , "+list.get(0)+","+list.get(1)+","+list.get(2)+","+list.get(3)+","+list.get(4)+","+list.get(5)+","+list.get(6)+","+list.get(7)+","+list.get(8)+","+list.get(9)+","+list.get(10)+","+list.get(11)+","+list.get(12)+","+list.get(13)+","+list.get(14)+")");
 
             connection.commit();
             return true;

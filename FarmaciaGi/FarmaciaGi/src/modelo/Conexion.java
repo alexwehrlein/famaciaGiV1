@@ -12,10 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author saube
- */
+
 public class Conexion {
     private static String bd = "farmaciagijava";
     private static String login = "root";

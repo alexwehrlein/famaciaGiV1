@@ -19,12 +19,14 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import mail.MailBug;
 import modelo.Cliente;
 import modelo.Productos;
 import modelo.Ventas;
 import tikect.TikectR;
 import tikect.TikectVentas;
 import tikect.TikectkArqueo;
+import utilerias.Utilerias;
 import vista.Pantalla_Ventas;
 
 /**
@@ -32,7 +34,7 @@ import vista.Pantalla_Ventas;
  * @author Jose Abada Nava
  */
 public class Controlador_Pantalla_Ventas {
-
+MailBug mailbug = new MailBug();
     Pantalla_Ventas pantalla_Ventas;
     Ventas ventas;
     Cliente cliente;
@@ -141,6 +143,8 @@ public class Controlador_Pantalla_Ventas {
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia</h1></html>");
+  mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia "  +Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
+
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
@@ -231,6 +235,8 @@ public class Controlador_Pantalla_Ventas {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
+  mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia "  +Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
+
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
@@ -241,6 +247,8 @@ public class Controlador_Pantalla_Ventas {
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
+                          mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia "  +Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
+
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
@@ -487,7 +495,9 @@ public class Controlador_Pantalla_Ventas {
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
-                                pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                                  mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia "  +Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
+
+                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
                                     ventanaControl2 = true;
@@ -497,7 +507,9 @@ public class Controlador_Pantalla_Ventas {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
-                            pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                           
+                              mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia "  +Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
+pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
                                 ventanaControl2 = true;
@@ -589,6 +601,7 @@ public class Controlador_Pantalla_Ventas {
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
+                        
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
@@ -706,13 +719,17 @@ public class Controlador_Pantalla_Ventas {
         pantalla_Ventas.btnCambioCliente.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+               
                 float t = obtenerT();
                 double cambioVentaD;
                 if (!pantalla_Ventas.btnCambioCliente.getText().matches("^\\d+\\.?\\d?\\d?") && pantalla_Ventas.btnCambioCliente.getText().length() > 0) {
                     pantalla_Ventas.btnCambioCliente.setText(pantalla_Ventas.btnCambioCliente.getText().substring(0, pantalla_Ventas.btnCambioCliente.getText().length() - 1));
                 }
+                
                 if (pantalla_Ventas.btnCambioCliente.getText().length() > 0) {
+                    
                     float cantidadIngresada = Float.parseFloat(pantalla_Ventas.btnCambioCliente.getText());
+                    
                     if (t < cantidadIngresada) {
                         String cambioVenta = String.format(Locale.US, "%.2f", cantidadIngresada - t);
 
@@ -723,10 +740,11 @@ public class Controlador_Pantalla_Ventas {
                     } else {
                         pantalla_Ventas.jTextFieldCambio.setText("0.00");
                     }
+                    
                 } else {
                     pantalla_Ventas.jTextFieldCambio.setText("");
                 }
-
+                    
             }
 
             @Override
@@ -766,7 +784,6 @@ public class Controlador_Pantalla_Ventas {
                     datos[1] = modelo.getValueAt(0, 1).toString();
                     datos[2] = pantalla_Ventas.jLabelSubtotalVenta.getText();
                     modeloPausarVenta.addRow(datos);
-
                     pausaVenta = pausaVenta + 1;
                     pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                     pantalla_Ventas.jTextFieldClienteVenta.setText("PUBLICO EN GENERAL");
@@ -1084,7 +1101,7 @@ public class Controlador_Pantalla_Ventas {
                     pantalla_Ventas.jTextFieldCambio.setText("$ ");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese el cambio correctamente</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese el cambio correctamente</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -1094,10 +1111,12 @@ public class Controlador_Pantalla_Ventas {
         return Float.parseFloat(modeloTabDescuento.getValueAt(0, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(1, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(2, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(3, 3).toString()) + Float.parseFloat(modeloTabDescuento.getValueAt(4, 3).toString());
     }
 
-    public void enviarDatosTikect(String folioCom) {
+    public void enviarDatosTikect(String folioCom , boolean descuento) {
         int porcentajeGenerico = Integer.parseInt(pantalla_Ventas.jComboBoxGenerico.getSelectedItem().toString());
         int porcentajePatente = Integer.parseInt(pantalla_Ventas.jComboBoxPatente.getSelectedItem().toString());
         int filas = 0;
+        float totalVenta = 0;//total de la venta
+        float totalAhorrado = 0;//total de la venta
         String folioT = folioCom;
         String empleada = pantalla_Ventas.jLabelNombreEmpleado.getText();
         String clienteT = pantalla_Ventas.jTextFieldClienteVenta.getText();
@@ -1108,7 +1127,9 @@ public class Controlador_Pantalla_Ventas {
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
             filas = filas + 1;
+            totalVenta += Float.parseFloat(modelo.getValueAt(i, 6).toString());
         }
+        totalAhorrado = totalVenta - Float.parseFloat(total);
 
         String[] prod = new String[filas]; //String[3];
         String[] prec = new String[filas];
@@ -1137,7 +1158,7 @@ public class Controlador_Pantalla_Ventas {
             System.out.println(impor[i]);
         }
         tikectVentas = new TikectVentas();
-        tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor, pc);
+        tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor, pc,descuento,totalAhorrado);
 
     }
 
@@ -1315,17 +1336,6 @@ public class Controlador_Pantalla_Ventas {
     }
 
     private void ventaRegistrar() {
-//        hora = calendario.get(Calendar.HOUR_OF_DAY);
-//        minutos = calendario.get(Calendar.MINUTE);
-//        System.out.println(hora+" "+minutos+" "+turno);
-//        if (turno.equals("tarde") && hora <= 15 && minutos <= 30) {
-//            JOptionPane.showInternalMessageDialog(null, "Turno de la mañana" , "ERROR" , JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-//        if (turno.equals("mañana") && hora >= 15 && minutos >= 30) {
-//            JOptionPane.showInternalMessageDialog(null, "Turno de la tarde" , "ERROR" , JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
         
         if (modelo.getRowCount() <= 0) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>AGREGUE PRODUCTOS</h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
@@ -1344,13 +1354,16 @@ public class Controlador_Pantalla_Ventas {
 
         //  JOptionPane.showMessageDialog(null, idEmpleado + "  " + idCli + "  " + cantidad + " " + String.valueOf(obtenerT()));
         String tipoVenta = modelo.getValueAt(0, 3).toString();
+        String pagaCon = pantalla_Ventas.btnCambioCliente.getText();
+        String cambio = pantalla_Ventas.jTextFieldCambio.getText();
         int des_p = Integer.parseInt((String) pantalla_Ventas.jComboBoxPatente.getSelectedItem());
         int des_g = Integer.parseInt((String) pantalla_Ventas.jComboBoxGenerico.getSelectedItem());
-        String[] arr = new Ventas().registrarVenta(idEmpleado, idCli, cantidad, String.valueOf(obtenerT()), modelo, turno, tipoVenta, des_p, des_g);
+        boolean descuentos = (des_p == 0 && des_g == 0)? false : true;//saver si hay descuentos
+        String[] arr = new Ventas().registrarVenta(idEmpleado, idCli, cantidad, String.valueOf(obtenerT()), modelo, turno, tipoVenta, des_p, des_g,pagaCon,cambio);
 
         if (arr[1] == "0") {
 
-            enviarDatosTikect(arr[0]);
+            enviarDatosTikect(arr[0],descuentos);
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>La venta se registro con exito</h1></html>");
             pantalla_Ventas.jDialogCobro.dispose();
             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");

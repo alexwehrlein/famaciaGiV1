@@ -67,7 +67,7 @@ public class TikectInventario {
         String datSucursal[] = su.datosSucursal();
          
         Mail mail = new Mail();
-        mensaje += "FARMACIAS GI \n";
+        mensaje += "FARMACIAS GI Altamirano #6\n";
         mensaje += datSucursal[1].toUpperCase()+" \n";
         mensaje += "Iguala de la Independencia\n";
         mensaje += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";

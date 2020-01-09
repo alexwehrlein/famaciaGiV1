@@ -364,7 +364,7 @@ public class Ventas {
         return true;
     }
 
-    public String[] registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g) {
+    public String[] registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g , String pagaCon , String cambio) {
         String idv = null, sql = null; 
        String[] arr = {"", ""};
         pv  = new  Pantalla_Ventas();
@@ -380,8 +380,8 @@ public class Ventas {
                 }
             }
 
-            sql = "INSERT INTO ventas (fecha,id_empleado,id_cliente,monto,turno,tipo_venta,des_p,des_g)"
-                    + "VALUES (CURDATE()," + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + ")";
+            sql = "INSERT INTO ventas (fecha,id_empleado,id_cliente,monto,turno,tipo_venta,des_p,des_g,pago,cambio)"
+                    + "VALUES (CURDATE()," + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + " , "+pagaCon+" , "+cambio+")";
 
             stm.execute(sql);
 
@@ -504,7 +504,7 @@ public class Ventas {
     }
 
     public String[] infoTikect(String folio) {
-        String[] arr = {"", "", "", "", ""};
+        String[] arr = {"", "", "", "", "","",""};
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -520,6 +520,8 @@ public class Ventas {
                 arr[2] = resultado.getString("cliente");
                 arr[3] = resultado.getString("empleado");
                 arr[4] = String.valueOf(resultado.getDouble("monto"));
+                arr[5] = String.valueOf(resultado.getDouble("pago"));
+                arr[6] = String.valueOf(resultado.getDouble("cambio"));
             }
             stm.close();
             resultado.close();

@@ -48,21 +48,38 @@ public class Controlador_Promociones {
                             if (reply == JOptionPane.YES_OPTION) {
                                 filaseleccionada = pp.tablaPromociones.getSelectedRow();
                                 int id = (int) pp.tablaPromociones.getValueAt(filaseleccionada, 0);
+                                long codigo = (long) pp.tablaPromociones.getValueAt(filaseleccionada, 1);
                                 String descuento = pp.tablaPromociones.getValueAt(filaseleccionada, 3).toString();
-                                String tipo = (String) pp.tablaPromociones.getValueAt(filaseleccionada, 4);
+                                String cantidad = pp.tablaPromociones.getValueAt(filaseleccionada, 4).toString();
+                                String tipo = (String) pp.tablaPromociones.getValueAt(filaseleccionada, 6);
                                 System.out.println(id + " " + descuento + " " + tipo);
                                 if (!descuento.matches("[0-9]*")) {
-                                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
                                     return;
                                 }
-                                promociones = new Promociones(id, Integer.parseInt(descuento), tipo);
+                                if (!cantidad.matches("[0-9]*")) {
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                                if (tipo.equals("SI")) {
+                                    promociones = new Promociones(codigo);
+                                    int exitePromocion = promociones.buscarPromocionCount();
+                                    exitePromocion++;
+                                    if (exitePromocion > 1) {
+                                        Clear_Table();
+                                        pp.tablaPromociones.setModel(new Promociones().cargarRegistroPromociones(pp.tablaPromociones, ""));
+                                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR Ya hay una promocion activa con ese producto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        return;
+                                    }
+                                }
+                                promociones = new Promociones(id, Integer.parseInt(descuento), tipo, cantidad);
                                 boolean next = promociones.modificarPromocion();
                                 if (next) {
                                     Clear_Table();
                                     pp.tablaPromociones.setModel(new Promociones().cargarRegistroPromociones(pp.tablaPromociones, ""));
-                                    JOptionPane.showMessageDialog(null, "Exito al modificar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Exito al modificar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         }
@@ -97,7 +114,7 @@ public class Controlador_Promociones {
                 String codigo = pp.codigo.getText();
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (codigo.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Ingrese el codigo del producto", "ERRO", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese el codigo del producto", "ERRO", JOptionPane.ERROR_MESSAGE);
                         pp.codigo.requestFocus();
                         return;
                     }
@@ -126,7 +143,7 @@ public class Controlador_Promociones {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String codigo = pp.seach.getText();
                     if (codigo.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Ingrese el codigo del producto", "ERRO", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese el codigo del producto", "ERRO", JOptionPane.ERROR_MESSAGE);
                         pp.seach.requestFocus();
                         return;
                     }
@@ -141,20 +158,32 @@ public class Controlador_Promociones {
             public void actionPerformed(ActionEvent e) {
                 String descuento = pp.descuento.getText();
                 String codigo = pp.codigo.getText();
+                String cantidad = pp.cantidad.getText();
                 if (descuento.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Ingrese la cantidad del descuento.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese la cantidad del descuento.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pp.descuento.requestFocus();
                     return;
                 }
                 if (!descuento.matches("[0-9]*")) {
-                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pp.descuento.requestFocus();
                     return;
                 }
-                promociones = new Promociones(Long.parseLong(codigo) , Integer.parseInt(descuento));
+                if (!cantidad.matches("[0-9]*")) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pp.cantidad.requestFocus();
+                    return;
+                }
+                promociones = new Promociones(Long.parseLong(codigo));
+                boolean exitePromocion = promociones.buscarPromocion();
+                if (exitePromocion) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR Ya hay una promocion activa con ese producto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                promociones = new Promociones(Long.parseLong(codigo), Integer.parseInt(descuento), cantidad);
                 boolean next = promociones.guardesPromocion();
                 if (next) {
-                    JOptionPane.showMessageDialog(null, "Exito al guardaar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Exito al guardaar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                     for (Component component : pp.container.getComponents()) {
                         component.setEnabled(false);
                     }
@@ -162,8 +191,8 @@ public class Controlador_Promociones {
                     pp.precio.setText("");
                     pp.descuento.setText("");
                     pp.codigo.requestFocus();
-                }else{
-                    JOptionPane.showMessageDialog(null, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

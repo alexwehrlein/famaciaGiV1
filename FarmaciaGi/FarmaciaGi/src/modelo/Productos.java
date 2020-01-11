@@ -15,8 +15,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -185,10 +187,11 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, double precio, String nombre) {
+    public Productos(long codigo, double precio, String nombre , String tipoMedicamento) {
         this.codigo = codigo;
         this.precio = precio;
         this.marcaComercial = nombre;
+        this.tipoMedicamento = tipoMedicamento;
     }
 
     public Productos(String sustancias) {
@@ -263,7 +266,7 @@ public class Productos {
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " WHERE codigo=" + getCodigo());
+            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " , tipo_medicamento = '"+getTipoMedicamento()+"' WHERE codigo=" + getCodigo());
             con.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
@@ -469,11 +472,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
@@ -524,11 +527,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
@@ -589,11 +592,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));

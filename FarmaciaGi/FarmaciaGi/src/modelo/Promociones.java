@@ -27,8 +27,26 @@ public class Promociones {
     private String nombre;
     private int descuento;
     private String tipo;
+    private String cantidad;
+    private String ventas;
     private Connection con;
     private Conexion conn = new Conexion();
+
+    public String getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(String ventas) {
+        this.ventas = ventas;
+    }
+
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public int getId() {
         return id;
@@ -74,36 +92,39 @@ public class Promociones {
 
     }
 
-    public Promociones(long codigo, int descuento) {
+    public Promociones(long codigo, int descuento, String cantidad) {
         this.codigo = codigo;
         this.descuento = descuento;
+        this.cantidad = cantidad;
     }
-    
-    
+
     public Promociones(long codigo) {
         this.codigo = codigo;
     }
 
-    public Promociones(int id, long codigo, String nombre, int descuento, String tipo) {
+    public Promociones(int id, long codigo, String nombre, int descuento, String cantidad , String ventas, String tipo) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.descuento = descuento;
         this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.ventas = ventas;
     }
 
-    public Promociones(int id, int descuento, String tipo) {
+    public Promociones(int id, int descuento, String tipo,String cantidad) {
         this.id = id;
         this.descuento = descuento;
         this.tipo = tipo;
+        this.cantidad = cantidad;
     }
-    
-    public boolean guardesPromocion(){
-         String sql = null;
+
+    public boolean guardesPromocion() {
+        String sql = null;
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            sql = "INSERT INTO promociones (codigoPrododucto , descuento) VALUES(" + getCodigo()+ ", " + getDescuento()+ ")";
+            sql = "INSERT INTO promociones (codigoPrododucto , descuento,cantidad) VALUES(" + getCodigo() + ", " + getDescuento() + " , " + getCantidad() + ")";
             stm.execute(sql);
             stm.close();
         } catch (SQLException ex) {
@@ -115,7 +136,7 @@ public class Promociones {
         }
         return true;
     }
-    
+
     public String[] buscarProducto() {
         String[] arr = {"", "", ""};
         try {
@@ -127,7 +148,7 @@ public class Promociones {
             if (rs.next()) {
                 arr[0] = rs.getString("marca_comercial");
                 arr[1] = rs.getString("precio");
-            }else{
+            } else {
                 arr[2] = "No se encontró el producto.";
             }
             stm.close();
@@ -140,13 +161,55 @@ public class Promociones {
         }
         return arr;
     }
-    
+    public boolean buscarPromocion() {
+        boolean next = false;
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+
+            String sql = "SELECT * FROM promociones WHERE status = 'SI' AND  codigoPrododucto=" + getCodigo() + "";
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                next = true;
+            }
+            stm.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            conn.getClose();
+        }
+        return next;
+    }
+    public int buscarPromocionCount() {
+       int num = 0;
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+
+            String sql = "SELECT count(id) as num FROM promociones WHERE status = 'SI' AND  codigoPrododucto=" + getCodigo() + "";
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                num = rs.getInt("num");
+            }
+            stm.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            conn.getClose();
+        }
+        return num;
+    }
+
     public boolean modificarPromocion() {
         String sql = null;
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            sql = "UPDATE promociones SET descuento = '" + getDescuento() + "' , status = '" + getTipo() + "' WHERE id =" + getId();
+            sql = "UPDATE promociones SET descuento = '" + getDescuento() + "' , cantidad = "+getCantidad()+" ,  status = '" + getTipo() + "' WHERE id =" + getId();
             stm.execute(sql);
             stm.close();
 
@@ -165,7 +228,7 @@ public class Promociones {
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
         JComboBox tipoJ;
-        TableColumn col = jt.getColumnModel().getColumn(4);
+        TableColumn col = jt.getColumnModel().getColumn(6);
         String op[] = {"SI", "NO"};
         tipoJ = new JComboBox(op);
         col.setCellEditor(new DefaultCellEditor(tipoJ));
@@ -190,11 +253,11 @@ public class Promociones {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {
-                arrayPromociones.add(new Promociones(resultado.getInt("id"), resultado.getLong("codigoPrododucto"), resultado.getString("nombre"), resultado.getInt("descuento"), resultado.getString("status")));
+                arrayPromociones.add(new Promociones(resultado.getInt("id"), resultado.getLong("codigoPrododucto"), resultado.getString("nombre"), resultado.getInt("descuento"),resultado.getString("cantidad"),resultado.getString("vendidos"), resultado.getString("status")));
             }
             for (int i = 0; i < arrayPromociones.size(); i++) {
                 modelo.addRow(new Object[]{arrayPromociones.get(i).getId(), arrayPromociones.get(i).getCodigo(),
-                    arrayPromociones.get(i).getNombre(), arrayPromociones.get(i).getDescuento(), arrayPromociones.get(i).getTipo(),
+                    arrayPromociones.get(i).getNombre(), arrayPromociones.get(i).getDescuento(), arrayPromociones.get(i).getCantidad(),arrayPromociones.get(i).getVentas(),arrayPromociones.get(i).getTipo(),
                     btnModificar});
             }
             pst.close();

@@ -69,6 +69,7 @@ public class Pantalla_Corte {
             public void actionPerformed(ActionEvent e) {
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
                 pantalla_Corte.txtRecargas.setText("");
+                pantalla_Corte.txtPagoDoctores.setText("");
                 modelo.setValueAt("", 0, 1);
                 modelo.setValueAt("", 1, 1);
                 modelo.setValueAt("", 2, 1);
@@ -136,6 +137,7 @@ public class Pantalla_Corte {
                         nombresClientes = corte.descuentos(1);
                         retiros = corte.retiros(1);
                         String arr[] = corte.totalesC(1);
+                        ArrayList<Corte> consultas = corte.consultorioSelect(1);
                         ArrayList<Gastos> gastosT = gastos.gastosT(turno, fecha, 1);
 
                         double vt = Double.parseDouble(ventaTotal);
@@ -153,7 +155,7 @@ public class Pantalla_Corte {
                         tikectCorte = new TikectCorte();
                         tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT, "0", "0","0");
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc,null);
+                        tcc.Tikect(ct, turno, pc,consultas,"0");
                     }
                 } catch (Exception ex) {
                 }
@@ -229,9 +231,17 @@ public class Pantalla_Corte {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String recargas = pantalla_Corte.txtRecargas.getText();
+                String pagoDoctores = pantalla_Corte.txtPagoDoctores.getText();
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
 
                 if (recargas.isEmpty() || validarCantidad(recargas) == false) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+
+                    pantalla_Corte.txtRecargas.requestFocus();
+                    return;
+                }
+                if (pagoDoctores.isEmpty() || validarCantidad(pagoDoctores) == false) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
@@ -265,6 +275,7 @@ public class Pantalla_Corte {
                 extras.add(modelo.getValueAt(5, 3).toString());
                 extras.add(modelo.getValueAt(6, 1).toString());
                 extras.add(modelo.getValueAt(6, 3).toString());
+                extras.add(pagoDoctores);
                 String total = modelo.getValueAt(6, 3).toString();
 
                 corte = new Corte(turnoF);
@@ -286,7 +297,7 @@ public class Pantalla_Corte {
                     nombresClientes = corte.descuentos(0);
                     retiros = corte.retiros(0);
                     String arr[] = corte.totalesC(0);
-                    String consultorio[] = corte.consultaD();
+                    ArrayList<Corte> consultas = corte.consultorioSelect(1);
                     ArrayList<Gastos> gastosT = gastos.gastosT(turno, "", 0);
 
                     double vt = Double.parseDouble(ventaTotal);
@@ -306,7 +317,7 @@ public class Pantalla_Corte {
                      pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
                     double t = vt + ct + at + pt;//total de los tipos de venta
                     double tt = t - dt - gt - r;//total a estregar
-                    double tk = tt - ct - r;//el total menos las consultas
+                    double tk = tt - ct ;//el total menos las consultas
 
                     System.out.println(r);//retiros
                     System.out.println(ct);//consultas
@@ -319,6 +330,7 @@ public class Pantalla_Corte {
                     corte = new Corte(turno, tt);
                     if (corte.registrarCortes(extras)) {
                         pantalla_Corte.txtRecargas.setText("");
+                        pantalla_Corte.txtPagoDoctores.setText("");
                         modelo.setValueAt("", 0, 1);
                         modelo.setValueAt("", 1, 1);
                         modelo.setValueAt("", 2, 1);
@@ -336,7 +348,7 @@ public class Pantalla_Corte {
                         tikectCorte = new TikectCorte();
                         tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc, consultorio);
+                        tcc.Tikect(ct, turno, pc, consultas,pagoDoctores);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
 

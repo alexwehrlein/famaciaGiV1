@@ -245,12 +245,14 @@
                   <Font name="Times New Roman" size="14" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="5">
+                  <StringArray count="7">
                     <StringItem index="0" value="PATENTE"/>
                     <StringItem index="1" value="CONSULTA"/>
                     <StringItem index="2" value="GEN&#xc9;RICO"/>
                     <StringItem index="3" value="ABARROTES"/>
                     <StringItem index="4" value="PERFUMERIA"/>
+                    <StringItem index="5" value="PROMOCI&#xd3;N"/>
+                    <StringItem index="6" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -518,7 +520,7 @@
                 <Column editable="true" title="Marca Comercial" type="java.lang.Object"/>
                 <Column editable="false" title="Sustancia" type="java.lang.Object"/>
                 <Column editable="true" title="Precio" type="java.lang.Object"/>
-                <Column editable="false" title="Tipo de Medicamento" type="java.lang.Object"/>
+                <Column editable="true" title="Tipo de Medicamento" type="java.lang.Object"/>
                 <Column editable="false" title="Laboratorio" type="java.lang.Object"/>
                 <Column editable="false" title="Modificar" type="java.lang.Object"/>
               </Table>
@@ -609,7 +611,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value=" ALTA DE NUEVO MEDICAMENTO"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Por defecto"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -705,7 +707,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="INGRESAR"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Por defecto"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -765,7 +767,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="TIKECT INVENTARIO"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Por defecto"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -786,7 +788,7 @@
         <Property name="text" type="java.lang.String" value="Refrescar"/>
         <Property name="toolTipText" type="java.lang.String" value="Refrescar Tabla."/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Por defecto"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <AuxValues>

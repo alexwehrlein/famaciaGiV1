@@ -159,7 +159,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         jLabel12.setText("Tipo de Medicamento: ");
 
         altaMedicamentoTipoMedicamento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        altaMedicamentoTipoMedicamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA" }));
+        altaMedicamentoTipoMedicamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN", " " }));
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel13.setText("Laboratorio: ");
@@ -309,7 +309,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, true, false, false, false
+                false, true, false, true, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

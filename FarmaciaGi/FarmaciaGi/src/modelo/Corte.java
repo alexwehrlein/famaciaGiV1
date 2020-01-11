@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -34,7 +35,40 @@ public class Corte {
     private double total;
     private int id;
     boolean yes;
+    String NombreMedicamento;
+    int cantidadMedicamento;
+    float SumPrecioMedicamento;
     Conexion conn = new Conexion();
+
+    public String getNombreMedicamento() {
+        return NombreMedicamento;
+    }
+
+    public void setNombreMedicamento(String NombreMedicamento) {
+        this.NombreMedicamento = NombreMedicamento;
+    }
+
+    public int getCantidadMedicamento() {
+        return cantidadMedicamento;
+    }
+
+    public void setCantidadMedicamento(int cantidadMedicamento) {
+        this.cantidadMedicamento = cantidadMedicamento;
+    }
+
+    public float getSumPrecioMedicamento() {
+        return SumPrecioMedicamento;
+    }
+
+    public void setSumPrecioMedicamento(float SumPrecioMedicamento) {
+        this.SumPrecioMedicamento = SumPrecioMedicamento;
+    }
+
+    public Corte(String NombreMedicamento, int cantidadMedicamento, float SumPrecioMedicamento) {
+        this.NombreMedicamento = NombreMedicamento;
+        this.cantidadMedicamento = cantidadMedicamento;
+        this.SumPrecioMedicamento = SumPrecioMedicamento;
+    }
 
     public String getFecha() {
         return fecha;
@@ -95,6 +129,12 @@ public class Corte {
         this.turno = turno;
         this.fecha = fecha;
     }
+
+    @Override
+    public String toString() {
+        return "Corte{" + "NombreMedicamento=" + NombreMedicamento + ", cantidadMedicamento=" + cantidadMedicamento + ", SumPrecioMedicamento=" + SumPrecioMedicamento + '}';
+    }
+    
 
     public String devolucionesTotal(int num) {
         String sql = null, devolucionesTotal = "0";
@@ -357,23 +397,22 @@ public class Corte {
                 idv = resultado.getString("last_id");
             }
             com.mysql.jdbc.Statement stm2 = (com.mysql.jdbc.Statement) connection.createStatement();
-            stm2.execute("INSERT corte_datos_extras  VALUES(null , "+idv+" , "+list.get(0)+","+list.get(1)+","+list.get(2)+","+list.get(3)+","+list.get(4)+","+list.get(5)+","+list.get(6)+","+list.get(7)+","+list.get(8)+","+list.get(9)+","+list.get(10)+","+list.get(11)+","+list.get(12)+","+list.get(13)+","+list.get(14)+")");
-
+            stm2.execute("INSERT corte_datos_extras  VALUES(null , " + idv + " , " + list.get(0) + "," + list.get(1) + "," + list.get(2) + "," + list.get(3) + "," + list.get(4) + "," + list.get(5) + "," + list.get(6) + "," + list.get(7) + "," + list.get(8) + "," + list.get(9) + "," + list.get(10) + "," + list.get(11) + "," + list.get(12) + "," + list.get(13) + "," + list.get(14) + "," + list.get(15) + ")");
             connection.commit();
             return true;
         } catch (Exception e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, ""+ex);
+                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, "" + ex);
             }
             Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "" + e);
             return false;
-        }finally{
+        } finally {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, ""+ex);
+                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, "" + ex);
             }
         }
 
@@ -404,6 +443,40 @@ public class Corte {
             conn.getClose();
         }
         return nombresClientes;
+    }
+
+    public ArrayList<Corte> consultorioSelect(int tipo) {
+        ArrayList<Corte> consultas = new ArrayList<>();
+
+        con = conn.getConnection();
+        try {
+            Statement stm = (Statement) con.createStatement();
+            String sql = "SELECT * FROM productos WHERE tipo_medicamento = 'CONSULTA'";
+           PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+           ResultSet resultado = pst.executeQuery();
+            while (resultado.next()) {
+                String query = "SELECT productos.marca_comercial AS nombre , IFNULL(total,0) AS sum, COUNT(id_detalle) AS cantidad FROM detalle_venta INNER JOIN productos ON productos.codigo = detalle_venta.id_producto WHERE turno = 'Tarde' AND id_producto = " + resultado.getString("codigo");
+                if (tipo == 0) {
+                    query += " AND fecha = CURDATE() ";
+                } else {
+                    query += " AND fecha =  " + getFecha();
+                }
+                PreparedStatement pst2 = (PreparedStatement) con.prepareStatement(query);
+                ResultSet resultado2 = pst2.executeQuery();
+                if (resultado2.next()) {
+                    consultas.add(new Corte(resultado2.getString("nombre"),resultado2.getInt("cantidad"),resultado2.getFloat("sum")));
+                }else{
+                    Logger.getLogger(Corte.class.getName()).log(Level.WARNING,"No hay datos");
+                }
+                resultado2.close();
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return consultas;
     }
 
     public String[] consultaD() {

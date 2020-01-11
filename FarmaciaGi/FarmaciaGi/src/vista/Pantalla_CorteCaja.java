@@ -56,6 +56,8 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
         jTableDatosExtras = new rojerusan.RSTableMetro();
         jLabel6 = new javax.swing.JLabel();
         txtRecargas = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtPagoDoctores = new javax.swing.JTextField();
         btnGuadarDatosExtras = new rojeru_san.RSButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -125,6 +127,12 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
         txtRecargas.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         txtRecargas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel8.setText("Pago a doctores");
+
+        txtPagoDoctores.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        txtPagoDoctores.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -137,16 +145,24 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(37, 37, 37)
-                        .addComponent(txtRecargas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtRecargas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addGap(37, 37, 37)
+                        .addComponent(txtPagoDoctores, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtRecargas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(txtPagoDoctores, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtRecargas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -417,6 +433,7 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -428,6 +445,7 @@ public class Pantalla_CorteCaja extends javax.swing.JFrame {
     public javax.swing.JTextField jTextFieldTEntregar;
     public rojerusan.RSTableMetro tablaCortes;
     public rojeru_san.RSMTextFull txtFolioCorte;
+    public javax.swing.JTextField txtPagoDoctores;
     public javax.swing.JTextField txtRecargas;
     public javax.swing.JLabel txtTurno;
     // End of variables declaration//GEN-END:variables

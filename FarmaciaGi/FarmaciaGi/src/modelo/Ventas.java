@@ -29,6 +29,8 @@ import vista.Pantalla_Ventas;
 public class Ventas {
 
     private Connection con;
+    private int descuento;
+    private int ventas;
     private long codigo;
     private int piezas;
     private String turno;
@@ -36,8 +38,30 @@ public class Ventas {
     Pantalla_Ventas pv;
     Conexion conn = new Conexion();
 
+    public int getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(int ventas) {
+        this.ventas = ventas;
+    }    
+    
+
+    public int getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(int descuento) {
+        this.descuento = descuento;
+    }
+
     public Ventas(long codigo, int piezas) {
         this.codigo = codigo;
+        this.piezas = piezas;
+    }
+    
+    public Ventas(int descuento, int piezas) {
+        this.descuento = descuento;
         this.piezas = piezas;
     }
 
@@ -122,7 +146,7 @@ public class Ventas {
     }
 
     public String precioProducto() {
-        String sql = null , precio = "" ;
+        String sql = null, precio = "";
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -152,7 +176,8 @@ public class Ventas {
     }
 
     public int productoCero(String codigo) {
-        String sql = null; int cantidad = 0;
+        String sql = null;
+        int cantidad = 0;
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
@@ -325,8 +350,29 @@ public class Ventas {
             ResultSet resultado = pst.executeQuery();
 
             while (resultado.next()) {
-                float precio = Integer.parseInt(piezas) * Float.parseFloat(resultado.getString("precio"));
-                float precioU = Float.parseFloat(resultado.getString("precio"));
+                float precio = 0;
+                float precioU = 0;
+                if (resultado.getString("tipo_medicamento").equals("PROMOCIÓN")) {
+                    Ventas producto = new Ventas();
+                    producto.descuentoProducto(resultado.getString("codigo"));
+                    int restantes = (producto.getPiezas() - producto.getVentas());
+                    float descuento = (Float.parseFloat(resultado.getString("precio")) * producto.getDescuento()) / 100;
+                    precio = Float.parseFloat(resultado.getString("precio")) - descuento;
+                    precio = precio * Integer.parseInt(piezas);
+                    precioU = Float.parseFloat(resultado.getString("precio")) - descuento;
+                    if (producto.getVentas() >= producto.getPiezas()) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado para esta promoción </h1></html>");
+                        continue;
+                    }
+                    if (Integer.parseInt(piezas) > restantes) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto de esta promoción solo es de: "+restantes+" piezas </h1></html>");
+                        continue;
+                    }
+                } else {
+                    precio = Integer.parseInt(piezas) * Float.parseFloat(resultado.getString("precio"));
+                    precioU = Float.parseFloat(resultado.getString("precio"));
+                }
+                
                 arr = new String[]{resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getString("tipo_medicamento"), piezas, String.format(Locale.US, "%.2f", precioU), String.format(Locale.US, "%.2f", precio)};
             }
             pst.close();
@@ -364,10 +410,10 @@ public class Ventas {
         return true;
     }
 
-    public String[] registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g , String pagaCon , String cambio) {
-        String idv = null, sql = null; 
-       String[] arr = {"", ""};
-        pv  = new  Pantalla_Ventas();
+    public String[] registrarVenta(String idEmp, String idClient, String cantidad, String total, DefaultTableModel modelo, String turno, String tipoVenta, int des_p, int des_g, String pagaCon, String cambio) {
+        String idv = null, sql = null;
+        String[] arr = {"", ""};
+        pv = new Pantalla_Ventas();
         double totalV = Double.valueOf(total);
 
         try {
@@ -381,7 +427,7 @@ public class Ventas {
             }
 
             sql = "INSERT INTO ventas (fecha,id_empleado,id_cliente,monto,turno,tipo_venta,des_p,des_g,pago,cambio)"
-                    + "VALUES (CURDATE()," + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + " , "+pagaCon+" , "+cambio+")";
+                    + "VALUES (CURDATE()," + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + " , " + pagaCon + " , " + cambio + ")";
 
             stm.execute(sql);
 
@@ -404,6 +450,15 @@ public class Ventas {
                     piezasDescontar(codigoProducto, piezas);
                     faltantes(modelo.getValueAt(i, 0).toString());
                 }
+                
+                if (tipo.equals("PROMOCIÓN")) {
+                    String codigoProducto = modelo.getValueAt(i, 0).toString();
+                    Ventas obj = new Ventas();
+                    obj.descuentoProducto(codigoProducto);
+                    int ventas = obj.getVentas() +  Integer.parseInt(modelo.getValueAt(i, 4).toString());
+                    sql = "UPDATE promociones SET vendidos = "+ventas+" where status = 'SI' AND codigoPrododucto =" +codigoProducto;
+                    stm.execute(sql);
+                }
 
             }
             arr[1] = "0";
@@ -417,6 +472,27 @@ public class Ventas {
             conn.getClose();
         }
         return arr;
+    }
+
+    public void descuentoProducto(String codigo) {
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            String sql = "SELECT * FROM promociones WHERE status = 'SI' AND codigoPrododucto =" + codigo;
+            ResultSet resultado = stm.executeQuery(sql);
+            if (resultado.next()) {
+                setDescuento(resultado.getInt("descuento"));
+                setPiezas(resultado.getInt("cantidad"));
+                setVentas(resultado.getInt("vendidos"));
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            conn.getClose();
+        }
     }
 
     public void faltantes(String codigoProducto) {
@@ -504,7 +580,7 @@ public class Ventas {
     }
 
     public String[] infoTikect(String folio) {
-        String[] arr = {"", "", "", "", "","",""};
+        String[] arr = {"", "", "", "", "", "", ""};
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();

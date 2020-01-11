@@ -29,15 +29,15 @@ import modelo.Proveedor;
 import tikect.TikectInventario;
 import utilerias.Utilerias;
 
-
 public class Controlador_PantallaProductos {
-  MailBug mailbug =  new MailBug();
+
+    MailBug mailbug = new MailBug();
     Pantalla_Productos pantalla_Productos;
     Productos productos;
     TikectInventario tikectInventario;
     int idEmpleado;
 
-    public Controlador_PantallaProductos(String rol, String turno , int idEmpleado , String pc) {
+    public Controlador_PantallaProductos(String rol, String turno, int idEmpleado, String pc) {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
@@ -45,7 +45,7 @@ public class Controlador_PantallaProductos {
         pantalla_Productos.existenciasM.setVisible(false);
         pantalla_Productos.codigo.setVisible(false);
         this.idEmpleado = idEmpleado;
-        
+
         List<List<String>> productosTikect = new ArrayList<List<String>>();
         productosTikect.add(new ArrayList<String>());
         productosTikect.add(new ArrayList<String>());
@@ -55,14 +55,14 @@ public class Controlador_PantallaProductos {
             public void actionPerformed(ActionEvent e) {
                 if (productosTikect.get(0).size() > 0 && productosTikect.get(1).size() > 0) {
                     tikectInventario = new TikectInventario();
-                    tikectInventario.tikectInventario(turno, productosTikect,pc);
+                    tikectInventario.tikectInventario(turno, productosTikect, pc);
                     for (int i = 0; i <= productosTikect.get(0).size() - 1; i++) {
                         productosTikect.get(0).clear();
                         productosTikect.get(1).clear();
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No hay productos agregados </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR!! NO HAY PRODUCTOS AGREGADOS  " + Utilerias.SUCURSALE, "CORTE DE CAJA");
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR!! NO HAY PRODUCTOS AGREGADOS  " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                 }
             }
@@ -94,7 +94,7 @@ public class Controlador_PantallaProductos {
                 int row = pantalla_Productos.tablaProductos.getSelectedRow();
                 if (row < 0) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Selecciona una fila </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! SELECCIONA UNA FILA CORRECTA  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIOS ");
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! SELECCIONA UNA FILA CORRECTA  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIOS ");
 
                     return;
                 }
@@ -108,7 +108,7 @@ public class Controlador_PantallaProductos {
                         int existencias = productos.productoCero();
                         int agregarInventario = inventario + existencias;
                         String producto = pantalla_Productos.nombre.getText();
-                        productos = new Productos(codigo, agregarInventario , idEmpleado ,inventario );
+                        productos = new Productos(codigo, agregarInventario, idEmpleado, inventario);
                         if (productos.Modificarexistencias()) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> SE AGREGARON " + inventario + " PIEZAS A INVENTARIO </h1></html>");
                             productosTikect.get(0).add(producto);
@@ -123,7 +123,7 @@ public class Controlador_PantallaProductos {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE AGREGARON CORRECTAMENTE  " + Utilerias.SUCURSALE + codigo, "  PRODUCTOS INVENTARIO ");
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE AGREGARON CORRECTAMENTE  " + Utilerias.SUCURSALE + codigo, "  PRODUCTOS INVENTARIO ");
 
                         }
 
@@ -154,6 +154,7 @@ public class Controlador_PantallaProductos {
                                 long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
                                 String nombreM = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 1);
                                 String precio = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 3).toString();
+                                String tipoMedicamento = pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 4).toString();
                                 if (!precio.matches("^\\d+\\.?\\d?\\d?")) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                     return;
@@ -163,36 +164,36 @@ public class Controlador_PantallaProductos {
                                     productos = new Productos(codi);
                                     double precioActual = productos.PrrcioProducto();
                                     if (precio2 >= precioActual) {
-                                        productos = new Productos(codi, precio2, nombreM);
+                                        productos = new Productos(codi, precio2, nombreM,tipoMedicamento);
                                         if (productos.ModificarRegristros()) {
                                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
                                             Clear_Table();
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                         } else {
-JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
                                             Clear_Table();
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede modificar el precio a uno menor contacte al administrador </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE PUEDE MOFICAR PRECIO A UNO MENOR, REVISAR !!  " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                                        mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE PUEDE MOFICAR PRECIO A UNO MENOR, REVISAR !!  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                     }
                                 } else {
-                                    productos = new Productos(codi, precio2, nombreM);
+                                    productos = new Productos(codi, precio2, nombreM,tipoMedicamento);
                                     if (productos.ModificarRegristros()) {
                                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                     } else {
-JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                        mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
                                         Clear_Table();
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
@@ -216,7 +217,7 @@ mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON 
 
                                 } else {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE ELIMINARON CORRECTAMENTE REVISARLO   " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE ELIMINARON CORRECTAMENTE REVISARLO   " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
                                 }
 
@@ -307,8 +308,8 @@ mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE ELIMINARON C
                         }
                         if (!pantalla_Productos.altaMedicamentoPrecio.getText().matches("\\d+\\.?\\d?\\d?")) {
                             JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un precio correcta.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
-      mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO INGRESA PRECIO CORRECTO " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
-                      
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO INGRESA PRECIO CORRECTO " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
+
                             pantalla_Productos.altaMedicamentoPrecio.requestFocus();
                             return;
                         }
@@ -325,15 +326,15 @@ mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE ELIMINARON C
                         productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
 
                         if (productos.registrarProducto()) {
- JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-mailbug.send_mail("guzmangaleanacarlos@gmail.com", " PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS !!   " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                            JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS !!   " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
                             limpiarCampos();
                             pantalla_Productos.altaMedicamentoCodigo.requestFocus();
                             pantalla_Productos.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-  mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO  SE HA DADO DE ALTA EN LA BASE DE DATOS  EL PRODUCTO !!   " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
+                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO  SE HA DADO DE ALTA EN LA BASE DE DATOS  EL PRODUCTO !!   " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
                         }
                     }
@@ -371,8 +372,8 @@ mailbug.send_mail("guzmangaleanacarlos@gmail.com", " PRODUCTO SE HA DADO DE ALTA
             public void windowClosing(WindowEvent ev) {
                 if (productosTikect.get(0).size() > 0 && productosTikect.get(1).size() > 0) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> ANTES DE CERRAR LA VENTANA IMPRIMA EL TIKECT </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ANTES DE CERRAR LA VENTANA IMPRIMA EL TIKECT !!   " + Utilerias.SUCURSALE , "  PRODUCTOS INVENTARIO ");
- 
+                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ANTES DE CERRAR LA VENTANA IMPRIMA EL TIKECT !!   " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
+
                 } else {
                     pantalla_Productos.dispose();
                 }

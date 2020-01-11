@@ -100,7 +100,7 @@ public class Cliente {
     public DefaultTableModel cargarTablaRegistroCliente(JTable tabla) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         try {
-            String sql = "SELECT id_cliente,nombre FROM cliente;";
+            String sql = "SELECT id_cliente,nombre FROM cliente WHERE id_cliente > 1;";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {

@@ -29,6 +29,7 @@ import vista.Pantalla_Ventas;
 public class Ventas {
 
     private Connection con;
+    private int id;
     private int descuento;
     private int ventas;
     private long codigo;
@@ -38,14 +39,21 @@ public class Ventas {
     Pantalla_Ventas pv;
     Conexion conn = new Conexion();
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getVentas() {
         return ventas;
     }
 
     public void setVentas(int ventas) {
         this.ventas = ventas;
-    }    
-    
+    }
 
     public int getDescuento() {
         return descuento;
@@ -59,7 +67,7 @@ public class Ventas {
         this.codigo = codigo;
         this.piezas = piezas;
     }
-    
+
     public Ventas(int descuento, int piezas) {
         this.descuento = descuento;
         this.piezas = piezas;
@@ -355,6 +363,11 @@ public class Ventas {
                 if (resultado.getString("tipo_medicamento").equals("PROMOCIÓN")) {
                     Ventas producto = new Ventas();
                     producto.descuentoProducto(resultado.getString("codigo"));
+                    System.out.println(getId());
+                    if (producto.getId() == 0) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No hay una promociòn activa para ese producto </h1></html>");
+                        continue;
+                    }
                     int restantes = (producto.getPiezas() - producto.getVentas());
                     float descuento = (Float.parseFloat(resultado.getString("precio")) * producto.getDescuento()) / 100;
                     precio = Float.parseFloat(resultado.getString("precio")) - descuento;
@@ -365,14 +378,14 @@ public class Ventas {
                         continue;
                     }
                     if (Integer.parseInt(piezas) > restantes) {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto de esta promoción solo es de: "+restantes+" piezas </h1></html>");
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto de esta promoción solo es de: " + restantes + " piezas </h1></html>");
                         continue;
                     }
                 } else {
                     precio = Integer.parseInt(piezas) * Float.parseFloat(resultado.getString("precio"));
                     precioU = Float.parseFloat(resultado.getString("precio"));
                 }
-                
+
                 arr = new String[]{resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getString("tipo_medicamento"), piezas, String.format(Locale.US, "%.2f", precioU), String.format(Locale.US, "%.2f", precio)};
             }
             pst.close();
@@ -450,13 +463,13 @@ public class Ventas {
                     piezasDescontar(codigoProducto, piezas);
                     faltantes(modelo.getValueAt(i, 0).toString());
                 }
-                
+
                 if (tipo.equals("PROMOCIÓN")) {
                     String codigoProducto = modelo.getValueAt(i, 0).toString();
                     Ventas obj = new Ventas();
                     obj.descuentoProducto(codigoProducto);
-                    int ventas = obj.getVentas() +  Integer.parseInt(modelo.getValueAt(i, 4).toString());
-                    sql = "UPDATE promociones SET vendidos = "+ventas+" where status = 'SI' AND codigoPrododucto =" +codigoProducto;
+                    int ventas = obj.getVentas() + Integer.parseInt(modelo.getValueAt(i, 4).toString());
+                    sql = "UPDATE promociones SET vendidos = " + ventas + " where status = 'SI' AND codigoPrododucto =" + codigoProducto;
                     stm.execute(sql);
                 }
 
@@ -481,6 +494,7 @@ public class Ventas {
             String sql = "SELECT * FROM promociones WHERE status = 'SI' AND codigoPrododucto =" + codigo;
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
+                setId(resultado.getInt("id"));
                 setDescuento(resultado.getInt("descuento"));
                 setPiezas(resultado.getInt("cantidad"));
                 setVentas(resultado.getInt("vendidos"));

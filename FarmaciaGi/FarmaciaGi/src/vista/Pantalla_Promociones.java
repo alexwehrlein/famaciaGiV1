@@ -72,7 +72,7 @@ public class Pantalla_Promociones extends javax.swing.JFrame {
 
         cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cantidad.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        cantidad.setPlaceholder("Descuento...");
+        cantidad.setPlaceholder("Cantidad");
 
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);

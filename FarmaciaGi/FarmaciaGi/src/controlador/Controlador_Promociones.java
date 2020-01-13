@@ -183,13 +183,14 @@ public class Controlador_Promociones {
                 promociones = new Promociones(Long.parseLong(codigo), Integer.parseInt(descuento), cantidad);
                 boolean next = promociones.guardesPromocion();
                 if (next) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Exito al guardaar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Exito al guardar promocion", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                     for (Component component : pp.container.getComponents()) {
                         component.setEnabled(false);
                     }
                     pp.codigo.setText("");
                     pp.precio.setText("");
                     pp.descuento.setText("");
+                    pp.cantidad.setText("");
                     pp.codigo.requestFocus();
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);

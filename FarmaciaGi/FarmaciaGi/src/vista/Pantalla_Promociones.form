@@ -235,7 +235,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Roboto Bold" size="18" style="1"/>
                         </Property>
-                        <Property name="placeholder" type="java.lang.String" value="Descuento..."/>
+                        <Property name="placeholder" type="java.lang.String" value="Cantidad"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

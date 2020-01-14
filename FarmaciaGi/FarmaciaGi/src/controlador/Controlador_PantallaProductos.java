@@ -41,6 +41,23 @@ public class Controlador_PantallaProductos {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
+        if (rol.equals("Administrador")) {
+            
+            pantalla_Productos.tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Codigo", "Marca Comercial", "Sustancia", "Precio", "Tipo de Medicamento", "Laboratorio", "Modificar"
+                    }
+            ) {
+                boolean[] canEdit = new boolean[]{
+                    false, true, false, true, true, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+        }
         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
         pantalla_Productos.existenciasM.setVisible(false);
         pantalla_Productos.codigo.setVisible(false);

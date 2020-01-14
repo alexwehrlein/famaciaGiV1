@@ -520,7 +520,7 @@
                 <Column editable="true" title="Marca Comercial" type="java.lang.Object"/>
                 <Column editable="false" title="Sustancia" type="java.lang.Object"/>
                 <Column editable="true" title="Precio" type="java.lang.Object"/>
-                <Column editable="true" title="Tipo de Medicamento" type="java.lang.Object"/>
+                <Column editable="false" title="Tipo de Medicamento" type="java.lang.Object"/>
                 <Column editable="false" title="Laboratorio" type="java.lang.Object"/>
                 <Column editable="false" title="Modificar" type="java.lang.Object"/>
               </Table>

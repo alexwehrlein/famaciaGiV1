@@ -56,7 +56,7 @@ public class TikectCorteConsulta {
         auxs+= "_________________________________________\n";
        
         auxs+= "==========================================\n\n\n\n\n";
-        mail.send_mail("guzmangaleanacarlos@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+        mail.send_mail("igualafarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
         try {
             impServicio.printCadena(impra, auxs);
             // Cortar el papel ....

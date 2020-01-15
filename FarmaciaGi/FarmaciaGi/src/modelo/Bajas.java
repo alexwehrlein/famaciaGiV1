@@ -79,6 +79,12 @@ public class Bajas {
         this.existenxias = existenxias;
         this.id_empleado = id;
     }
+    
+    public Bajas(String codigo, int piezas, int existenxias) {
+        this.codigo = codigo;
+        this.piezas = piezas;
+        this.existenxias = existenxias;
+    }
 
     public Bajas(String codigo, int piezas) {
         this.codigo = codigo;
@@ -156,6 +162,36 @@ public class Bajas {
         }
         return true;
 
+    }
+    
+     public boolean insertarBajasIn() {
+        String sql = null;
+        boolean next = true;
+        try {
+            con = conn.getConnection();
+            con.setAutoCommit(false);
+            Statement stm = (Statement) con.createStatement();
+            sql = "INSERT INTO bajas (codigo,piezas,id_empleado) VALUES ( " + getCodigo() + " , " + getPiezas()+ " , "+getId_empleado()+")";
+            stm.execute(sql);
+            
+            sql = "UPDATE productos SET cantidad = " + getExistenxias() + " WHERE codigo = " + getCodigo();
+            stm.execute(sql);
+
+            stm.close();
+            con.commit();
+        } catch (SQLException ex) {
+            try {
+                con.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE , ""+ex1);
+            }
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
+            next = false;
+        } finally {
+            conn.getClose();
+        }
+        return next;
     }
 
     public String[] insertarBajas(DefaultTableModel modelo, int id_empleado) {

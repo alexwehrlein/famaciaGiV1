@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-import mail.MailBug;
 import modelo.Empleado;
 import modelo.Usuarios;
 import modelo.Ventas;
@@ -31,9 +30,6 @@ import utilerias.Utilerias;
  * @author Jose Abada Nava
  */
 public class Controlador_PantallaPrincipal {
-
-    MailBug mailbug = new MailBug();
-
     //pones esto
     Utilerias n = new Utilerias();
 
@@ -161,14 +157,10 @@ public class Controlador_PantallaPrincipal {
                                         pantalla_Principal.recargaMonto.requestFocus();
                                         pantalla_Principal.recargaMonto.setText("");
                                     }
-                                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
                                 }
                             } else {
                                 pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "CONTRASENA INCORRECTA " + Utilerias.SUCURSALE, "ACCESO DENEGADO EN SISTEMA");
-
                             }
                         } else {
                             pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
@@ -222,8 +214,6 @@ public class Controlador_PantallaPrincipal {
                         } else {
                             pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Contraseña Incorrecta </h1></html>");
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "CONTRASENA INCORRECTA SEGUNDA VEZ " + Utilerias.SUCURSALE, "ACCESO DENEGADO EN SISTEMA");
-
                         }
                     } else {
                         pantalla_Principal.jTextFieldUsuarioLogin.setBackground(Color.red);
@@ -272,8 +262,6 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
                         || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
                     return;
                 }
                 if (ventanaControl1 == false) {
@@ -314,8 +302,6 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl1 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
                         || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
                     return;
                 }
                 if (ventanaControl3 == false) {
@@ -332,8 +318,6 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
                         || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
                     return;
                 }
                 if (ventanaControl9 == false) {
@@ -350,8 +334,6 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
                         || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
                     return;
                 }
                 if (ventanaControl4 == false) {
@@ -368,9 +350,7 @@ public class Controlador_PantallaPrincipal {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl6 || ventanaControl7 || ventanaControl8
                         || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO CIERRAN VENTANA ACTUAL PARA ABRIR OTRA " + Utilerias.SUCURSALE, "DOBLE VENTANA EN SISTEMA ");
-
-                    return;
+                   return;
                 }
                 if (ventanaControl5 == false) {
                     ventanaControl5 = true;

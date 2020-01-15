@@ -105,7 +105,7 @@ public class TikectCorte {
         mensaje += "INGRESO ADICIONAL DE VENTAS:  $ " + diferencia2 + "\n";
         mensaje += "_______________________________________\n\n\n\n\n";
 
-        mail.send_mail("guzmangaleanacarlos@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+        mail.send_mail("igualafarmaciagi@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
         try {
             impServicio.printCadena(impra, mensaje );
             // Cortar el papel ....

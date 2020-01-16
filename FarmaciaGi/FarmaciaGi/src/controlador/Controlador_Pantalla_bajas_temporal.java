@@ -11,7 +11,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.Bajas; 
+import modelo.Bajas;
+import modelo.Ventas;
 import vista.Pantalla_bjas_temporal;
 
 /**
@@ -43,18 +44,13 @@ public class Controlador_Pantalla_bajas_temporal {
                         return;
                     }
 
-                    if (!isNumeric(pantalla_bjas_temporal.txtCodigo.getText())) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> Ingrese un codigo correcto.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    if (!new Ventas().existeRegistroProducto(pantalla_bjas_temporal.txtCodigo.getText())) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                        pantalla_bjas_temporal.txtCantidad.setText("");
+                        pantalla_bjas_temporal.txtCodigo.setText("");
                         pantalla_bjas_temporal.txtCodigo.requestFocus();
                         return;
                     }
-
-                    if (!isNumeric(pantalla_bjas_temporal.txtCantidad.getText())) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> Ingrese un codigo correcto.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_bjas_temporal.txtCantidad.requestFocus();
-                        return;
-                    }
-
                     DefaultTableModel model = (DefaultTableModel) pantalla_bjas_temporal.jTableBjasT.getModel();
                     model.addRow(new Object[]{pantalla_bjas_temporal.txtCodigo.getText(), pantalla_bjas_temporal.txtCantidad.getText()});
                     pantalla_bjas_temporal.txtCantidad.setText("");
@@ -91,16 +87,4 @@ public class Controlador_Pantalla_bajas_temporal {
             modelo1.removeRow(0);
         }
     }
-
-    private static boolean isNumeric(String cadena) {
-        boolean resultado;
-        try {
-            Integer.parseInt(cadena);
-            resultado = true;
-        } catch (NumberFormatException excepcion) {
-            resultado = false;
-        }
-        return resultado;
-    }
-
 }

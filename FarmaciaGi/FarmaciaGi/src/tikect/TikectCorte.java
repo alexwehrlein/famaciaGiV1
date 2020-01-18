@@ -26,7 +26,7 @@ public class TikectCorte {
     public void TikecCorte(String ventas, String consultorio, String devoluciones, String gastos, String abarrotes, String perfumeria, double total, String turno, ArrayList<String> clientes, String[] consultas, String retiros, int clave, String pc, ArrayList<Gastos> gastosT, String vR, String dR , String totalTabla ) {
         String mensaje = "";
         String prod = "";
-        float totalVentas= Float.valueOf(ventas)+Float.valueOf(perfumeria)+Float.valueOf(abarrotes);
+        float totalVentas= Float.valueOf(ventas);
         float totalEntregar=totalVentas-Float.valueOf(gastos)-Float.valueOf(retiros);
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
@@ -57,7 +57,7 @@ public class TikectCorte {
         mensaje += "VENTAS FARMACIA:        $ " + ventas + "\n";
         mensaje += "VENTAS PERFUMERIA:      $ " + perfumeria + "\n";
         mensaje += "VENTAS ABARROTES:       $ " + abarrotes + "\n\n";
-        mensaje += "TOTAL VENTAS:           $ " + totalVentas + "\n";
+        //mensaje += "TOTAL VENTAS:           $ " + totalVentas + "\n";
         //mensaje += "DEVOLUCIONES:            $ " + devoluciones + "\n";
         mensaje += "\n";
         mensaje += "===============GASTOS===============\n";

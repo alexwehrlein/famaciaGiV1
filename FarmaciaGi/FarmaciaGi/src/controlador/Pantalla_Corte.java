@@ -316,9 +316,9 @@ public class Pantalla_Corte {
                      pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
                      pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
                     double t = vt + ct + at + pt;//total de los tipos de venta
-                    double tt = t - dt - gt - r;//total a estregar
+                    double tt = t - dt - gt - r - Double.parseDouble(pagoDoctores);//total a estregar
                     double tk = tt - ct ;//el total menos las consultas
-
+                    double ventasVAP = (vt + at + pt) - dt; 
                     System.out.println(r);//retiros
                     System.out.println(ct);//consultas
                     System.out.println(t);//total
@@ -346,7 +346,7 @@ public class Pantalla_Corte {
                         pantalla_Corte.jDialogDatalles.setVisible(false);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
+                        tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
                         tcc.Tikect(ct, turno, pc, consultas,pagoDoctores);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);

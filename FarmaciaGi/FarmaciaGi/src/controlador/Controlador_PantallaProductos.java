@@ -36,12 +36,14 @@ public class Controlador_PantallaProductos {
     Productos productos;
     TikectInventario tikectInventario;
     int idEmpleado;
+    String cargo;
 
     public Controlador_PantallaProductos(String rol, String turno, int idEmpleado, String pc) {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
-        if (rol.equals("Administrador")) {
+        this.cargo = rol;
+        if (cargo.equals("Administrador")) {
             
             pantalla_Productos.tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
                     new Object[][]{},
@@ -177,7 +179,7 @@ public class Controlador_PantallaProductos {
                                     return;
                                 }
                                 double precio2 = Double.valueOf(precio);
-                                if (rol.equals("Cajero")) {
+                                if (cargo.equals("Cajero")) {
                                     productos = new Productos(codi);
                                     double precioActual = productos.PrrcioProducto();
                                     if (precio2 >= precioActual) {

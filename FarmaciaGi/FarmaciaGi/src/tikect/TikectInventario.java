@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import mail.Mail;
 import modelo.Confings;
 import modelo.sucursal;
@@ -22,7 +23,7 @@ import modelo.sucursal;
 public class TikectInventario {
     Confings confings;
     
-    public void tikectInventario(String turno,  List<List<String>>productos , String pc ){
+    public void tikectInventario(String turno, DefaultTableModel modelo , String pc ){
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         String mensaje = "";
@@ -47,16 +48,16 @@ public class TikectInventario {
         auxs += "  Descripcion          piezas\n";
         auxs += "==========================================\n";
         
-         for (int i = 0; i <= productos.get(0).size() - 1; i++)  // for ejemplo para varios productos
+          for (int i = 0; i < modelo.getRowCount(); i++)   // for ejemplo para varios productos
         {
            
-             if (productos.get(0).get(i).length() > 17) { // si la descripcion_producto es mayor a 17 la corta
-                 prod = productos.get(0).get(i).substring(0, 17);
+             if (modelo.getValueAt(i, 1).toString().length() > 17) { // si la descripcion_producto es mayor a 17 la corta
+                 prod = modelo.getValueAt(i, 1).toString().substring(0, 17);
             }else{
-                prod = productos.get(0).get(i); 
+                prod = modelo.getValueAt(i, 1).toString(); 
              }
             // Se formatea la cadena a imprimir con String.format para varios string
-            auxs += String.format("%-18s" + " " + "%-5s", prod, productos.get(1).get(i) );
+            auxs += String.format("%-18s" + " " + "%-5s", prod, modelo.getValueAt(i, 2).toString() );
             auxs += "\n";
         }
          
@@ -75,19 +76,19 @@ public class TikectInventario {
         mensaje += "==========================================\n";
         mensaje += "  Descripcion                              piezas\n";
         mensaje += "==========================================\n";
-         for (int i = 0; i <= productos.get(0).size() - 1; i++)  // for ejemplo para varios productos
+          for (int i = 0; i < modelo.getRowCount(); i++)  // for ejemplo para varios productos
         {
            
-             if (productos.get(0).get(i).length() > 17) { // si la descripcion_producto es mayor a 17 la corta
-                 prod = productos.get(0).get(i).substring(0, 17);
+             if (modelo.getValueAt(i, 1).toString().length() > 17) { // si la descripcion_producto es mayor a 17 la corta
+                 prod = modelo.getValueAt(i, 1).toString().substring(0, 17);
             }else{
-                prod = productos.get(0).get(i); 
+                prod = modelo.getValueAt(i, 1).toString(); 
              }
             // Se formatea la cadena a imprimir con String.format para varios string
-            mensaje  += String.format("%-18s" + "           " + "%-22s", prod, productos.get(1).get(i) );
+            mensaje  += String.format("%-18s" + "           " + "%-22s", prod, modelo.getValueAt(i, 2));
             mensaje  += "\n";
         }
-        mail.send_mail("farmaciagi08@gmail.com", mensaje , "INGRESO DE MEDICAMENTO TURNO: "+turno.toUpperCase()); //farmaciagi08@gmail.com
+        //mail.send_mail("sauber_alex@outlook.com", mensaje , "INGRESO DE MEDICAMENTO TURNO: "+turno.toUpperCase()); //farmaciagi08@gmail.com
         
          try {
             impServicio.printCadena(impra, auxs);

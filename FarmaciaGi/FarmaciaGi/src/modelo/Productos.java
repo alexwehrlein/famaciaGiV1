@@ -187,7 +187,7 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, double precio, String nombre , String tipoMedicamento) {
+    public Productos(long codigo, double precio, String nombre, String tipoMedicamento) {
         this.codigo = codigo;
         this.precio = precio;
         this.marcaComercial = nombre;
@@ -225,6 +225,36 @@ public class Productos {
             }
         }
         return precio;
+    }
+
+    public void producto(String codigo) {
+
+        try {
+            String sql = "SELECT * FROM productos WHERE codigo = " + codigo;
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            if (resultado.next()) {
+                setCodigo(Long.parseLong(resultado.getString("codigo")));
+                setMarcaComercial(resultado.getString("marca_comercial"));
+                setPrecio(resultado.getDouble("precio"));
+                setCantidad(resultado.getInt("cantidad"));
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, " Error ", ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error " + ex);
+            }
+        }
     }
 
     public int productoCero() {
@@ -266,7 +296,7 @@ public class Productos {
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " , tipo_medicamento = '"+getTipoMedicamento()+"' WHERE codigo=" + getCodigo());
+            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " , tipo_medicamento = '" + getTipoMedicamento() + "' WHERE codigo=" + getCodigo());
             con.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
@@ -474,7 +504,7 @@ public class Productos {
         JButton btnEliminar = new JButton("Eliminar");
         JComboBox tipo;
         TableColumn col = jt.getColumnModel().getColumn(4);
-        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
         tipo = new JComboBox(op);
         col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
@@ -529,7 +559,7 @@ public class Productos {
         JButton btnEliminar = new JButton("Eliminar");
         JComboBox tipo;
         TableColumn col = jt.getColumnModel().getColumn(4);
-        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
         tipo = new JComboBox(op);
         col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
@@ -594,7 +624,7 @@ public class Productos {
         JButton btnEliminar = new JButton("Eliminar");
         JComboBox tipo;
         TableColumn col = jt.getColumnModel().getColumn(4);
-        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES" , "PERFUMERIA" , "PROMOCIÓN"};
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
         tipo = new JComboBox(op);
         col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
@@ -641,6 +671,40 @@ public class Productos {
         }
 
         return modelo;
+    }
+
+    public Boolean GuadarListaAltas(DefaultTableModel modelo, int id_empleado) {
+        String sql = null;
+        boolean next = true;
+        int piezasFinales = 0;
+        try {
+            con = conn.getConnection();
+            con.setAutoCommit(false);
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                Statement stm = (Statement) con.createStatement();
+                sql = "INSERT INTO compraproductos (codigo,id_empleado,piezas) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + id_empleado + " ," + modelo.getValueAt(i, 2).toString() + " )";
+                stm.execute(sql);
+                Productos p = new Productos();
+                p.producto(modelo.getValueAt(i, 0).toString());
+                piezasFinales = p.getCantidad() + Integer.parseInt(modelo.getValueAt(i, 2).toString());
+                sql = "UPDATE productos SET cantidad = " + piezasFinales + " WHERE codigo = " +  modelo.getValueAt(i, 0).toString();
+                stm.execute(sql);
+                stm.close();
+            }
+            con.commit();
+        } catch (SQLException ex) {
+            try {
+                con.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "" + ex1);
+            }
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
+            next = false;
+        } finally {
+            conn.getClose();
+        }
+        return next;
     }
 
 }

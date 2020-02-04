@@ -21,11 +21,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import mail.MailBug;
 import modelo.Productos;
 import modelo.Proveedor;
+import modelo.Ventas;
 import tikect.TikectInventario;
 import utilerias.Utilerias;
 
@@ -44,7 +46,7 @@ public class Controlador_PantallaProductos {
         pantalla_Productos.setLocationRelativeTo(null);
         this.cargo = rol;
         if (cargo.equals("Administrador")) {
-            
+
             pantalla_Productos.tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
                     new Object[][]{},
                     new String[]{
@@ -69,23 +71,7 @@ public class Controlador_PantallaProductos {
         productosTikect.add(new ArrayList<String>());
         productosTikect.add(new ArrayList<String>());
 
-        pantalla_Productos.agregarInventarioTikect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (productosTikect.get(0).size() > 0 && productosTikect.get(1).size() > 0) {
-                    tikectInventario = new TikectInventario();
-                    tikectInventario.tikectInventario(turno, productosTikect, pc);
-                    for (int i = 0; i <= productosTikect.get(0).size() - 1; i++) {
-                        productosTikect.get(0).clear();
-                        productosTikect.get(1).clear();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No hay productos agregados </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR!! NO HAY PRODUCTOS AGREGADOS  " + Utilerias.SUCURSALE, "CORTE DE CAJA");
-
-                }
-            }
-        });
+        
 
         pantalla_Productos.productoAgregar.addActionListener(new ActionListener() {
             @Override
@@ -99,57 +85,27 @@ public class Controlador_PantallaProductos {
             }
         });
 
-        pantalla_Productos.actuslizartabla.addActionListener(new ActionListener() {
+        pantalla_Productos.btnExistencias.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clear_Table();
-                pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
+                //pantalla_Productos.setVisible(false);
+                //new Controlador_PantallaProductoAdd(rol, turno);
+                pantalla_Productos.jDialogInventario.setBounds(249, 100, 570, 583);
+                pantalla_Productos.jDialogInventario.setResizable(false);
+                pantalla_Productos.jDialogInventario.setVisible(true);
+                pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                pantalla_Productos.txtInvetarioCodigo.setText("");
+                pantalla_Productos.txtInvetarioNombre.setText("");
+                pantalla_Productos.txtInvetarioPiezas.setText("");
+                Clear_Table(pantalla_Productos.tableInvetario);
             }
         });
 
-        pantalla_Productos.agregarInventario.addActionListener(new ActionListener() {
+        pantalla_Productos.actuslizartabla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = pantalla_Productos.tablaProductos.getSelectedRow();
-                if (row < 0) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Selecciona una fila </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! SELECCIONA UNA FILA CORRECTA  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIOS ");
-
-                    return;
-                }
-                if (pantalla_Productos.campoAgregarExistencia.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No deje el  campo en blanco </h1></html>");
-                } else {
-                    int inventario = Integer.parseInt(pantalla_Productos.campoAgregarExistencia.getText());
-                    if (inventario > 0) {
-                        long codigo = Long.valueOf(pantalla_Productos.codigo.getText());
-                        productos = new Productos(codigo);
-                        int existencias = productos.productoCero();
-                        int agregarInventario = inventario + existencias;
-                        String producto = pantalla_Productos.nombre.getText();
-                        productos = new Productos(codigo, agregarInventario, idEmpleado, inventario);
-                        if (productos.Modificarexistencias()) {
-                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'> SE AGREGARON " + inventario + " PIEZAS A INVENTARIO </h1></html>");
-                            productosTikect.get(0).add(producto);
-                            productosTikect.get(1).add(String.valueOf(inventario));
-                            Clear_Table();
-                            pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
-                            pantalla_Productos.codigo.setText("");
-                            pantalla_Productos.nombre.setText("");
-                            pantalla_Productos.existenciasM.setText("");
-                            pantalla_Productos.campoAgregarExistencia.setText("");
-                            pantalla_Productos.buscarProductos.setText("");
-
-                        } else {
-                            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE AGREGARON CORRECTAMENTE  " + Utilerias.SUCURSALE + codigo, "  PRODUCTOS INVENTARIO ");
-
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Tiene que ser mayor a 0 </h1></html>");
-                    }
-                }
+                Clear_Table(pantalla_Productos.tablaProductos);
+                pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
             }
         });
 
@@ -183,38 +139,38 @@ public class Controlador_PantallaProductos {
                                     productos = new Productos(codi);
                                     double precioActual = productos.PrrcioProducto();
                                     if (precio2 >= precioActual) {
-                                        productos = new Productos(codi, precio2, nombreM,tipoMedicamento);
+                                        productos = new Productos(codi, precio2, nombreM, tipoMedicamento);
                                         if (productos.ModificarRegristros()) {
                                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
-                                            Clear_Table();
+                                            Clear_Table(pantalla_Productos.tablaProductos);
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                         } else {
                                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                             mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
-                                            Clear_Table();
+                                            Clear_Table(pantalla_Productos.tablaProductos);
                                             pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede modificar el precio a uno menor contacte al administrador </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                         mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE PUEDE MOFICAR PRECIO A UNO MENOR, REVISAR !!  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
-                                        Clear_Table();
+                                        Clear_Table(pantalla_Productos.tablaProductos);
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                     }
                                 } else {
-                                    productos = new Productos(codi, precio2, nombreM,tipoMedicamento);
+                                    productos = new Productos(codi, precio2, nombreM, tipoMedicamento);
                                     if (productos.ModificarRegristros()) {
                                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Datos Modificados Correctamente </h1></html>");
-                                        Clear_Table();
+                                        Clear_Table(pantalla_Productos.tablaProductos);
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                     } else {
                                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                                         mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR !! NO SE MODIFICARON CORRECTAMENTE  " + Utilerias.SUCURSALE, "  PRODUCTOS INVENTARIO ");
 
-                                        Clear_Table();
+                                        Clear_Table(pantalla_Productos.tablaProductos);
                                         pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
                                     }
                                 }
@@ -231,7 +187,7 @@ public class Controlador_PantallaProductos {
 
                                 if (productos.eliminarMedicamento()) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Medicamento Eliminado Correctamente </h1></html>");
-                                    Clear_Table();
+                                    Clear_Table(pantalla_Productos.tablaProductos);
                                     pantalla_Productos.tablaProductos.setModel(new Productos().cargarRegistroEgreso(pantalla_Productos.tablaProductos));
 
                                 } else {
@@ -282,7 +238,7 @@ public class Controlador_PantallaProductos {
                         if (!valor.matches("[0-9]*")) {
                             JOptionPane.showMessageDialog(null, "Solo Numeros");
                         } else {
-                            Clear_Table();
+                            Clear_Table(pantalla_Productos.tablaProductos);
                             String medicamento = pantalla_Productos.buscarProductos.getText();
                             long codigoBarra = Long.valueOf(medicamento);
                             pantalla_Productos.tablaProductos.setModel(new Productos().BuscarRegistroEgreso(pantalla_Productos.tablaProductos, codigoBarra));
@@ -292,7 +248,7 @@ public class Controlador_PantallaProductos {
                 }
                 if (pantalla_Productos.busquedaNombre.isSelected()) {
                     String valor = pantalla_Productos.buscarProductos.getText();
-                    Clear_Table();
+                    Clear_Table(pantalla_Productos.tablaProductos);
                     pantalla_Productos.tablaProductos.setModel(new Productos().Buscar2RegistroEgreso(pantalla_Productos.tablaProductos, valor));
                 }
 
@@ -386,6 +342,87 @@ public class Controlador_PantallaProductos {
             }
         });
 
+        pantalla_Productos.txtInvetarioCodigo.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (pantalla_Productos.txtInvetarioCodigo.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                        return;
+                    }
+
+                    if (!new Ventas().existeRegistroProducto(pantalla_Productos.txtInvetarioCodigo.getText())) {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
+                        pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                        return;
+                    }
+
+                    //productos = new Productos(Long.parseLong(pantalla_Productos.txtInvetarioCodigo.getText()));
+                    Productos productoInfo = new Productos();
+                    productoInfo.producto(pantalla_Productos.txtInvetarioCodigo.getText());
+                    pantalla_Productos.txtInvetarioNombre.setText(productoInfo.getMarcaComercial());
+                    pantalla_Productos.txtInvetarioPiezas.requestFocus();
+                }
+            }
+        });
+
+        pantalla_Productos.txtInvetarioPiezas.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (pantalla_Productos.txtInvetarioPiezas.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        pantalla_Productos.txtInvetarioPiezas.requestFocus();
+                        return;
+                    }
+                    if (!pantalla_Productos.txtInvetarioPiezas.getText().matches("^\\d+\\.?\\d?\\d?")) {
+                        JOptionPane.showMessageDialog(null, "<html><h1> Ingrese un numero.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        pantalla_Productos.txtInvetarioPiezas.requestFocus();
+                        return;
+                    }
+                    DefaultTableModel model = (DefaultTableModel) pantalla_Productos.tableInvetario.getModel();
+                    for (int i = 0; i < pantalla_Productos.tableInvetario.getRowCount(); i++) {
+                        String codigo = pantalla_Productos.tableInvetario.getValueAt(i, 0).toString();
+                        if (codigo.equals(pantalla_Productos.txtInvetarioCodigo.getText())) {
+
+                            model.setValueAt(Integer.parseInt(pantalla_Productos.tableInvetario.getValueAt(i, 2).toString()) + Integer.parseInt(pantalla_Productos.txtInvetarioPiezas.getText()), i, 2);
+                            pantalla_Productos.txtInvetarioCodigo.setText("");
+                            pantalla_Productos.txtInvetarioNombre.setText("");
+                            pantalla_Productos.txtInvetarioPiezas.setText("");
+                            pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                            return;
+                        }
+                    }
+
+                    model.addRow(new Object[]{pantalla_Productos.txtInvetarioCodigo.getText(), pantalla_Productos.txtInvetarioNombre.getText(), pantalla_Productos.txtInvetarioPiezas.getText()});
+                    pantalla_Productos.txtInvetarioCodigo.setText("");
+                    pantalla_Productos.txtInvetarioNombre.setText("");
+                    pantalla_Productos.txtInvetarioPiezas.setText("");
+                    pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                }
+            }
+        });
+
+        pantalla_Productos.btnInventarioGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultTableModel model = (DefaultTableModel) pantalla_Productos.tableInvetario.getModel();
+                if (model.getRowCount() <= 0) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> no hay datos en la tabla</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                productos = new Productos();
+                boolean next = productos.GuadarListaAltas(model, idEmpleado);
+                if (next) {
+                    tikectInventario = new TikectInventario();
+                    tikectInventario.tikectInventario(turno, model, pc);
+                    Clear_Table(pantalla_Productos.tableInvetario);
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "<html><h1> ERROR</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         pantalla_Productos.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         pantalla_Productos.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
@@ -437,9 +474,9 @@ public class Controlador_PantallaProductos {
 
     }
 
-    private void Clear_Table() {
-        DefaultTableModel modelo = (DefaultTableModel) pantalla_Productos.tablaProductos.getModel();
-        int filas = pantalla_Productos.tablaProductos.getRowCount();
+    private void Clear_Table(JTable jt) {
+        DefaultTableModel modelo = (DefaultTableModel) jt.getModel();
+        int filas = jt.getRowCount();
         for (int i = 0; filas > i; i++) {
             modelo.removeRow(0);
         }

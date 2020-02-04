@@ -75,12 +75,11 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public Cliente(int id_cliente, String nombre, String correo, String telefono, String password) {
+    public Cliente(int id_cliente, String nombre, String correo, String telefono) {
         this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
-        this.password = password;
     }
 
     public Cliente(int id_cliente) {
@@ -141,7 +140,7 @@ public class Cliente {
             com.mysql.jdbc.PreparedStatement pst = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {
-                arrayCliente.add(new Cliente(resultado.getInt("id_cliente"), resultado.getString("nombre"), resultado.getString("correo"), resultado.getString("telefono"), resultado.getString("password")));
+                arrayCliente.add(new Cliente(resultado.getInt("id_cliente"), resultado.getString("nombre"), resultado.getString("correo"), resultado.getString("telefono")));
             }
             for (int i = 0; i < arrayCliente.size(); i++) {
                 modelo.addRow(new Object[]{arrayCliente.get(i).getId_cliente(), arrayCliente.get(i).getNombre(), arrayCliente.get(i).getCorreo(),
@@ -160,7 +159,7 @@ public class Cliente {
         try {
             Connection connection = new Conexion().getConnection();
             Statement stm = (Statement) connection.createStatement();
-            stm.execute("INSERT INTO cliente VALUES(null,'" + getNombre() + "','" + getCorreo() + "','" + getTelefono() + "' , '" + getPassword() + "')");
+            stm.execute("INSERT INTO cliente VALUES(null,'" + getNombre() + "','" + getCorreo() + "','" + getTelefono() + "')");
             connection.close();
             return true;
         } catch (SQLException ex) {

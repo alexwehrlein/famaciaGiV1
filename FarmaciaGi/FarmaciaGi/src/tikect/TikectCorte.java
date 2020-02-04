@@ -105,7 +105,6 @@ public class TikectCorte {
         mensaje += "INGRESO ADICIONAL DE VENTAS:  $ " + diferencia2 + "\n";
         mensaje += "_______________________________________\n\n\n\n\n";
 
-        mail.send_mail("igualafarmaciagi@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
         try {
             impServicio.printCadena(impra, mensaje );
             // Cortar el papel ....
@@ -114,7 +113,7 @@ public class TikectCorte {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
         }
-
+        mail.send_mail("igualafarmaciagi@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
     }
 
 }

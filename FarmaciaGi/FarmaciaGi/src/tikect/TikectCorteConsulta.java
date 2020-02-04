@@ -56,7 +56,7 @@ public class TikectCorteConsulta {
         auxs+= "_________________________________________\n";
        
         auxs+= "==========================================\n\n\n\n\n";
-        mail.send_mail("igualafarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+       
         try {
             impServicio.printCadena(impra, auxs);
             // Cortar el papel ....
@@ -65,7 +65,7 @@ public class TikectCorteConsulta {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir</h1></html>","warning",JOptionPane.WARNING_MESSAGE);
         }
-        
+        mail.send_mail("igualafarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com 
     }
     
 }

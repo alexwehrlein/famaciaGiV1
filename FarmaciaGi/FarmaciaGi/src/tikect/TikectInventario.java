@@ -56,8 +56,8 @@ public class TikectInventario {
                 prod = modelo.getValueAt(i, 1).toString();
             }
             // Se formatea la cadena a imprimir con String.format para varios string
-            mensaje += String.format("%-18s" + "           " + "%-5s", prod, modelo.getValueAt(i, 2));
-            mensaje += "\n";
+            auxs += String.format("%-18s" + "           " + "%-5s", prod, modelo.getValueAt(i, 2));
+            auxs += "\n";
         }
 
         auxs += "\n==========================================\n";
@@ -67,26 +67,6 @@ public class TikectInventario {
         String datSucursal[] = su.datosSucursal();
 
         Mail mail = new Mail();
-        mensaje += "FARMACIAS GI Altamirano #6\n";
-        mensaje += datSucursal[1].toUpperCase() + " \n";
-        mensaje += "Iguala de la Independencia\n";
-        mensaje += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
-        mensaje += "Turno:    " + turno + "\n\n";
-        mensaje += "==========================================\n";
-        mensaje += "  Descripcion                              piezas\n";
-        mensaje += "==========================================\n";
-        for (int i = 0; i < modelo.getRowCount(); i++) // for ejemplo para varios productos
-        {
-
-            if (modelo.getValueAt(i, 1).toString().length() > 17) { // si la descripcion_producto es mayor a 17 la corta
-                prod = modelo.getValueAt(i, 1).toString().substring(0, 17);
-            } else {
-                prod = modelo.getValueAt(i, 1).toString();
-            }
-            // Se formatea la cadena a imprimir con String.format para varios string
-            mensaje += String.format("%-18s" + "           " + "%-5s", prod, modelo.getValueAt(i, 2));
-            mensaje += "\n";
-        }
 
         try {
             impServicio.printCadena(impra, auxs);
@@ -95,7 +75,7 @@ public class TikectInventario {
             impServicio.printBytes(impra, cutP); // se imprime el bruto 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
-            mail.send_mail("igualafarmaciagi@gmail.com", mensaje, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+            mail.send_mail("sauber_alex@outlook.com", auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
         }
 
     }

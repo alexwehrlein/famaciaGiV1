@@ -11,7 +11,7 @@ package utilerias;
  */
 public class Utilerias {
     
-    public static String SUCURSALE = "ALTAMIRANO 6 ";
+    public static String SUCURSALE = "Farmacia 6 ";
     
     
 }

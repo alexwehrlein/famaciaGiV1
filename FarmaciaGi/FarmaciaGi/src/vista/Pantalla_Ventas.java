@@ -593,6 +593,7 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {

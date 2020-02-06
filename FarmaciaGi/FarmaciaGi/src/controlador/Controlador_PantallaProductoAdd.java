@@ -6,7 +6,6 @@
 package controlador;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import vista.Pantalla_ProductosAdd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import mail.MailBug;
 import modelo.Productos;
 import modelo.Proveedor;
@@ -26,11 +24,13 @@ import utilerias.Utilerias;
  * @author saube
  */
 public class Controlador_PantallaProductoAdd {
- Utilerias util = new Utilerias();
+
+    Utilerias util = new Utilerias();
     Pantalla_ProductosAdd productoAgregar;
     Productos productos;
-    MailBug mailbug =  new MailBug();
-    public Controlador_PantallaProductoAdd(String rol, String turno ,int  idEmpleado) {
+    MailBug mailbug = new MailBug();
+
+    public Controlador_PantallaProductoAdd(String rol, String turno, int idEmpleado) {
         productoAgregar = new Pantalla_ProductosAdd();
         productoAgregar.setLocationRelativeTo(null);
         productoAgregar.setVisible(true);
@@ -51,25 +51,22 @@ public class Controlador_PantallaProductoAdd {
                     if (next) {
                         if (!productoAgregar.altaMedicamentoCodigo.getText().matches("[0-9]*")) {
                             JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un codigo correcto.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                           mailbug.send_mail("guzmangaleanacarlos@gmail.com", "INGRESE UN CODIGO CORRECTO " +Utilerias.SUCURSALE, "ERROR CODIGOS PRODUCTOS");
                             productoAgregar.altaMedicamentoCodigo.requestFocus();
                             return;
                         }
                         if (!productoAgregar.altaMedicamentoCantidad.getText().matches("[0-9]*")) {
                             JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un cantidad correcta.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                                       mailbug.send_mail("guzmangaleanacarlos@gmail.com", "INGRESE UNA CANTIDAS CORRECTA " +Utilerias.SUCURSALE, "ERROR CODIGOS PRODUCTOS");
 
                             productoAgregar.altaMedicamentoCantidad.requestFocus();
                             return;
                         }
                         if (!productoAgregar.altaMedicamentoPrecio.getText().matches("\\d+\\.?\\d?\\d?")) {
                             JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un precio correcto.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                             mailbug.send_mail("guzmangaleanacarlos@gmail.com", "INGRESE PRECIO CORRECTO " +Utilerias.SUCURSALE, "ERROR CODIGOS PRODUCTOS");
 
                             productoAgregar.altaMedicamentoPrecio.requestFocus();
                             return;
                         }
-                        
+
                         long codigo = Long.valueOf(productoAgregar.altaMedicamentoCodigo.getText());
                         String marcaComercia = productoAgregar.altaMedicamentoMarcaComercial.getText();
                         String sustancia = productoAgregar.altaMedicamentoSustancia.getText();
@@ -89,8 +86,7 @@ public class Controlador_PantallaProductoAdd {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                         mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO SE DIO DE ALTA EL PRODUCTO " +Utilerias.SUCURSALE + codigo, "ERROR CODIGOS PRODUCTOS");
-
+                           
                         }
                     }
                 }
@@ -106,7 +102,6 @@ public class Controlador_PantallaProductoAdd {
 //
 //            }
 //        });
-
         productoAgregar.altaMedicamentoCodigo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -119,9 +114,7 @@ public class Controlador_PantallaProductoAdd {
                         productoAgregar.altaMedicamentoCodigo.setBackground(Color.RED);
                         productoAgregar.altaMedicamentoCodigo.setText("");
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> !! EL CODIGO YA ESTA REGISTRADO !! </h1></html>");
-mailbug.send_mail("guzmangaleanacarlos@gmail.com", "EL CODIGO HA SIDO REGISTRADO ANTERIORMENTE " +Utilerias.SUCURSALE, "ERROR CODIGOS PRODUCTOS");
-
-
+                       
                     } else {
                         productoAgregar.altaMedicamentoCodigo.setBackground(Color.GREEN);
                         productoAgregar.altaMedicamentoMarcaComercial.requestFocus();

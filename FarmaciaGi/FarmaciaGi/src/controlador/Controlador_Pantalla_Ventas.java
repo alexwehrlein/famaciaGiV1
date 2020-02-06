@@ -162,8 +162,6 @@ public class Controlador_Pantalla_Ventas {
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia</h1></html>");
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia " + Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
-
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
@@ -271,8 +269,6 @@ public class Controlador_Pantalla_Ventas {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia " + Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
-
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {
@@ -283,8 +279,6 @@ public class Controlador_Pantalla_Ventas {
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado</h1></html>");
-                        mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia " + Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
-
                         pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                         pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                         if (ventanaControl2 == false) {
@@ -565,8 +559,6 @@ public class Controlador_Pantalla_Ventas {
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya no hay producto en existencia </h1></html>");
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia " + Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
-
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                                 if (ventanaControl2 == false) {
@@ -577,8 +569,6 @@ public class Controlador_Pantalla_Ventas {
 
                         } else {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El producto esta agotado </h1></html>");
-
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "a no hay producto en existencia " + Utilerias.SUCURSALE + codigo, "INTENTAR DEVOLVER MAS PRODUCTOS");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
                             pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
                             if (ventanaControl2 == false) {

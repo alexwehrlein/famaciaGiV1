@@ -69,7 +69,6 @@ public class Controlador_PantallaGstos {
                         } else {
 
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", "ERROR GENERADO AL REGISTRAR GASTOS "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
                         }
                     }
 
@@ -126,9 +125,6 @@ public class Controlador_PantallaGstos {
                         tikectGastos.TikectGasto(descripcion, monto,pc);
                     }
                 } catch (Exception ex) {
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR REVISAR METODO  "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
-
-                    
                     
                 }
             }
@@ -169,8 +165,6 @@ public class Controlador_PantallaGstos {
                             } else {
 
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
- mailbug.send_mail("guzmangaleanacarlos@gmail.com", "2DO ERROR GENERADO AL REGISTRAR GASTOS CONTROLER "  +Utilerias.SUCURSALE, "ERROR AL REGISTRAR GASTOS");
-
                             }
                         }
 

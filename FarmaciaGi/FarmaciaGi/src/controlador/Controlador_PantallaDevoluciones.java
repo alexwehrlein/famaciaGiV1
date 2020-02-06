@@ -111,13 +111,10 @@ public class Controlador_PantallaDevoluciones {
 
                         if (cantidadExistencias < piezas) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'> No puedes devolver mas de lo vendido </h1></html>  " + cantidadExistencias + " piezas", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "NO PUEDES DEVOLVER MAS DE LO VENDIDO "  +Utilerias.SUCURSALE, "CANTIDAD DEVUELTA BUG");
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else if (cantidadExistencias == 0) {
                             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ya de devolvieron todos los productos </h1></html> ", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            mailbug.send_mail("guzmangaleanacarlos@gmail.com", "YA DEVOLVIERON TODOS LOS PRODUCTOS "  +Utilerias.SUCURSALE, "INTENTAR DEVOLVER MAS PRODUCTOS");
-
                             Clear_Table();
                             devoluciones.jTableDeboluciones.setModel(new Devoluciones().cargarRegistro(devoluciones.jTableDeboluciones, IntFolio));
                         } else {
@@ -144,13 +141,10 @@ public class Controlador_PantallaDevoluciones {
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", "OCURRRIO UN ERROR AL DEVOLVER EL PRODUCTO LINEA 132 METODO DEVOLUCIONES CONTROLADOR " +Utilerias.SUCURSALE, "BUG DEVOLUCIONES");
-                                }
+                                    }
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", "OCURRRIO UN ERROR AL DEVOLVER EL PRODUCTO 2DO BUG "  +Utilerias.SUCURSALE, "BUG DEVOLUCIONES");
-
                             }
                         }
 

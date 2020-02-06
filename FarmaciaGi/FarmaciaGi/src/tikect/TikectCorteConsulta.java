@@ -45,18 +45,17 @@ public class TikectCorteConsulta {
         auxs+= "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";
         auxs+= "=====VENTAS CONSULTORIO===================\n";
-        auxs+= "Descripcion    cant     Total";
-        for(Corte consulta: consultorio){
-        auxs+= " "+consulta.getNombreMedicamento()+"  "+consulta.getCantidadMedicamento()+"   "+consulta.getSumPrecioMedicamento()+" \n\n";
-        }
-        auxs+= "==========================================\n";
+       // auxs+= "Descripcion    cant     Total";
+        //for(Corte consulta: consultorio){
+        //auxs+= " "+consulta.getNombreMedicamento()+"  "+consulta.getCantidadMedicamento()+"   "+consulta.getSumPrecioMedicamento()+" \n\n";
+       // }
+        //auxs+= "==========================================\n";
         auxs+= "PAGO A DOCTORES:      $ "+pagoDoctores+"\n";
         auxs+= "VENTAS CONSULTAS:     $ "+consultas+"\n";
         auxs+= "TOTAL:                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
         auxs+= "_________________________________________\n";
        
         auxs+= "==========================================\n\n\n\n\n";
-       
         try {
             impServicio.printCadena(impra, auxs);
             // Cortar el papel ....
@@ -65,7 +64,7 @@ public class TikectCorteConsulta {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir</h1></html>","warning",JOptionPane.WARNING_MESSAGE);
         }
-        mail.send_mail("igualafarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com 
+        mail.send_mail("cortesfarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
     }
     
 }

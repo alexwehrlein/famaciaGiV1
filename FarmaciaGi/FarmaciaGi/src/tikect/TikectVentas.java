@@ -37,10 +37,12 @@ public class TikectVentas {
         String impra = arr[0]; // Nombre de la impresora
         Mail mail = new Mail();
         // Se llama al metodo para imprimir una cadena
-        auxs += "COMPROBANTE DE VENTA\n\n";
-        auxs += "FARMACIAS GI\n";
+        auxs += "         COMPROBANTE DE VENTA\n\n";
+        auxs += "            FARMACIAS GI\n";
+        auxs += "\n";
         auxs += arr[1] + "\n";
         auxs += "Iguala de la Independencia\n";
+        auxs += "WhatsApp: (733)3323790\n";
         auxs += "Folio: " + folio + "\n";
         auxs += "Le atendio: " + empleada + "\n";
         auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
@@ -71,7 +73,7 @@ public class TikectVentas {
             auxs += "Usted se ahorro con descuento $ " + String.format("%.2f", totalAhorrado) + "\n";
         }
         auxs += "\n==========================================\n";
-        auxs += "Gracias por su compra\nExpertos en tu salud\n";// Varios saltos para no cortar antes
+        auxs += "          ¡Gracias por su compra!\n          ¡Expertos en tu salud!\n";// Varios saltos para no cortar antes
         auxs += "Las devoluciones se realizan unicamente\npor otro producto, no se hace reembolso\ndel dinero, el periodo de la devolucion\nes de 7 dias naturales\n           ¡Conserve su ticket!\n\n\n\n\n";// Varios saltos para no cortar antes
 //        mail.send_mail("sauber_alex@outlook.com", auxs, "Venta"); //farmaciagi08@gmail.com
         try {

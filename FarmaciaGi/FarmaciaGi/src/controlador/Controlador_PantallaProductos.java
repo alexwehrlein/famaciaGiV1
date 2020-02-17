@@ -25,17 +25,18 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import mail.MailBug;
+import modelo.Empleado;
 import modelo.Productos;
 import modelo.Proveedor;
 import modelo.Ventas;
 import tikect.TikectInventario;
-import utilerias.Utilerias;
 
 public class Controlador_PantallaProductos {
 
     MailBug mailbug = new MailBug();
     Pantalla_Productos pantalla_Productos;
     Productos productos;
+    Empleado empleado;
     TikectInventario tikectInventario;
     int idEmpleado;
     String cargo;
@@ -44,8 +45,9 @@ public class Controlador_PantallaProductos {
         pantalla_Productos = new Pantalla_Productos();
         pantalla_Productos.setVisible(true);
         pantalla_Productos.setLocationRelativeTo(null);
-        this.cargo = rol;
-        if (cargo.equals("Administrador")) {
+        empleado = new Empleado();
+        empleado.Empleado(String.valueOf(idEmpleado));
+        if (empleado.getPuesto().equals("Administrador")) {
 
             pantalla_Productos.tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
                     new Object[][]{},
@@ -135,7 +137,7 @@ public class Controlador_PantallaProductos {
                                     return;
                                 }
                                 double precio2 = Double.valueOf(precio);
-                                if (cargo.equals("Cajero")) {
+                                if (empleado.getPuesto().equals("Cajero")) {
                                     productos = new Productos(codi);
                                     double precioActual = productos.PrrcioProducto();
                                     if (precio2 >= precioActual) {

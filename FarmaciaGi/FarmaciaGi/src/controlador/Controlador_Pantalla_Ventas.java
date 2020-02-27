@@ -56,6 +56,7 @@ public class Controlador_Pantalla_Ventas {
     float precioMayorista = 0;
     ArchivoLog log;
     Calendar calendario = new GregorianCalendar();
+    List<Productos> ventaPausada = new ArrayList<Productos>();
 
     public Controlador_Pantalla_Ventas(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String rol, String pc) {
         this.idEmpleado = idEmpleado;
@@ -837,7 +838,15 @@ public class Controlador_Pantalla_Ventas {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>AGREGUE PRODUCTOS </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if (ventas.pausarVenta(modelo, pausaVenta)) {
+                for (int i = 0; i < modelo.getRowCount(); i++) {
+                    ventaPausada.add(new Productos(pausaVenta,
+                            Long.parseLong(modelo.getValueAt(i, 0).toString()),
+                            Integer.parseInt(modelo.getValueAt(i, 4).toString())));
+                }
+                //if (ventas.pausarVenta(modelo, pausaVenta)) {
+                for(Productos p : ventaPausada){
+                    System.out.println(p);
+                }
                     pantalla_Ventas.jTablePausaVenta.setModel(modeloPausarVenta);
                     String[] datos = new String[3];
                     datos[0] = String.valueOf(pausaVenta);
@@ -869,7 +878,7 @@ public class Controlador_Pantalla_Ventas {
                     pantalla_Ventas.jComboBoxSustancia.removeAllItems();
                     placeHolder = new PlaceHolder(pantalla_Ventas.jTextFieldSustancia, "Busqueda por sustancias");
 
-                }
+                //}
 
             }
         });
@@ -1029,12 +1038,19 @@ public class Controlador_Pantalla_Ventas {
                     int filaSeleccionada = pantalla_Ventas.jTablePausaVenta.getSelectedRow();
                     if (modelo.getRowCount() <= 0) {
                         String ID = modeloPausarVenta.getValueAt(filaSeleccionada, 0).toString();
-                        ArrayList<Ventas> datos = ventas.ventaPausada(ID);
-                        for (Ventas r : datos) {
-                            for (int i = 0; i < r.getPiezas(); i++) {
-                                ingresarVentaPausada(Long.toString(r.getCodigo()));
+                        //ArrayList<Ventas> datos = ventas.ventaPausada(ID);
+//                        for (Ventas r : datos) {
+//                            for (int i = 0; i < r.getPiezas(); i++) {
+//                                ingresarVentaPausada(Long.toString(r.getCodigo()));
+//                            }
+//
+//                        }
+                        for (Productos p : ventaPausada) {
+                            if (String.valueOf(p.getNum()).equals(ID)) {
+                                for (int i = 0; i < p.getCantidad(); i++) {
+                                    ingresarVentaPausada(Long.toString(p.getCodigo()));
+                                }
                             }
-
                         }
                     }
                 }
@@ -1083,7 +1099,8 @@ public class Controlador_Pantalla_Ventas {
             public void actionPerformed(ActionEvent e) {
                 pausaVenta = 1;
                 modeloPausarVenta.setRowCount(0);
-                ventas.eliminarVentaPausada();
+                //ventas.eliminarVentaPausada();
+                ventaPausada.clear();
                 pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
             }
         });

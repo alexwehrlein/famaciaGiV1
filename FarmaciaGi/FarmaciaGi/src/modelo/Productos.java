@@ -30,6 +30,7 @@ import vista.Pantalla_Productos;
  */
 public class Productos {
 
+    private int num;
     private long codigo;
     private String marcaComercial;
     private String sustancias;
@@ -46,6 +47,14 @@ public class Productos {
     Conexion conexion;
     Pantalla_Productos pantalla_Productos;
     ArchivoLog log;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     public Productos(long codigo, int cantidad, int id_empleado, int piezasAdd) {
         this.codigo = codigo;
@@ -108,6 +117,17 @@ public class Productos {
         this.tipoMedicamento = tipoMedicamento;
         this.laboratorio = laboratorio;
         this.nombreProveedor = nombreProveedor;
+    }
+
+    public Productos(int num, long codigo, int cantidad) {
+        this.num = num;
+        this.codigo = codigo;
+        this.cantidad = cantidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Productos{" + "num=" + num + ", codigo=" + codigo + ", cantidad=" + cantidad + '}';
     }
 
     public long getCodigo() {
@@ -687,7 +707,7 @@ public class Productos {
                 Productos p = new Productos();
                 p.producto(modelo.getValueAt(i, 0).toString());
                 piezasFinales = p.getCantidad() + Integer.parseInt(modelo.getValueAt(i, 2).toString());
-                sql = "UPDATE productos SET cantidad = " + piezasFinales + " WHERE codigo = " +  modelo.getValueAt(i, 0).toString();
+                sql = "UPDATE productos SET cantidad = " + piezasFinales + " WHERE codigo = " + modelo.getValueAt(i, 0).toString();
                 stm.execute(sql);
                 stm.close();
             }

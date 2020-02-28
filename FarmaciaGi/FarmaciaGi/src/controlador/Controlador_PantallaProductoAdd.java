@@ -67,7 +67,7 @@ public class Controlador_PantallaProductoAdd {
                             return;
                         }
 
-                        long codigo = Long.valueOf(productoAgregar.altaMedicamentoCodigo.getText());
+                        String codigo = productoAgregar.altaMedicamentoCodigo.getText();
                         String marcaComercia = productoAgregar.altaMedicamentoMarcaComercial.getText();
                         String sustancia = productoAgregar.altaMedicamentoSustancia.getText();
                         double precio = Double.parseDouble(productoAgregar.altaMedicamentoPrecio.getText());
@@ -106,7 +106,7 @@ public class Controlador_PantallaProductoAdd {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    long codigo = Long.parseLong(productoAgregar.altaMedicamentoCodigo.getText());
+                    String codigo = productoAgregar.altaMedicamentoCodigo.getText();
                     productos = new Productos(codigo);
                     boolean next = productos.verificarCodigo();
 

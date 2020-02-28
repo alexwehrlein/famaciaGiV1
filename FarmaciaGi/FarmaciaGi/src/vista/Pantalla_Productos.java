@@ -106,10 +106,10 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                 public void valueChanged(ListSelectionEvent event) {
                     if (!event.getValueIsAdjusting() && (tablaProductos.getSelectedRow()>= 0)) {//This line prevents double events
                         int filaSeleccionada = tablaProductos.getSelectedRow();
-                        long codi = (long)tablaProductos.getValueAt(filaSeleccionada, 0);
+                        String codi = (String)tablaProductos.getValueAt(filaSeleccionada, 0);
                         String medicamento = (String)tablaProductos.getValueAt(filaSeleccionada, 1);
                         //int cantidad = (int)tablaProductos.getValueAt(filaSeleccionada, 6);
-                        String codiB = Long.toString(codi);
+                        String codiB = codi;
                         //String cantidadE = Integer.toString(cantidad);
                         codigo.setText(codiB);
                         nombre.setText(medicamento);
@@ -673,7 +673,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField nombre;
+    public javax.swing.JTextField nombre;
     public javax.swing.JButton productoAgregar;
     public javax.swing.JTable tablaProductos;
     public rojerusan.RSTableMetro tableInvetario;

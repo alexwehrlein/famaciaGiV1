@@ -6,7 +6,6 @@
 package modelo;
 
 import ArchivoLog.ArchivoLog;
-import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,7 +30,7 @@ import vista.Pantalla_Productos;
 public class Productos {
 
     private int num;
-    private long codigo;
+    private String codigo;
     private String marcaComercial;
     private String sustancias;
     private double precio;
@@ -56,7 +55,7 @@ public class Productos {
         this.num = num;
     }
 
-    public Productos(long codigo, int cantidad, int id_empleado, int piezasAdd) {
+    public Productos(String codigo, int cantidad, int id_empleado, int piezasAdd) {
         this.codigo = codigo;
         this.cantidad = cantidad;
         this.id_empleado = id_empleado;
@@ -87,7 +86,7 @@ public class Productos {
         this.nombreProveedor = nombreProveedor;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -98,7 +97,7 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -109,7 +108,7 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -119,7 +118,7 @@ public class Productos {
         this.nombreProveedor = nombreProveedor;
     }
 
-    public Productos(int num, long codigo, int cantidad) {
+    public Productos(int num, String codigo, int cantidad) {
         this.num = num;
         this.codigo = codigo;
         this.cantidad = cantidad;
@@ -130,11 +129,11 @@ public class Productos {
         return "Productos{" + "num=" + num + ", codigo=" + codigo + ", cantidad=" + cantidad + '}';
     }
 
-    public long getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -198,24 +197,20 @@ public class Productos {
 
     }
 
-    public Productos(long codigo) {
+    public Productos(String codigo) {
         this.codigo = codigo;
     }
 
-    public Productos(long codigo, int cantidad) {
+    public Productos(String codigo, int cantidad) {
         this.codigo = codigo;
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, double precio, String nombre, String tipoMedicamento) {
+    public Productos(String codigo, double precio, String nombre, String tipoMedicamento) {
         this.codigo = codigo;
         this.precio = precio;
         this.marcaComercial = nombre;
         this.tipoMedicamento = tipoMedicamento;
-    }
-
-    public Productos(String sustancias) {
-        this.sustancias = sustancias;
     }
 
     public double PrrcioProducto() {
@@ -255,7 +250,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
-                setCodigo(Long.parseLong(resultado.getString("codigo")));
+                setCodigo(resultado.getString("codigo"));
                 setMarcaComercial(resultado.getString("marca_comercial"));
                 setPrecio(resultado.getDouble("precio"));
                 setCantidad(resultado.getInt("cantidad"));
@@ -546,7 +541,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             for (int i = 0; i < arrayProductos.size(); i++) {
@@ -601,7 +596,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             int num = arrayProductos.size();
@@ -666,7 +661,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             for (int i = 0; i < arrayProductos.size(); i++) {

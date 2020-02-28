@@ -128,7 +128,7 @@ public class Controlador_PantallaProductos {
                             int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'> Modificar Medicamento? </h1></html>", "Modificar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
                                 filaseleccionada = pantalla_Productos.tablaProductos.getSelectedRow();
-                                long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
+                                String codi = pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0).toString();
                                 String nombreM = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 1);
                                 String precio = (String) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 3).toString();
                                 String tipoMedicamento = pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 4).toString();
@@ -178,7 +178,7 @@ public class Controlador_PantallaProductos {
                             filaseleccionada = pantalla_Productos.tablaProductos.getSelectedRow();
                             int reply = JOptionPane.showConfirmDialog(null, "<html><h1 align='center'>¿Eliminar El Medicamento? </h1></html>", "Eliminar", JOptionPane.YES_NO_OPTION);
                             if (reply == JOptionPane.YES_OPTION) {
-                                long codi = (long) pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0);
+                                String codi = pantalla_Productos.tablaProductos.getValueAt(filaseleccionada, 0).toString();
                                 productos = new Productos(codi);
 
                                 if (productos.eliminarMedicamento()) {
@@ -281,7 +281,7 @@ public class Controlador_PantallaProductos {
                             return;
                         }
 
-                        long codigo = Long.valueOf(pantalla_Productos.altaMedicamentoCodigo.getText());
+                        String codigo = pantalla_Productos.altaMedicamentoCodigo.getText();
                         String marcaComercia = pantalla_Productos.altaMedicamentoMarcaComercial.getText();
                         String sustancia = pantalla_Productos.altaMedicamentoSustancia.getText();
                         double precio = Double.parseDouble(pantalla_Productos.altaMedicamentoPrecio.getText());
@@ -311,7 +311,7 @@ public class Controlador_PantallaProductos {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    long codigo = Long.parseLong(pantalla_Productos.altaMedicamentoCodigo.getText());
+                    String codigo = pantalla_Productos.altaMedicamentoCodigo.getText();
                     productos = new Productos(codigo);
                     boolean next = productos.verificarCodigo();
 

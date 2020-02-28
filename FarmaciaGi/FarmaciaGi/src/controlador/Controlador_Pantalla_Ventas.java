@@ -840,7 +840,7 @@ public class Controlador_Pantalla_Ventas {
                 }
                 for (int i = 0; i < modelo.getRowCount(); i++) {
                     ventaPausada.add(new Productos(pausaVenta,
-                            Long.parseLong(modelo.getValueAt(i, 0).toString()),
+                            modelo.getValueAt(i, 0).toString(),
                             Integer.parseInt(modelo.getValueAt(i, 4).toString())));
                 }
                 //if (ventas.pausarVenta(modelo, pausaVenta)) {
@@ -1048,7 +1048,7 @@ public class Controlador_Pantalla_Ventas {
                         for (Productos p : ventaPausada) {
                             if (String.valueOf(p.getNum()).equals(ID)) {
                                 for (int i = 0; i < p.getCantidad(); i++) {
-                                    ingresarVentaPausada(Long.toString(p.getCodigo()));
+                                    ingresarVentaPausada(p.getCodigo());
                                 }
                             }
                         }

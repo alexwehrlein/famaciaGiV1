@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class Utilerias {
     
-    public static String SUCURSALE = "Farmacia 8";
+    public static String SUCURSALE = "Farmacia 6";
     
     public static boolean isMail(String mail) {
         return Pattern.matches("/^[a-zA-Z0-9._\\-]+\\@[a-zA-Z0-9._\\-]+(\\.[a-zA-Z]+)+$/", mail);

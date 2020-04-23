@@ -42,7 +42,6 @@ public class TikectVentas {
         auxs += "\n";
         auxs += arr[1] + "\n";
         auxs += "Iguala de la Independencia\n";
-        auxs += "WhatsApp: (733)3323790\n";
         auxs += "Folio: " + folio + "\n";
         auxs += "Le atendio: " + empleada + "\n";
         auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";

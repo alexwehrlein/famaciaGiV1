@@ -30,6 +30,7 @@ import modelo.Productos;
 import modelo.Proveedor;
 import modelo.Ventas;
 import tikect.TikectInventario;
+import tikect.TikectProducto;
 
 public class Controlador_PantallaProductos {
 
@@ -38,6 +39,7 @@ public class Controlador_PantallaProductos {
     Productos productos;
     Empleado empleado;
     TikectInventario tikectInventario;
+    TikectProducto tikectProducto;
     int idEmpleado;
     String cargo;
 
@@ -92,7 +94,7 @@ public class Controlador_PantallaProductos {
             public void actionPerformed(ActionEvent e) {
                 //pantalla_Productos.setVisible(false);
                 //new Controlador_PantallaProductoAdd(rol, turno);
-                pantalla_Productos.jDialogInventario.setBounds(249, 100, 570, 583);
+                pantalla_Productos.jDialogInventario.setBounds(249, 100, 670, 583);
                 pantalla_Productos.jDialogInventario.setResizable(false);
                 pantalla_Productos.jDialogInventario.setVisible(true);
                 pantalla_Productos.txtInvetarioCodigo.requestFocus();
@@ -295,6 +297,8 @@ public class Controlador_PantallaProductos {
                         if (productos.registrarProducto()) {
                             JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
+                            tikectProducto = new TikectProducto();
+                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad , pc);
                             pantalla_Productos.altaMedicamentoCodigo.requestFocus();
                             pantalla_Productos.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
@@ -350,15 +354,16 @@ public class Controlador_PantallaProductos {
                     Productos productoInfo = new Productos();
                     productoInfo.producto(pantalla_Productos.txtInvetarioCodigo.getText());
                     pantalla_Productos.txtInvetarioNombre.setText(productoInfo.getMarcaComercial());
+                    pantalla_Productos.btnAgregarProducto.setEnabled(true);
                     pantalla_Productos.txtInvetarioPiezas.requestFocus();
                 }
             }
         });
 
-        pantalla_Productos.txtInvetarioPiezas.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (pantalla_Productos.txtInvetarioPiezas.getText().isEmpty()) {
+        pantalla_Productos.btnAgregarProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pantalla_Productos.txtInvetarioPiezas.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                         pantalla_Productos.txtInvetarioPiezas.requestFocus();
                         return;
@@ -386,11 +391,11 @@ public class Controlador_PantallaProductos {
                     pantalla_Productos.txtInvetarioCodigo.setText("");
                     pantalla_Productos.txtInvetarioNombre.setText("");
                     pantalla_Productos.txtInvetarioPiezas.setText("");
+                    pantalla_Productos.btnAgregarProducto.setEnabled(false);
                     pantalla_Productos.txtInvetarioCodigo.requestFocus();
                 }
-            }
         });
-
+            
         pantalla_Productos.btnInventarioGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -457,7 +462,7 @@ public class Controlador_PantallaProductos {
         pantalla_Productos.altaMedicamentoSustancia.setText("");
         pantalla_Productos.altaMedicamentoLavoratorio.setSelectedIndex(1);
         pantalla_Productos.altaMedicamentoTipoMedicamento.setSelectedIndex(1);
-        pantalla_Productos.altaMedicamentoProveedor.setSelectedIndex(1);
+        //pantalla_Productos.altaMedicamentoProveedor.setSelectedIndex(1);
 
     }
 

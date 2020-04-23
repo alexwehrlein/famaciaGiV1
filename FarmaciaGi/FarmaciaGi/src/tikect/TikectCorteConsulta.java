@@ -64,7 +64,7 @@ public class TikectCorteConsulta {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir</h1></html>","warning",JOptionPane.WARNING_MESSAGE);
         }
-        mail.send_mail("cortesfarmaciagi@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+        mail.send_mail("cortesfarmaciagi", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
     }
     
 }

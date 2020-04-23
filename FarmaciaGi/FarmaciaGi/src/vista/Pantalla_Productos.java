@@ -98,6 +98,8 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableInvetario = new rojerusan.RSTableMetro();
         btnInventarioGuardar = new javax.swing.JButton();
+        btnAgregarProducto = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
@@ -328,7 +330,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -342,6 +344,10 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         btnInventarioGuardar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnInventarioGuardar.setText("Guardar");
 
+        btnAgregarProducto.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnAgregarProducto.setText("Agregar");
+        btnAgregarProducto.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -351,7 +357,6 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnInventarioGuardar)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel5)
@@ -363,8 +368,12 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                             .addGap(27, 27, 27)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel17)
-                                .addComponent(txtInvetarioPiezas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(txtInvetarioPiezas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAgregarProducto))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,12 +387,13 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtInvetarioPiezas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtInvetarioCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtInvetarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInvetarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInventarioGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
+                .addGap(78, 78, 78))
         );
 
         javax.swing.GroupLayout jDialogInventarioLayout = new javax.swing.GroupLayout(jDialogInventario.getContentPane());
@@ -394,8 +404,10 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         );
         jDialogInventarioLayout.setVerticalGroup(
             jDialogInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, Short.MAX_VALUE)
         );
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(getIconImage());
@@ -643,6 +655,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
     public javax.swing.JComboBox<Proveedor> altaMedicamentoProveedor;
     public javax.swing.JTextField altaMedicamentoSustancia;
     public javax.swing.JComboBox<String> altaMedicamentoTipoMedicamento;
+    public javax.swing.JButton btnAgregarProducto;
     public javax.swing.JButton btnExistencias;
     public javax.swing.JButton btnInventarioGuardar;
     public javax.swing.JTextField buscarProductos;
@@ -651,6 +664,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     public javax.swing.JTextField codigo;
     public javax.swing.JTextField existenciasM;
+    private javax.swing.JButton jButton1;
     public javax.swing.JDialog jDialogAddProducto;
     public javax.swing.JDialog jDialogInventario;
     private javax.swing.JLabel jLabel1;

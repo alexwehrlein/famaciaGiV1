@@ -142,7 +142,7 @@ public class Controlador_PantallaPrincipal {
                                     activarAdministrador();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Bienvenido: " + arr[3] + "</h1></html>");
-                                } else {
+                                } else if (arr[2].equals("Cajero")) {
                                     activarCajero();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
@@ -157,6 +157,8 @@ public class Controlador_PantallaPrincipal {
                                         pantalla_Principal.recargaMonto.requestFocus();
                                         pantalla_Principal.recargaMonto.setText("");
                                     }
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "Error" , "<html><h1 align='center'>Error</h1></html>" , JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
                                 pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);
@@ -195,7 +197,7 @@ public class Controlador_PantallaPrincipal {
                                 pantalla_Principal.jDialogLogin.setVisible(false);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
 
-                            } else {
+                            } else if (arr[2].equals("Cajero")) {
                                 activarCajero();
                                 pantalla_Principal.jDialogLogin.setVisible(false);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
@@ -210,6 +212,8 @@ public class Controlador_PantallaPrincipal {
                                         pantalla_Principal.recargaMonto.requestFocus();
                                         pantalla_Principal.recargaMonto.setText("");
                                     }
+                            }else{
+                                 JOptionPane.showMessageDialog(null, "Error" , "<html><h1 align='center'>Error</h1></html>" , JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
                             pantalla_Principal.jTextFieldPasswordLogin.setBackground(Color.red);

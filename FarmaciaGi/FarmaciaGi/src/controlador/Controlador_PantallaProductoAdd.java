@@ -76,7 +76,7 @@ public class Controlador_PantallaProductoAdd {
                         Proveedor proveedor = (Proveedor) productoAgregar.altaMedicamentoProveedor.getSelectedItem();
                         int cantidad = Integer.parseInt(productoAgregar.altaMedicamentoCantidad.getText());
 
-                        productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
+                        productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, 0 , tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
 
                         if (productos.registrarProducto()) {
                             JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);

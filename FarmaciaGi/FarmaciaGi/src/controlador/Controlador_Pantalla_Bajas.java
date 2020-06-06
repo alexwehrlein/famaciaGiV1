@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +58,7 @@ public class Controlador_Pantalla_Bajas {
                 String codigo = pantalla_bajas.tctCodigo.getText();
                 int existencias = Integer.parseInt(pantalla_bajas.txtExistencias.getText());
                 int piezas = Integer.parseInt(pantalla_bajas.txtPiezas.getText());
+                String motivo = pantalla_bajas.txtMotivo.getText();
                 if (!String.valueOf(piezas).matches("[0-9]*")) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad correcta.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pantalla_bajas.txtPiezas.requestFocus();
@@ -65,13 +68,27 @@ public class Controlador_Pantalla_Bajas {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>No puede dar de baja mas de lo que existe </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if (pantalla_bajas.txtMotivo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bajas.txtMotivo.requestFocus();
+                    return;
+                }
+                
+                Date fecha = pantalla_bajas.txtFecha.getDate();
+                if (fecha == null) {
+                     JOptionPane.showMessageDialog(null, "<html><h1> Ingresar fecha de caducidad.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    //SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
+                    //gastosFarmacia.jTableGastos.setModel(new Gastos(Formato.format(fecha)).buscarRegistroEgreso(gastosFarmacia.jTableGastos));
+                }
+                SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
                 int inventario = existencias - piezas;
-                bajas = new Bajas(codigo, piezas, inventario, id_empleado);
+                bajas = new Bajas(codigo, piezas, inventario, id_empleado , motivo , Formato.format(fecha));
                 boolean next = bajas.insertarBajasIn();
                 if (next) {
-                    pantalla_bajas.tctCodigo.setText("");
+                    pantalla_bajas.txtMotivo.setText("");
                     pantalla_bajas.txtExistencias.setText("");
                     pantalla_bajas.txtPiezas.setText("");
+                    pantalla_bajas.tctCodigo.setText("");
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El piezas se dieron de baja </h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>ERROR </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);

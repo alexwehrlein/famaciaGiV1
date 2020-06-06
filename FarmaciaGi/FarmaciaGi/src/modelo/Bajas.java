@@ -28,12 +28,31 @@ public class Bajas {
 
     private Connection con;
     private String codigo;
+    private String motivo;
+    private String fecha;
     private int piezas;
     private int existenxias;
     private int id_empleado;
     ArchivoLog log = new ArchivoLog();
     Conexion conn = new Conexion();
 
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    
     public int getId_empleado() {
         return id_empleado;
     }
@@ -70,11 +89,13 @@ public class Bajas {
         this.codigo = codigo;
     }
 
-    public Bajas(String codigo, int piezas, int existenxias, int id) {
+    public Bajas(String codigo, int piezas, int existenxias, int id , String motivo , String fecha) {
         this.codigo = codigo;
         this.piezas = piezas;
         this.existenxias = existenxias;
         this.id_empleado = id;
+        this.motivo = motivo;
+        this.fecha = fecha;
     }
     
     public Bajas(String codigo, int piezas, int existenxias) {
@@ -87,6 +108,14 @@ public class Bajas {
         this.codigo = codigo;
         this.piezas = piezas;
     }
+
+    public Bajas(String codigo, String motivo, String fecha, int piezas) {
+        this.codigo = codigo;
+        this.motivo = motivo;
+        this.fecha = fecha;
+        this.piezas = piezas;
+    }
+    
 
     public Bajas() {
     }
@@ -142,7 +171,7 @@ public class Bajas {
         try {
             for (int i = 0; i < modelo.getRowCount(); i++) {
                 con = conn.getConnection();
-                sql = "INSERT INTO bajas_temporales (codigo,cantidad) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + modelo.getValueAt(i, 1).toString() + " )";
+                sql = "INSERT INTO bajas_temporales (codigo,cantidad,motivo,fecha) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + modelo.getValueAt(i, 1).toString() + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' )";
                 com.mysql.jdbc.PreparedStatement stmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
                 stmt.execute(sql);
                 stmt.close();
@@ -168,7 +197,7 @@ public class Bajas {
             con = conn.getConnection();
             con.setAutoCommit(false);
             Statement stm = (Statement) con.createStatement();
-            sql = "INSERT INTO bajas (codigo,piezas,id_empleado) VALUES ( " + getCodigo() + " , " + getPiezas()+ " , "+getId_empleado()+")";
+            sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad) VALUES ( " + getCodigo() + " , " + getPiezas()+ " , "+getId_empleado()+",'"+getMotivo()+"','"+getFecha()+"')"; 
             stm.execute(sql);
             
             sql = "UPDATE productos SET cantidad = " + getExistenxias() + " WHERE codigo = " + getCodigo();
@@ -222,7 +251,7 @@ public class Bajas {
                 stm2.execute(sql);
 
                 Statement stm = (Statement) con.createStatement();
-                sql = "INSERT INTO bajas (codigo,piezas,id_empleado) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + ")";
+                sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' )";
                 stm.execute(sql);
 
                 stm.close();
@@ -282,10 +311,10 @@ public class Bajas {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {
-                arrayEgresos.add(new Bajas(resultado.getString("codigo"), resultado.getInt("cantidad")));
+                arrayEgresos.add(new Bajas(resultado.getString("codigo"),resultado.getString("motivo") , resultado.getString("fecha") , resultado.getInt("cantidad")));
             }
             for (int i = 0; i < arrayEgresos.size(); i++) {
-                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas()});
+                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas() , arrayEgresos.get(i).getMotivo() , arrayEgresos.get(i).getFecha()});
             }
             pst = null;
             con.close();

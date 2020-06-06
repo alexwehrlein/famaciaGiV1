@@ -6,14 +6,19 @@
 package mail;
 
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  *
@@ -27,7 +32,7 @@ public class Mail {
     String Mensage;
     String Subject;
 
-    public void send_mail(String correo, String text, String sub) {
+    public void send_mail(String correo, String text, String sub, int file) {
         this.To = correo;
         this.Mensage = text;
         this.Subject = sub;
@@ -48,6 +53,17 @@ public class Mail {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(To));   //Se podrían añadir varios de la misma manera
             message.setSubject(Subject);
             message.setText(Mensage);
+
+            if (file == 1) {
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                Multipart multipart = new MimeMultipart();
+                DataSource source = new FileDataSource("C:\\pdf\\inventario.pdf");
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName("inventario.pdf");
+                multipart.addBodyPart(messageBodyPart);
+                message.setContent(multipart);
+            }
+
             Transport transport = session.getTransport("smtp");
             transport.connect("mail.terabytet.com.mx", Username, PassWord);
             transport.sendMessage(message, message.getAllRecipients());

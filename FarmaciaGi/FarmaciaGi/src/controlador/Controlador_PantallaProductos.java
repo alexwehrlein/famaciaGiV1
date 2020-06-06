@@ -5,7 +5,16 @@
  */
 package controlador;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.PdfPTable;
 import java.awt.Color;
+//import java.awt.Font;
 import vista.Pantalla_Productos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,15 +24,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import mail.Mail;
 import mail.MailBug;
 import modelo.Empleado;
 import modelo.Productos;
@@ -31,6 +51,7 @@ import modelo.Proveedor;
 import modelo.Ventas;
 import tikect.TikectInventario;
 import tikect.TikectProducto;
+import utilerias.Utilerias;
 
 public class Controlador_PantallaProductos {
 
@@ -74,8 +95,6 @@ public class Controlador_PantallaProductos {
         List<List<String>> productosTikect = new ArrayList<List<String>>();
         productosTikect.add(new ArrayList<String>());
         productosTikect.add(new ArrayList<String>());
-
-        
 
         pantalla_Productos.productoAgregar.addActionListener(new ActionListener() {
             @Override
@@ -282,23 +301,29 @@ public class Controlador_PantallaProductos {
                             pantalla_Productos.altaMedicamentoPrecio.requestFocus();
                             return;
                         }
+                        if (!pantalla_Productos.altaMedicamentoPrecioCompra.getText().matches("\\d+\\.?\\d?\\d?")) {
+                            JOptionPane.showMessageDialog(null, "<html><h1>Ingrese un precio correcta.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            pantalla_Productos.altaMedicamentoPrecioCompra.requestFocus();
+                            return;
+                        }
 
                         String codigo = pantalla_Productos.altaMedicamentoCodigo.getText();
                         String marcaComercia = pantalla_Productos.altaMedicamentoMarcaComercial.getText();
                         String sustancia = pantalla_Productos.altaMedicamentoSustancia.getText();
                         double precio = Double.parseDouble(pantalla_Productos.altaMedicamentoPrecio.getText());
+                        double precioCompra = Double.parseDouble(pantalla_Productos.altaMedicamentoPrecioCompra.getText());
                         String tipoMedicamento = pantalla_Productos.altaMedicamentoTipoMedicamento.getSelectedItem().toString();
                         String laboratorio = pantalla_Productos.altaMedicamentoLavoratorio.getSelectedItem().toString();
                         Proveedor proveedor = (Proveedor) pantalla_Productos.altaMedicamentoProveedor.getSelectedItem();
                         int cantidad = Integer.parseInt(pantalla_Productos.altaMedicamentoCantidad.getText());
 
-                        productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
+                        productos = new Productos(codigo, marcaComercia.toUpperCase(), sustancia.toUpperCase(), precio, precioCompra, tipoMedicamento, laboratorio, proveedor.getIdproveedor(), cantidad);
 
                         if (productos.registrarProducto()) {
                             JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             tikectProducto = new TikectProducto();
-                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad , pc);
+                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad, pc);
                             pantalla_Productos.altaMedicamentoCodigo.requestFocus();
                             pantalla_Productos.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
@@ -364,38 +389,38 @@ public class Controlador_PantallaProductos {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (pantalla_Productos.txtInvetarioPiezas.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_Productos.txtInvetarioPiezas.requestFocus();
-                        return;
-                    }
-                    if (!pantalla_Productos.txtInvetarioPiezas.getText().matches("^\\d+\\.?\\d?\\d?")) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> Ingrese un numero.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_Productos.txtInvetarioPiezas.requestFocus();
-                        return;
-                    }
-                    DefaultTableModel model = (DefaultTableModel) pantalla_Productos.tableInvetario.getModel();
-                    for (int i = 0; i < pantalla_Productos.tableInvetario.getRowCount(); i++) {
-                        String codigo = pantalla_Productos.tableInvetario.getValueAt(i, 0).toString();
-                        if (codigo.equals(pantalla_Productos.txtInvetarioCodigo.getText())) {
-
-                            model.setValueAt(Integer.parseInt(pantalla_Productos.tableInvetario.getValueAt(i, 2).toString()) + Integer.parseInt(pantalla_Productos.txtInvetarioPiezas.getText()), i, 2);
-                            pantalla_Productos.txtInvetarioCodigo.setText("");
-                            pantalla_Productos.txtInvetarioNombre.setText("");
-                            pantalla_Productos.txtInvetarioPiezas.setText("");
-                            pantalla_Productos.txtInvetarioCodigo.requestFocus();
-                            return;
-                        }
-                    }
-
-                    model.addRow(new Object[]{pantalla_Productos.txtInvetarioCodigo.getText(), pantalla_Productos.txtInvetarioNombre.getText(), pantalla_Productos.txtInvetarioPiezas.getText()});
-                    pantalla_Productos.txtInvetarioCodigo.setText("");
-                    pantalla_Productos.txtInvetarioNombre.setText("");
-                    pantalla_Productos.txtInvetarioPiezas.setText("");
-                    pantalla_Productos.btnAgregarProducto.setEnabled(false);
-                    pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_Productos.txtInvetarioPiezas.requestFocus();
+                    return;
                 }
+                if (!pantalla_Productos.txtInvetarioPiezas.getText().matches("^\\d+\\.?\\d?\\d?")) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> Ingrese un numero.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_Productos.txtInvetarioPiezas.requestFocus();
+                    return;
+                }
+                DefaultTableModel model = (DefaultTableModel) pantalla_Productos.tableInvetario.getModel();
+                for (int i = 0; i < pantalla_Productos.tableInvetario.getRowCount(); i++) {
+                    String codigo = pantalla_Productos.tableInvetario.getValueAt(i, 0).toString();
+                    if (codigo.equals(pantalla_Productos.txtInvetarioCodigo.getText())) {
+
+                        model.setValueAt(Integer.parseInt(pantalla_Productos.tableInvetario.getValueAt(i, 2).toString()) + Integer.parseInt(pantalla_Productos.txtInvetarioPiezas.getText()), i, 2);
+                        pantalla_Productos.txtInvetarioCodigo.setText("");
+                        pantalla_Productos.txtInvetarioNombre.setText("");
+                        pantalla_Productos.txtInvetarioPiezas.setText("");
+                        pantalla_Productos.txtInvetarioCodigo.requestFocus();
+                        return;
+                    }
+                }
+
+                model.addRow(new Object[]{pantalla_Productos.txtInvetarioCodigo.getText(), pantalla_Productos.txtInvetarioNombre.getText(), pantalla_Productos.txtInvetarioPiezas.getText()});
+                pantalla_Productos.txtInvetarioCodigo.setText("");
+                pantalla_Productos.txtInvetarioNombre.setText("");
+                pantalla_Productos.txtInvetarioPiezas.setText("");
+                pantalla_Productos.btnAgregarProducto.setEnabled(false);
+                pantalla_Productos.txtInvetarioCodigo.requestFocus();
+            }
         });
-            
+
         pantalla_Productos.btnInventarioGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -424,6 +449,203 @@ public class Controlador_PantallaProductos {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> ANTES DE CERRAR LA VENTANA IMPRIMA EL TIKECT </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else {
                     pantalla_Productos.dispose();
+                }
+            }
+        });
+
+        pantalla_Productos.btnInventariar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pantalla_Productos.jDialogPDF.setBounds(249, 154, 456, 204);
+                pantalla_Productos.jDialogPDF.setResizable(false);
+                pantalla_Productos.jDialogPDF.setVisible(true);
+            }
+        });
+
+        pantalla_Productos.btnBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser dlg = new JFileChooser();
+                int option = dlg.showSaveDialog(dlg);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File f = dlg.getSelectedFile();
+                    pantalla_Productos.txtUrl.setText(f.toString());
+                }
+            }
+        });
+
+        pantalla_Productos.btnGuardarPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String url = pantalla_Productos.txtUrl.getText();
+                if (url.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Eliga la ruta de guardado. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+           
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                productos = new Productos();
+                ArrayList<Productos> datos = productos.inventario();
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream(url+".pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Inventario***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo2.add(dateFormat.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo3.add(Utilerias.SUCURSALE);
+                    documento.add(titulo3);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2, 3, 2,1,1};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("Código");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("Marca");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+
+                    Paragraph columna3 = new Paragraph("Tipo");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+                    
+                    Paragraph columna4 = new Paragraph("Piezas");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                    
+                    Paragraph columna5 = new Paragraph("Estatus");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    for (Productos r : datos) {
+                        tabla.addCell(r.getCodigo());
+                        tabla.addCell(r.getMarcaComercial());
+                        tabla.addCell(r.getTipoMedicamento());
+                        tabla.addCell(String.valueOf(r.getCantidad()));
+                        tabla.addCell("");
+                    }
+                    documento.add(tabla);
+
+                    documento.close();
+                    pantalla_Productos.txtUrl.setText("");
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                }
+            }
+        });
+        
+        pantalla_Productos.btnPiezas0.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                productos = new Productos();
+                ArrayList<Productos> datos = productos.inventarioPZ0();
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream("C:/pdf/inventario.pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Inventario***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo2.add(dateFormat.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo3.add(Utilerias.SUCURSALE);
+                    documento.add(titulo3);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2, 3, 2,1};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("Código");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("Marca");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+
+                    Paragraph columna3 = new Paragraph("Tipo");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+                    
+                    Paragraph columna4 = new Paragraph("Piezas");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                   
+                    
+                    for (Productos r : datos) {
+                        tabla.addCell(r.getCodigo());
+                        tabla.addCell(r.getMarcaComercial());
+                        tabla.addCell(r.getTipoMedicamento());
+                        tabla.addCell(String.valueOf(r.getCantidad()));
+                    }
+                    documento.add(tabla);
+
+                    documento.close();
+                    Mail mail = new Mail();
+                    mail.send_mail("farmaciagi08@gmail.com", "PDF", "inventario Piezas 0" , 1); //farmaciagi08@gmail.com
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
                 }
             }
         });

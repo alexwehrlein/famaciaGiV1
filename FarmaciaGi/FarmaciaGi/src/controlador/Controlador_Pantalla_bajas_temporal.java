@@ -9,9 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Bajas;
+import modelo.Gastos;
 import modelo.Ventas;
 import vista.Pantalla_bjas_temporal;
 
@@ -29,34 +33,49 @@ public class Controlador_Pantalla_bajas_temporal {
         pantalla_bjas_temporal.setVisible(true);
         pantalla_bjas_temporal.setLocationRelativeTo(null);
 
-        pantalla_bjas_temporal.txtCantidad.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (pantalla_bjas_temporal.txtCodigo.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_bjas_temporal.txtCodigo.requestFocus();
-                        return;
-                    }
+        pantalla_bjas_temporal.btnAgregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                    if (pantalla_bjas_temporal.txtCantidad.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        pantalla_bjas_temporal.txtCantidad.requestFocus();
-                        return;
-                    }
+                if (pantalla_bjas_temporal.txtCodigo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bjas_temporal.txtCodigo.requestFocus();
+                    return;
+                }
 
-                    if (!new Ventas().existeRegistroProducto(pantalla_bjas_temporal.txtCodigo.getText())) {
-                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
-                        pantalla_bjas_temporal.txtCantidad.setText("");
-                        pantalla_bjas_temporal.txtCodigo.setText("");
-                        pantalla_bjas_temporal.txtCodigo.requestFocus();
-                        return;
-                    }
-                    DefaultTableModel model = (DefaultTableModel) pantalla_bjas_temporal.jTableBjasT.getModel();
-                    model.addRow(new Object[]{pantalla_bjas_temporal.txtCodigo.getText(), pantalla_bjas_temporal.txtCantidad.getText()});
+                if (!new Ventas().existeRegistroProducto(pantalla_bjas_temporal.txtCodigo.getText())) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>EL PRODUCTO NO EXISTE </h1></html>", "ERROR..", JOptionPane.ERROR_MESSAGE);
                     pantalla_bjas_temporal.txtCantidad.setText("");
                     pantalla_bjas_temporal.txtCodigo.setText("");
                     pantalla_bjas_temporal.txtCodigo.requestFocus();
+                    return;
                 }
+
+                if (pantalla_bjas_temporal.txtCantidad.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bjas_temporal.txtCantidad.requestFocus();
+                    return;
+                }
+                
+                 if (pantalla_bjas_temporal.txtMotivo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bjas_temporal.txtMotivo.requestFocus();
+                    return;
+                }
+                
+                Date fecha = pantalla_bjas_temporal.txtFechaC.getDate();
+                if (fecha == null) {
+                     JOptionPane.showMessageDialog(null, "<html><h1> Ingresar fecha de caducidad.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    //SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
+                    //gastosFarmacia.jTableGastos.setModel(new Gastos(Formato.format(fecha)).buscarRegistroEgreso(gastosFarmacia.jTableGastos));
+                }
+                SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
+                DefaultTableModel model = (DefaultTableModel) pantalla_bjas_temporal.jTableBjasT.getModel();
+                model.addRow(new Object[]{pantalla_bjas_temporal.txtCodigo.getText(), pantalla_bjas_temporal.txtCantidad.getText(),pantalla_bjas_temporal.txtMotivo.getText(),Formato.format(fecha) });
+                pantalla_bjas_temporal.txtCantidad.setText("");
+                pantalla_bjas_temporal.txtCodigo.setText("");
+                pantalla_bjas_temporal.txtMotivo.setText("");
+                pantalla_bjas_temporal.txtCodigo.requestFocus();
             }
         });
 

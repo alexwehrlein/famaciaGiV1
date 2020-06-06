@@ -34,6 +34,7 @@ public class Productos {
     private String marcaComercial;
     private String sustancias;
     private double precio;
+    private double precioCompra;
     private String tipoMedicamento;
     private String laboratorio;
     private int proveedor;
@@ -86,7 +87,17 @@ public class Productos {
         this.nombreProveedor = nombreProveedor;
     }
 
-    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
+    public double getPrecioCompra() {
+        return precioCompra;
+    }
+
+    public void setPrecioCompra(double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+    
+    
+
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio , String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -97,11 +108,12 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, double precioCompra , String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
         this.precio = precio;
+        this.precioCompra = precioCompra;
         this.tipoMedicamento = tipoMedicamento;
         this.laboratorio = laboratorio;
         this.proveedor = proveedor;
@@ -393,6 +405,76 @@ public class Productos {
 
         return arrayRegistros;
     }
+    
+     public ArrayList<Productos> inventario() {
+        ArrayList<Productos> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM productos p order BY p.tipo_medicamento , p.marca_comercial  ASC";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Productos r = new Productos();
+                r.setCodigo(resultado.getString("codigo"));
+                r.setMarcaComercial(resultado.getString("marca_comercial"));
+                r.setTipoMedicamento(resultado.getString("tipo_medicamento"));
+                r.setCantidad(resultado.getInt("cantidad"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
+    }
+     
+     public ArrayList<Productos> inventarioPZ0() {
+        ArrayList<Productos> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM productos p WHERE p.cantidad = 0 order BY  p.marca_comercial  ASC";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Productos r = new Productos();
+                r.setCodigo(resultado.getString("codigo"));
+                r.setMarcaComercial(resultado.getString("marca_comercial"));
+                r.setTipoMedicamento(resultado.getString("tipo_medicamento"));
+                r.setCantidad(resultado.getInt("cantidad"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
+    }
 
     public ArrayList<Proveedor> octenerProveedores() {
         ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
@@ -432,7 +514,7 @@ public class Productos {
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("INSERT INTO productos VALUES(" + getCodigo() + ",'" + getMarcaComercial() + "','" + getSustancias() + "'," + getPrecio() + ",'"
+            stm.execute("INSERT INTO productos VALUES(" + getCodigo() + ",'" + getMarcaComercial() + "','" + getSustancias() + "'," + getPrecioCompra()+ "," + getPrecio() + ",'" 
                     + getTipoMedicamento() + "','" + getLaboratorio() + "'," + getProveedor() + "," + getCantidad() + ")");
             return true;
         } catch (SQLException ex) {

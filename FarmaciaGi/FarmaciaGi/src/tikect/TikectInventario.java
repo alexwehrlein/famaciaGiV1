@@ -75,7 +75,7 @@ public class TikectInventario {
             impServicio.printBytes(impra, cutP); // se imprime el bruto 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
-            mail.send_mail("sauber_alex@outlook.com", auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase()); //farmaciagi08@gmail.com
+            mail.send_mail("farmaciagi08@gmail.com", auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
         }
 
     }

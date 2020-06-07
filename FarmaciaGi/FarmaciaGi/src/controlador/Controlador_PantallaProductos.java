@@ -579,7 +579,7 @@ public class Controlador_PantallaProductos {
                     // Se crea el documento
                     Document documento = new Document();
 // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
-                    ficheroPdf = new FileOutputStream("C:/pdf/inventario.pdf");
+                    ficheroPdf = new FileOutputStream("C:/farmacia/inventario.pdf");
                     // Se asocia el documento al OutputStream y se indica que el espaciado entre
 // lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
                     PdfWriter.getInstance(documento, ficheroPdf);

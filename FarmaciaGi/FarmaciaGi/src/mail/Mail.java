@@ -57,7 +57,7 @@ public class Mail {
             if (file == 1) {
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
                 Multipart multipart = new MimeMultipart();
-                DataSource source = new FileDataSource("C:\\pdf\\inventario.pdf");
+                DataSource source = new FileDataSource("C:\\farmacia\\inventario.pdf");
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName("inventario.pdf");
                 multipart.addBodyPart(messageBodyPart);

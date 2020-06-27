@@ -5,23 +5,37 @@
  */
 package controlador;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mail.Mail;
 import mail.MailBug;
+import modelo.Bajas;
 import modelo.Corte;
 import modelo.Gastos;
+import modelo.Productos;
 import modelo.Usuarios;
 import tikect.TikectCorte;
 import tikect.TikectCorteConsulta;
@@ -46,6 +60,7 @@ public class Pantalla_Corte {
     TikectCorteConsulta tcc;
     Corte corte;
     Gastos gastos;
+    Bajas bajas;
     String ventaTotal = "0";
     String consultorioTotal = "0";
     String devolucionesTotal = "0";
@@ -349,6 +364,7 @@ public class Pantalla_Corte {
                         tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
                         tcc.Tikect(ct, turno, pc, consultas,pagoDoctores);
+                        pdfBajas(turno);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
 
@@ -365,6 +381,105 @@ public class Pantalla_Corte {
             }
         });
 
+    }
+    
+    private void pdfBajas(String turno){
+                bajas = new Bajas();
+                ArrayList<Bajas> datos = bajas.bajasList(turno);
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream("C:/farmacia/bajas.pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Bajas***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo2.add(dateFormat.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo3.add(Utilerias.SUCURSALE);
+                    documento.add(titulo3);
+                    
+                    Paragraph titulo4 = new Paragraph();
+                    titulo4.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo4.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo4.add("Turno: "+turno);
+                    documento.add(titulo4);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2, 3, 2,1,2,2};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("Código");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("Marca");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+                    
+                    Paragraph columna3 = new Paragraph("Motivo");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+
+                    Paragraph columna4 = new Paragraph("Piezas");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                    
+                    Paragraph columna5 = new Paragraph("Fecha Caducidad");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    Paragraph columna6 = new Paragraph("Nombre");
+                    columna6.getFont().setStyle(Font.BOLD);
+                    columna6.getFont().setSize(10);
+                    tabla.addCell(columna6);
+                   
+                    
+                    for (Bajas r : datos) {
+                        tabla.addCell(r.getCodigo());
+                        tabla.addCell(r.getMarca());
+                        tabla.addCell(r.getMotivo());
+                        tabla.addCell(String.valueOf(r.getPiezas()));
+                        tabla.addCell(r.getFecha());
+                        tabla.addCell(r.getNombre());
+                    }
+                    documento.add(tabla);
+
+                    documento.close();
+                    Mail mail = new Mail();
+                    mail.send_mail("inventariogi06@gmail.com", "PDF", "Bajas" , 2); //farmaciagi08@gmail.com
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                }
     }
 
     private void Clear_Table() {

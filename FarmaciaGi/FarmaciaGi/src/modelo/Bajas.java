@@ -30,12 +30,41 @@ public class Bajas {
     private String codigo;
     private String motivo;
     private String fecha;
+    private String turno;
+    private String nombre;
+    private String marca;
     private int piezas;
     private int existenxias;
     private int id_empleado;
     ArchivoLog log = new ArchivoLog();
     Conexion conn = new Conexion();
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+    
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
     public String getMotivo() {
         return motivo;
     }
@@ -109,11 +138,13 @@ public class Bajas {
         this.piezas = piezas;
     }
 
-    public Bajas(String codigo, String motivo, String fecha, int piezas) {
+    public Bajas(String codigo, String motivo, String fecha, int piezas , String turno , String nombre) {
         this.codigo = codigo;
         this.motivo = motivo;
         this.fecha = fecha;
         this.piezas = piezas;
+        this.turno = turno;
+        this.nombre = nombre;
     }
     
 
@@ -165,13 +196,15 @@ public class Bajas {
         }
 
     }
+    
+    
 
-    public Boolean GuadarListaBajas(DefaultTableModel modelo) {
+    public Boolean GuadarListaBajas(DefaultTableModel modelo , String nombre , String turno) {
         String sql = null;
         try {
             for (int i = 0; i < modelo.getRowCount(); i++) {
                 con = conn.getConnection();
-                sql = "INSERT INTO bajas_temporales (codigo,cantidad,motivo,fecha) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + modelo.getValueAt(i, 1).toString() + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' )";
+                sql = "INSERT INTO bajas_temporales (codigo,cantidad,motivo,fecha,nombre,turno) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + modelo.getValueAt(i, 1).toString() + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+nombre+"' , '"+turno+"' )";
                 com.mysql.jdbc.PreparedStatement stmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
                 stmt.execute(sql);
                 stmt.close();
@@ -251,7 +284,7 @@ public class Bajas {
                 stm2.execute(sql);
 
                 Statement stm = (Statement) con.createStatement();
-                sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' )";
+                sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad,nombre,turno) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+modelo.getValueAt(i, 4).toString()+"' , '"+modelo.getValueAt(i, 5).toString()+"' )";
                 stm.execute(sql);
 
                 stm.close();
@@ -311,10 +344,10 @@ public class Bajas {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {
-                arrayEgresos.add(new Bajas(resultado.getString("codigo"),resultado.getString("motivo") , resultado.getString("fecha") , resultado.getInt("cantidad")));
+                arrayEgresos.add(new Bajas(resultado.getString("codigo"),resultado.getString("motivo") , resultado.getString("fecha") , resultado.getInt("cantidad") , resultado.getString("turno") , resultado.getString("nombre")));
             }
             for (int i = 0; i < arrayEgresos.size(); i++) {
-                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas() , arrayEgresos.get(i).getMotivo() , arrayEgresos.get(i).getFecha()});
+                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas() , arrayEgresos.get(i).getMotivo() , arrayEgresos.get(i).getFecha() , arrayEgresos.get(i).getNombre(), arrayEgresos.get(i).getTurno()});
             }
             pst = null;
             con.close();
@@ -322,6 +355,44 @@ public class Bajas {
             Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "" + ex);
         }
         return modelo;
+    }
+    
+    public ArrayList<Bajas> bajasList(String turno) {
+        ArrayList<Bajas> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT p.codigo , p.marca_comercial , b.piezas , b.fechaCaducidad , b.turno , b.nombre , b.motivo FROM bajas b INNER JOIN productos p ON (p.codigo = b.codigo) WHERE DATE(fecha) = CURDATE() AND b.turno = '"+turno+"' ";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Bajas r = new Bajas();
+                r.setCodigo(resultado.getString("codigo"));
+                r.setMarca(resultado.getString("marca_comercial"));
+                r.setFecha(resultado.getString("fechaCaducidad"));
+                r.setTurno(resultado.getString("turno"));
+                r.setNombre(resultado.getString("nombre"));
+                r.setMotivo(resultado.getString("motivo"));
+                r.setPiezas(resultado.getInt("piezas"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
     }
 
 }

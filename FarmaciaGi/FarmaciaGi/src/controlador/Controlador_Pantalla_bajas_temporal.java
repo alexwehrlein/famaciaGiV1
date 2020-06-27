@@ -28,7 +28,7 @@ public class Controlador_Pantalla_bajas_temporal {
     Pantalla_bjas_temporal pantalla_bjas_temporal;
     Bajas bajas;
 
-    public Controlador_Pantalla_bajas_temporal() {
+    public Controlador_Pantalla_bajas_temporal(String turno) {
         pantalla_bjas_temporal = new Pantalla_bjas_temporal();
         pantalla_bjas_temporal.setVisible(true);
         pantalla_bjas_temporal.setLocationRelativeTo(null);
@@ -57,9 +57,15 @@ public class Controlador_Pantalla_bajas_temporal {
                     return;
                 }
                 
-                 if (pantalla_bjas_temporal.txtMotivo.getText().isEmpty()) {
+                if (pantalla_bjas_temporal.txtMotivo.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pantalla_bjas_temporal.txtMotivo.requestFocus();
+                    return;
+                }
+                
+                if (pantalla_bjas_temporal.txtNombre.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bjas_temporal.txtNombre.requestFocus();
                     return;
                 }
                 
@@ -87,10 +93,17 @@ public class Controlador_Pantalla_bajas_temporal {
                     JOptionPane.showMessageDialog(null, "<html><h1> no hay datos en la tabla</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if (pantalla_bjas_temporal.txtNombre.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    pantalla_bjas_temporal.txtNombre.requestFocus();
+                    return;
+                }
+                String nombre = pantalla_bjas_temporal.txtNombre.getText();
                 bajas = new Bajas();
-                boolean next = bajas.GuadarListaBajas(model);
+                boolean next = bajas.GuadarListaBajas(model,nombre,turno);
                 if (next) {
                     Clear_Table();
+                    pantalla_bjas_temporal.txtNombre.setText("");
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1> ERROR</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);

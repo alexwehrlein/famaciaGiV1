@@ -502,7 +502,7 @@ public class Controlador_PantallaPrincipal {
                 }
                 if (ventanaControl15 == false) {
                     ventanaControl15 = true;
-                    new Controlador_Pantalla_bajas_temporal();
+                    new Controlador_Pantalla_bajas_temporal(turno);
                 }
             }
         });

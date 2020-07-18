@@ -68,11 +68,11 @@ public class Pantalla_bajas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Cantidad", "Motivo", "Fecha", "Nombre", "Turno"
+                "Codigo", "Cantidad", "Motivo", "F.Caducidad", "Nombre", "Turno"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

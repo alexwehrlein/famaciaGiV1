@@ -54,6 +54,7 @@ public class Controlador_PantallaPrincipal {
     public static boolean ventanaControl13 = false;
     public static boolean ventanaControl14 = false;
     public static boolean ventanaControl15 = false;
+    public static boolean ventanaControl16 = false;
 
     public class Imagen extends javax.swing.JPanel {
 
@@ -264,7 +265,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14  || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -304,7 +305,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -320,7 +321,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -336,7 +337,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -352,7 +353,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                    return;
                 }
@@ -367,7 +368,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -383,7 +384,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -398,7 +399,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -413,7 +414,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -428,7 +429,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl12 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -443,7 +444,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl13 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl13 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -466,7 +467,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl14) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl14 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -481,7 +482,7 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl16) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -496,13 +497,28 @@ public class Controlador_PantallaPrincipal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
-                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14  ) {
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl16  ) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (ventanaControl15 == false) {
                     ventanaControl15 = true;
                     new Controlador_Pantalla_bajas_temporal(turno);
+                }
+            }
+        });
+        
+        pantalla_Principal.jMenuItemFaltantes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ventanaControl1 || ventanaControl3 || ventanaControl4 || ventanaControl5 || ventanaControl6 || ventanaControl7 || ventanaControl8
+                        || ventanaControl9 || ventanaControl10 || ventanaControl11 || ventanaControl12 || ventanaControl13 || ventanaControl14 || ventanaControl15  ) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Deberás cerrar ventana actual para abrir otra ventana. </h1></html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (ventanaControl16 == false) {
+                    ventanaControl16 = true;
+                    new Controller_Faltantes(turno,idEmpleado);
                 }
             }
         });
@@ -540,6 +556,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemSettings.setEnabled(false);
         pantalla_Principal.jMenuItemCompras.setEnabled(false);
         pantalla_Principal.jMenuItemBajasTemporales.setEnabled(false);
+        pantalla_Principal.jMenuItemFaltantes.setEnabled(false);
         pantalla_Principal.jMenuAdmon.setEnabled(true);
         pantalla_Principal.jMenuCajero.setEnabled(true);
     }
@@ -570,6 +587,7 @@ public class Controlador_PantallaPrincipal {
         pantalla_Principal.jMenuItemInformacionSucursal.setEnabled(false);
         pantalla_Principal.jMenuItemRetiro.setEnabled(true);
         pantalla_Principal.jMenuItemBajasTemporales.setEnabled(true);
+        pantalla_Principal.jMenuItemFaltantes.setEnabled(true);
         pantalla_Principal.jMenuItemIniciarSesion.setText("Cerrar Sesion");
 
     }

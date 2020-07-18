@@ -72,6 +72,15 @@ public class Mail {
                 multipart.addBodyPart(messageBodyPart);
                 message.setContent(multipart);
             }
+            if (file == 3) {
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                Multipart multipart = new MimeMultipart();
+                DataSource source = new FileDataSource("C:\\farmacia\\faltantes.pdf");
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName("bajas.pdf");
+                multipart.addBodyPart(messageBodyPart);
+                message.setContent(multipart);
+            }
 
             Transport transport = session.getTransport("smtp");
             transport.connect("mail.terabytet.com.mx", Username, PassWord);

@@ -803,5 +803,63 @@ public class Productos {
         }
         return next;
     }
+    
+     public DefaultTableModel faltanteTabla(JTable jt, String codigo , int valor) {
+        jt.setDefaultRenderer(Object.class, new Render());
+        JButton btnModificar = new JButton("Modificar");
+        JButton btnEliminar = new JButton("Eliminar");
+        btnModificar.setName("btnModificar");
+        btnEliminar.setName("btnEliminar");
+        ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
+        btnModificar.setIcon(im);
+        ImageIcon ie = new ImageIcon(getClass().getResource("/imagenes/eli.png"));
+        btnEliminar.setIcon(ie);
+        jt.setRowHeight(25);
+
+        DefaultTableModel modelo = (DefaultTableModel) jt.getModel();
+        ArrayList<Productos> arrayProductos = new ArrayList<>();
+        try {
+
+            String sql = "SELECT codigo,marca_comercial,sustancia,precio,tipo_medicamento,laboratorio,"
+                    + "proveedor.nombre,cantidad FROM productos JOIN proveedor "
+                    + "on productos.proveedor=proveedor.id_proveedor ";
+            
+            if(valor == 0){
+                sql += " WHERE marca_comercial like '%" + codigo + "%'";
+            }else{
+                sql += " WHERE codigo = '" + codigo + "'";
+            }
+            
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                        resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
+            }
+           
+
+            for (int i = 0; i < arrayProductos.size(); i++) {
+                modelo.addRow(new Object[]{arrayProductos.get(i).getCodigo(), arrayProductos.get(i).getMarcaComercial(),
+                    arrayProductos.get(i).getSustancias()});
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return modelo;
+    }
 
 }

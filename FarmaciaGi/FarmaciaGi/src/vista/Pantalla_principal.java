@@ -106,6 +106,7 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemGestionProducto = new javax.swing.JMenuItem();
         jMenuItemRetiro = new javax.swing.JMenuItem();
         jMenuItemBajasTemporales = new javax.swing.JMenuItem();
+        jMenuItemFaltantes = new javax.swing.JMenuItem();
         jMenuInicioSesion = new javax.swing.JMenu();
         jMenuItemIniciarSesion = new javax.swing.JMenuItem();
 
@@ -371,6 +372,10 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemBajasTemporales.setText("Baja de medicamento");
         jMenuCajero.add(jMenuItemBajasTemporales);
 
+        jMenuItemFaltantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/faltantesPanel.png"))); // NOI18N
+        jMenuItemFaltantes.setText("Faltantes");
+        jMenuCajero.add(jMenuItemFaltantes);
+
         jMenuBar1.add(jMenuCajero);
 
         jMenuInicioSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/loo4.png"))); // NOI18N
@@ -488,6 +493,7 @@ public class Pantalla_principal extends javax.swing.JFrame {
     public javax.swing.JMenuItem jMenuItemBajasTemporales;
     public javax.swing.JMenuItem jMenuItemCompras;
     public javax.swing.JMenuItem jMenuItemDevoluciones;
+    public javax.swing.JMenuItem jMenuItemFaltantes;
     public javax.swing.JMenuItem jMenuItemGestionCliente;
     public javax.swing.JMenuItem jMenuItemGestionEmp;
     public javax.swing.JMenuItem jMenuItemGestionProducto;

@@ -26,10 +26,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jTabbedPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -75,10 +72,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -107,15 +101,15 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="544" max="32767" attributes="0"/>
+                          <Component id="btnBajas" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="377" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="412" max="32767" attributes="0"/>
-                          <Component id="btnBajas" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="377" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -153,13 +147,14 @@
                     <Component class="rojerusan.RSTableMetro" name="jtableBjas">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="6" rowCount="0">
-                            <Column editable="false" title="Codigo" type="java.lang.Object"/>
-                            <Column editable="false" title="Cantidad" type="java.lang.Object"/>
-                            <Column editable="false" title="Motivo" type="java.lang.Object"/>
-                            <Column editable="false" title="F.Caducidad" type="java.lang.Object"/>
-                            <Column editable="false" title="Nombre" type="java.lang.Object"/>
-                            <Column editable="false" title="Turno" type="java.lang.Object"/>
+                          <Table columnCount="7" rowCount="0">
+                            <Column editable="false" title="CODIGO" type="java.lang.Object"/>
+                            <Column editable="false" title="CANTIDAD" type="java.lang.Object"/>
+                            <Column editable="false" title="MOTIVO" type="java.lang.Object"/>
+                            <Column editable="false" title="F.CADUCIDAD" type="java.lang.Object"/>
+                            <Column editable="false" title="NOMBRE" type="java.lang.Object"/>
+                            <Column editable="false" title="TURNO" type="java.lang.Object"/>
+                            <Column editable="false" title="F. BAJA" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -194,7 +189,21 @@
                               <Editor/>
                               <Renderer/>
                             </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                           </TableColumnModel>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Times New Roman" size="18" style="1"/>
+                        </Property>
+                        <Property name="fuenteFilas" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Times New Roman" size="14" style="1"/>
+                        </Property>
+                        <Property name="fuenteFilasSelect" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Times New Roman" size="14" style="1"/>
                         </Property>
                         <Property name="rowHeight" type="int" value="25"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -292,7 +301,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="654" max="32767" attributes="0"/>
+                              <EmptySpace pref="786" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">

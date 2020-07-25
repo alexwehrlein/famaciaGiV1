@@ -30,6 +30,7 @@ public class Bajas {
     private String codigo;
     private String motivo;
     private String fecha;
+    private String creado;
     private String turno;
     private String nombre;
     private String marca;
@@ -38,6 +39,15 @@ public class Bajas {
     private int id_empleado;
     ArchivoLog log = new ArchivoLog();
     Conexion conn = new Conexion();
+
+    public String getCreado() {
+        return creado;
+    }
+
+    public void setCreado(String creado) {
+        this.creado = creado;
+    }
+    
 
     public String getMarca() {
         return marca;
@@ -138,13 +148,14 @@ public class Bajas {
         this.piezas = piezas;
     }
 
-    public Bajas(String codigo, String motivo, String fecha, int piezas , String turno , String nombre) {
+    public Bajas(String codigo, String motivo, String fecha, int piezas , String turno , String nombre , String creado) {
         this.codigo = codigo;
         this.motivo = motivo;
         this.fecha = fecha;
         this.piezas = piezas;
         this.turno = turno;
         this.nombre = nombre;
+        this.creado = creado;
     }
     
 
@@ -204,7 +215,7 @@ public class Bajas {
         try {
             for (int i = 0; i < modelo.getRowCount(); i++) {
                 con = conn.getConnection();
-                sql = "INSERT INTO bajas_temporales (codigo,cantidad,motivo,fecha,nombre,turno) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + modelo.getValueAt(i, 1).toString() + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+nombre+"' , '"+turno+"' )";
+                sql = "INSERT INTO bajas_temporales (codigo,cantidad,motivo,fecha,nombre,turno,creado) VALUES ( '" + modelo.getValueAt(i, 1).toString() + "' , " + modelo.getValueAt(i, 5).toString() + " , '"+modelo.getValueAt(i, 4).toString()+"' , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+turno+"' , '"+modelo.getValueAt(i, 0).toString()+"' )";
                 com.mysql.jdbc.PreparedStatement stmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
                 stmt.execute(sql);
                 stmt.close();
@@ -284,7 +295,7 @@ public class Bajas {
                 stm2.execute(sql);
 
                 Statement stm = (Statement) con.createStatement();
-                sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad,nombre,turno) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+modelo.getValueAt(i, 4).toString()+"' , '"+modelo.getValueAt(i, 5).toString()+"' )";
+                sql = "INSERT INTO bajas (codigo,piezas,id_empleado,motivo,fechaCaducidad,fecha,nombre,turno) VALUES ( " + modelo.getValueAt(i, 0).toString() + " , " + modelo.getValueAt(i, 1).toString() + " , " + id_empleado + " , '"+modelo.getValueAt(i, 2).toString()+"' , '"+modelo.getValueAt(i, 3).toString()+"' , '"+modelo.getValueAt(i, 6).toString()+"' ,'"+modelo.getValueAt(i, 4).toString()+"' , '"+modelo.getValueAt(i, 5).toString()+"' )";
                 stm.execute(sql);
 
                 stm.close();
@@ -344,10 +355,10 @@ public class Bajas {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet resultado = pst.executeQuery();
             while (resultado.next()) {
-                arrayEgresos.add(new Bajas(resultado.getString("codigo"),resultado.getString("motivo") , resultado.getString("fecha") , resultado.getInt("cantidad") , resultado.getString("turno") , resultado.getString("nombre")));
+                arrayEgresos.add(new Bajas(resultado.getString("codigo"),resultado.getString("motivo") , resultado.getString("fecha") , resultado.getInt("cantidad") , resultado.getString("turno") , resultado.getString("nombre") , resultado.getString("creado")));
             }
             for (int i = 0; i < arrayEgresos.size(); i++) {
-                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas() , arrayEgresos.get(i).getMotivo() , arrayEgresos.get(i).getFecha() , arrayEgresos.get(i).getNombre(), arrayEgresos.get(i).getTurno()});
+                modelo.addRow(new Object[]{arrayEgresos.get(i).getCodigo(), arrayEgresos.get(i).getPiezas() , arrayEgresos.get(i).getMotivo() , arrayEgresos.get(i).getFecha() , arrayEgresos.get(i).getNombre(), arrayEgresos.get(i).getTurno() , arrayEgresos.get(i).getCreado()});
             }
             pst = null;
             con.close();

@@ -36,7 +36,8 @@ public class Controlador_Pantalla_bajas_temporal {
         pantalla_bjas_temporal.btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Date myDate = new Date();
+                
                 if (pantalla_bjas_temporal.txtCodigo.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     pantalla_bjas_temporal.txtCodigo.requestFocus();
@@ -77,10 +78,11 @@ public class Controlador_Pantalla_bajas_temporal {
                 }
                 SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd");
                 DefaultTableModel model = (DefaultTableModel) pantalla_bjas_temporal.jTableBjasT.getModel();
-                model.addRow(new Object[]{pantalla_bjas_temporal.txtCodigo.getText(), pantalla_bjas_temporal.txtCantidad.getText(),pantalla_bjas_temporal.txtMotivo.getText(),Formato.format(fecha) });
+                model.addRow(new Object[]{new SimpleDateFormat("yyyy-MM-dd").format(myDate),pantalla_bjas_temporal.txtCodigo.getText(),Formato.format(fecha), pantalla_bjas_temporal.txtNombre.getText() ,pantalla_bjas_temporal.txtMotivo.getText() , pantalla_bjas_temporal.txtCantidad.getText() });
                 pantalla_bjas_temporal.txtCantidad.setText("");
                 pantalla_bjas_temporal.txtCodigo.setText("");
                 pantalla_bjas_temporal.txtMotivo.setText("");
+                pantalla_bjas_temporal.txtNombre.setText("");
                 pantalla_bjas_temporal.txtCodigo.requestFocus();
             }
         });
@@ -93,14 +95,8 @@ public class Controlador_Pantalla_bajas_temporal {
                     JOptionPane.showMessageDialog(null, "<html><h1> no hay datos en la tabla</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if (pantalla_bjas_temporal.txtNombre.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "<html><h1> No dejar el campo vacio.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_bjas_temporal.txtNombre.requestFocus();
-                    return;
-                }
-                String nombre = pantalla_bjas_temporal.txtNombre.getText();
                 bajas = new Bajas();
-                boolean next = bajas.GuadarListaBajas(model,nombre,turno);
+                boolean next = bajas.GuadarListaBajas(model,"",turno);
                 if (next) {
                     Clear_Table();
                     pantalla_bjas_temporal.txtNombre.setText("");

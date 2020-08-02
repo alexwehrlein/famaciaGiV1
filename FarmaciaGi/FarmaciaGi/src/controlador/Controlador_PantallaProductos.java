@@ -306,7 +306,14 @@ public class Controlador_PantallaProductos {
                             pantalla_Productos.altaMedicamentoPrecioCompra.requestFocus();
                             return;
                         }
+                        if (!pantalla_Productos.nombreEmpleado.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "<html><h1>Ingrese el nombre de quien esta dando de alta el articulo.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            pantalla_Productos.nombreEmpleado.requestFocus();
+                            return;
+                        }
 
+                            
+                        String nombreEmpleado = pantalla_Productos.nombreEmpleado.getText();
                         String codigo = pantalla_Productos.altaMedicamentoCodigo.getText();
                         String marcaComercia = pantalla_Productos.altaMedicamentoMarcaComercial.getText();
                         String sustancia = pantalla_Productos.altaMedicamentoSustancia.getText();
@@ -323,7 +330,7 @@ public class Controlador_PantallaProductos {
                             JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             tikectProducto = new TikectProducto();
-                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad, pc);
+                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad, pc , nombreEmpleado);
                             pantalla_Productos.altaMedicamentoCodigo.requestFocus();
                             pantalla_Productos.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
@@ -563,6 +570,7 @@ public class Controlador_PantallaProductos {
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                    JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

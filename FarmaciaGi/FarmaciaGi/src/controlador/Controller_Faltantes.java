@@ -73,10 +73,12 @@ public class Controller_Faltantes {
                 }
 
                 String piezas = JOptionPane.showInputDialog(null, "Ingrese la cantidad de piezas que se pediran");
+                String descripcion = JOptionPane.showInputDialog(null, "Descripción del medicamento.");
                 DefaultTableModel model = (DefaultTableModel) pantalla_Faltantes.jTableFaltantes.getModel();
                 model.addRow(new Object[]{pantalla_Faltantes.jTableProductos.getValueAt(filaSeleccionada, 0).toString(),
                     pantalla_Faltantes.jTableProductos.getValueAt(filaSeleccionada, 1).toString(),
                     pantalla_Faltantes.jTableProductos.getValueAt(filaSeleccionada, 2).toString(),
+                    descripcion,
                     piezas
                 });
                 Clear_Table(pantalla_Faltantes.jTableProductos);
@@ -122,10 +124,10 @@ public class Controller_Faltantes {
 // Se abre el documento.
                     documento.open();
 
-                    Image foto = Image.getInstance("src/imagenes/faltantes.png");
-                    foto.scaleToFit(150, 150);
-                    foto.setAlignment(Chunk.ALIGN_LEFT);
-                    documento.add(foto);
+//                    Image foto = Image.getInstance("src/imagenes/faltantes.png");
+//                    foto.scaleToFit(150, 150);
+//                    foto.setAlignment(Chunk.ALIGN_LEFT);
+//                    documento.add(foto);
 
                     Paragraph titulo = new Paragraph();
                     titulo.setAlignment(Paragraph.ALIGN_CENTER);
@@ -149,7 +151,7 @@ public class Controller_Faltantes {
                     saltolinea12.add("\n\n");
                     documento.add(saltolinea12);
 
-                    float[] columnWidths = {3, 3, 1, 1};
+                    float[] columnWidths = {3,3,1,1,1};
                     PdfPTable tabla = new PdfPTable(columnWidths);
                     tabla.setWidthPercentage(100);
                     //Añadimos los títulos a la tabla. 
@@ -167,6 +169,11 @@ public class Controller_Faltantes {
                     columna3.getFont().setStyle(Font.BOLD);
                     columna3.getFont().setSize(10);
                     tabla.addCell(columna3);
+                    
+                    Paragraph columna5 = new Paragraph("DESCRIPCION");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
 
                     Paragraph columna4 = new Paragraph("Piezas");
                     columna4.getFont().setStyle(Font.BOLD);
@@ -178,6 +185,7 @@ public class Controller_Faltantes {
                         tabla.addCell(model.getValueAt(i, 2).toString());
                         tabla.addCell("");
                         tabla.addCell(model.getValueAt(i, 3).toString());
+                        tabla.addCell(model.getValueAt(i, 4).toString());
                     }
                     documento.add(tabla);
 
@@ -191,6 +199,7 @@ public class Controller_Faltantes {
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                    JOptionPane.showMessageDialog(null, ex , "ERROR" , JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

@@ -21,11 +21,10 @@ import modelo.Corte;
 public class TikectCorteConsulta {
     Confings confings;
     
-    public void Tikect(double consultas,String turno, String pc ,  ArrayList<Corte> consultorio, String pagoDoctores){
-        
+    public void Tikect(double consultas,String turno, String pc ,  ArrayList<Corte> consultorio, String pagoDoctores , String[] consulta){
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
-        
+        float total = (Integer.parseInt(consulta[0]) * 35) + (Integer.parseInt(consulta[1]) * 15) + (Integer.parseInt(consulta[2]) * 15) + (Integer.parseInt(consulta[3]) * 15);
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
@@ -53,6 +52,12 @@ public class TikectCorteConsulta {
         auxs+= "PAGO A DOCTORES:      $ "+pagoDoctores+"\n";
         auxs+= "VENTAS CONSULTAS:     $ "+consultas+"\n";
         auxs+= "TOTAL:                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
+        auxs+= "=====DESCRIPCION VENTAS===================\n";
+        auxs+= "CONSULTA:      $ "+Integer.parseInt(consulta[0]) * 35+"\n";
+        auxs+= "APLICACION:    $ "+Integer.parseInt(consulta[1]) * 15+"\n";
+        auxs+= "T/P:                     $ "+Integer.parseInt(consulta[2]) * 15+"\n";
+        auxs+= "GLUCOSA:        $ "+Integer.parseInt(consulta[3]) * 15+"\n";
+        auxs+= "            TOTAL:  $ "+total+"\n";
         auxs+= "_________________________________________\n";
        
         auxs+= "==========================================\n\n\n\n\n";

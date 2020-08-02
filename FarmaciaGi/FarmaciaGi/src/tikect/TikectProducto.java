@@ -19,7 +19,7 @@ import modelo.Confings;
 public class TikectProducto {
     Confings confings;
     
-    public void tikectProducto(String turno, String nombre , int piezas, String pc){
+    public void tikectProducto(String turno, String nombre , int piezas, String pc , String nombreEmpleado){
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         String mensaje = "";
@@ -38,6 +38,7 @@ public class TikectProducto {
         auxs += "FARMACIAS GI\n";
         auxs += arr[1] + "\n";
         auxs += "Iguala de la Independencia\n";
+        auxs += "Nombre del empleado: " + nombreEmpleado + "\n";
         auxs += "Turno: " + turno + "\n";
         auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
         auxs += "==========================================\n";

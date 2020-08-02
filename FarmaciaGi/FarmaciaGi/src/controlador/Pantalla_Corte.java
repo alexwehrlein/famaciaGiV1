@@ -37,6 +37,7 @@ import modelo.Corte;
 import modelo.Gastos;
 import modelo.Productos;
 import modelo.Usuarios;
+import modelo.Ventas;
 import tikect.TikectCorte;
 import tikect.TikectCorteConsulta;
 import utilerias.Utilerias;
@@ -61,6 +62,7 @@ public class Pantalla_Corte {
     Corte corte;
     Gastos gastos;
     Bajas bajas;
+    Ventas ventas;
     String ventaTotal = "0";
     String consultorioTotal = "0";
     String devolucionesTotal = "0";
@@ -169,8 +171,8 @@ public class Pantalla_Corte {
 
                         tikectCorte = new TikectCorte();
                         tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT, "0", "0","0");
-                        tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc,consultas,"0");
+                        //tcc = new TikectCorteConsulta();
+                        //tcc.Tikect(ct, turno, pc,consultas,"0",);
                     }
                 } catch (Exception ex) {
                 }
@@ -314,6 +316,7 @@ public class Pantalla_Corte {
                     String arr[] = corte.totalesC(0);
                     ArrayList<Corte> consultas = corte.consultorioSelect(1);
                     ArrayList<Gastos> gastosT = gastos.gastosT(turno, "", 0);
+                    String consultasCantidad[] = corte.totalesConsultas(turno);
 
                     double vt = Double.parseDouble(ventaTotal);
                     double ct = Double.parseDouble(consultorioTotal);
@@ -363,8 +366,9 @@ public class Pantalla_Corte {
                         tikectCorte = new TikectCorte();
                         tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc, consultas,pagoDoctores);
+                        tcc.Tikect(ct, turno, pc, consultas,pagoDoctores,consultasCantidad);
                         pdfBajas(turno);
+                        pdfVentas(turno);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
 
@@ -381,6 +385,107 @@ public class Pantalla_Corte {
             }
         });
 
+    }
+    
+    private void pdfVentas(String turno){
+                ventas = new Ventas();
+                ArrayList<Ventas> datos = ventas.ventasList(turno);
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream("C:/farmacia/ventas.pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Ventas***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo2.add(dateFormat.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo3.add(Utilerias.SUCURSALE);
+                    documento.add(titulo3);
+                    
+                    Paragraph titulo4 = new Paragraph();
+                    titulo4.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo4.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo4.add("Turno: "+turno);
+                    documento.add(titulo4);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2,3, 1,1,1};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("Código");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("Marca");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+                    
+                    Paragraph columna3 = new Paragraph("PRECIO");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+
+                    Paragraph columna4 = new Paragraph("Piezas");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                    
+                    Paragraph columna5 = new Paragraph("Total");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    float total_venta = 0;
+                    
+                    for (Ventas r : datos) {
+                        tabla.addCell(String.valueOf(r.getCodigo()));
+                        tabla.addCell(r.getMarca());
+                        tabla.addCell(String.valueOf(r.getVenta()));
+                        tabla.addCell(String.valueOf(r.getPiezas()));
+                        tabla.addCell(String.valueOf(r.getTotal()));
+                        total_venta = total_venta + r.getTotal();
+                    }
+                    documento.add(tabla);
+                    
+                    Paragraph titulo5 = new Paragraph();
+                    titulo5.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo5.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo5.add("Total: $ "+total_venta);
+                    documento.add(titulo5);
+                    
+                    documento.close();
+                    Mail mail = new Mail();
+                    mail.send_mail("inventariogi06@gmail.com", "PDF", "Bajas" , 4); //farmaciagi08@gmail.com
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                }
     }
     
     private void pdfBajas(String turno){

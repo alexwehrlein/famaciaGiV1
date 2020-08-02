@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,10 +36,38 @@ public class Ventas {
     private long codigo;
     private int piezas;
     private String turno;
+    private String marca;
+    private float venta;
+    private float total;
     private float monto;
     Pantalla_Ventas pv;
     Conexion conn = new Conexion();
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public float getVenta() {
+        return venta;
+    }
+
+    public void setVenta(float venta) {
+        this.venta = venta;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -121,6 +150,50 @@ public class Ventas {
     public Ventas(long codigo) {
         this.codigo = codigo;
     }
+    
+    public Ventas() {
+
+    }
+
+    public Ventas(long codigo, int piezas, String marca, float venta, float total) {
+        this.codigo = codigo;
+        this.piezas = piezas;
+        this.marca = marca;
+        this.venta = venta;
+        this.total = total;
+    }
+    
+      public ArrayList<Ventas> ventasList(String turno) {
+        ArrayList<Ventas> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '"+turno+"' ";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Ventas r = new Ventas();
+                r.setCodigo(resultado.getLong("codigo"));
+                r.setMarca(resultado.getString("marca_comercial"));
+                r.setVenta(resultado.getFloat("precio"));
+                r.setPiezas(resultado.getInt("piezas"));
+                r.setTotal(resultado.getFloat("total"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
+    }
 
     public ArrayList<Ventas> ventaPausada(String id) {
         ArrayList<Ventas> arrayRegistros = new ArrayList<>();
@@ -147,10 +220,6 @@ public class Ventas {
         }
 
         return arrayRegistros;
-    }
-
-    public Ventas() {
-
     }
 
     public String precioProducto() {
@@ -439,8 +508,8 @@ public class Ventas {
                 }
             }
 
-            sql = "INSERT INTO ventas (fecha,id_empleado,id_cliente,monto,turno,tipo_venta,des_p,des_g,pago,cambio)"
-                    + "VALUES (CURDATE()," + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + " , " + pagaCon + " , " + cambio + ")";
+            sql = "INSERT INTO ventas (id_empleado,id_cliente,monto,turno,tipo_venta,des_p,des_g,pago,cambio)"
+                    + "VALUES (" + idEmp + "," + idClient + "," + totalV + ",'" + turno + "','Venta', " + des_p + " , " + des_g + " , " + pagaCon + " , " + cambio + ")";
 
             stm.execute(sql);
 

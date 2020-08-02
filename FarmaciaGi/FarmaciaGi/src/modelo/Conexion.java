@@ -17,9 +17,12 @@ public class Conexion {
     private static String bd = "farmaciagijava";
     private static String login = "root";
     private static String password = "";
+    //private static String bd = "farmaciagi";
+    //private static String login = "charlie";
+    //private static String password = "carlos$%&jose78";
     //private static String password = "1234";
- //   private static String url = "jdbc:mysql://192.168.1.11:3306/" + bd;
-    private static String url ="jdbc:mysql://127.0.0.1/"+bd;
+    private static String url = "jdbc:mysql://127.0.0.1:3306/" + bd;
+    //private static String url ="jdbc:mysql://192.168.1.8/"+bd;
     Connection conn = null;
     public Connection getConnection() {
         

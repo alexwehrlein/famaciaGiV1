@@ -650,6 +650,44 @@ public class Corte {
         return c;
 
     }
+    
+     public String[] totalesConsultas(String turno) {
+        String[] arr = {"", "", "", ""};
+        int contador = 0;
+        String sql = "SELECT COUNT(d.id_detalle) AS consultas  FROM detalle_venta d " +
+                    " WHERE d.id_producto = 2 AND d.fecha = CURDATE() AND d.turno = '"+turno+"' " +
+                    " UNION all " +
+                    " SELECT COUNT(d.id_detalle) AS aplicaciones FROM detalle_venta d " +
+                    " WHERE d.id_producto = 3 AND d.fecha =  CURDATE() AND d.turno = '"+turno+"'  " +
+                    " UNION all " +
+                    " SELECT COUNT(d.id_detalle) AS tp FROM detalle_venta d " +
+                    " WHERE d.id_producto = 23 AND d.fecha = CURDATE() AND d.turno = '"+turno+"' " +
+                    " UNION all" +
+                    " SELECT COUNT(d.id_detalle) AS glucosa FROM detalle_venta d " +
+                    " WHERE d.id_producto = 10 AND d.fecha =  CURDATE() AND d.turno = '"+turno+"' ";
+        
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+
+            ResultSet resultado = stm.executeQuery(sql);
+
+            while (resultado.next()) {
+                arr[contador] = resultado.getString("consultas");
+                contador++;
+            }
+
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            conn.getClose();
+        }
+        return arr;
+
+    }
 
     public String retiros(int num) {
         String sql = null, precio = "";

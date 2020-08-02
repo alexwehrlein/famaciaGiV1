@@ -19,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -59,7 +60,7 @@ public class Mail {
                 Multipart multipart = new MimeMultipart();
                 DataSource source = new FileDataSource("C:\\farmacia\\inventario.pdf");
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName("inventario.pdf");
+                messageBodyPart.setFileName("Inventario.pdf");
                 multipart.addBodyPart(messageBodyPart);
                 message.setContent(multipart);
             }
@@ -68,7 +69,7 @@ public class Mail {
                 Multipart multipart = new MimeMultipart();
                 DataSource source = new FileDataSource("C:\\farmacia\\bajas.pdf");
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName("bajas.pdf");
+                messageBodyPart.setFileName("Bajas.pdf");
                 multipart.addBodyPart(messageBodyPart);
                 message.setContent(multipart);
             }
@@ -77,7 +78,16 @@ public class Mail {
                 Multipart multipart = new MimeMultipart();
                 DataSource source = new FileDataSource("C:\\farmacia\\faltantes.pdf");
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName("bajas.pdf");
+                messageBodyPart.setFileName("Faltantes.pdf");
+                multipart.addBodyPart(messageBodyPart);
+                message.setContent(multipart);
+            }
+            if (file == 4) {
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                Multipart multipart = new MimeMultipart();
+                DataSource source = new FileDataSource("C:\\farmacia\\ventas.pdf");
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName("Faltantes.pdf");
                 multipart.addBodyPart(messageBodyPart);
                 message.setContent(multipart);
             }
@@ -89,7 +99,7 @@ public class Mail {
             //JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Correo enviado</h1></html>" , "SUCCESS" , JOptionPane.INFORMATION_MESSAGE);
         } catch (MessagingException me) {
             me.printStackTrace();   //Si se produce un error
-            //JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error al enviar el correo </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error al enviar el correo </h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
         }
 
     }

@@ -329,7 +329,7 @@ public class Controlador_PantallaProductos {
                             JOptionPane.showMessageDialog(null, "<html><h1>EL PRODUCTO SE HA DADO DE ALTA EN LA BASE DE DATOS</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             tikectProducto = new TikectProducto();
-                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad, pc , nombreEmpleado);
+                            tikectProducto.tikectProducto(turno, marcaComercia, cantidad, pc , nombreEmpleado, tipoMedicamento );
                             pantalla_Productos.altaMedicamentoCodigo.requestFocus();
                             pantalla_Productos.altaMedicamentoCodigo.setBackground(Color.WHITE);
 
@@ -513,7 +513,8 @@ public class Controlador_PantallaProductos {
                     Paragraph titulo2 = new Paragraph();
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo2.add(dateFormat.format(date));
+                    DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    titulo2.add(formatofecha.format(date));
                   
                   
                     Paragraph titulo3 = new Paragraph();
@@ -603,7 +604,8 @@ public class Controlador_PantallaProductos {
                     Paragraph titulo2 = new Paragraph();
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo2.add(dateFormat.format(date));
+                    DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    titulo2.add(formatofecha.format(date));
                     documento.add(titulo2);
                     
                     Paragraph titulo3 = new Paragraph();

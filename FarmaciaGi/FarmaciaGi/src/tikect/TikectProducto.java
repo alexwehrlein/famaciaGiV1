@@ -18,9 +18,10 @@ import utilerias.Utilerias;
  * @author saube
  */
 public class TikectProducto {
+
     Confings confings;
-    
-    public void tikectProducto(String turno, String nombre , int piezas, String pc , String nombreEmpleado){
+
+    public void tikectProducto(String turno, String nombre, int piezas, String pc, String nombreEmpleado, String tipo) {
         confings = new Confings(Integer.parseInt(pc));
         String[] arr = confings.settings();
         String mensaje = "";
@@ -29,11 +30,11 @@ public class TikectProducto {
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
         String auxs = "";
         String prod = "";
+
         String impra = arr[0]; // Nombre de la impresora
 
         // Se llama al metodo para imprimir una cadena
@@ -45,7 +46,7 @@ public class TikectProducto {
         auxs += "Turno: " + turno + "\n";
         auxs += "Fecha: " + formatofecha.format(date) + "\n";
         auxs += "==========================================\n";
-        auxs += "Descripcion          piezas\n";
+        auxs += "Descripcion       piezas    tipo \n";
         auxs += "==========================================\n";
 
         if (nombre.length() > 17) { // si la descripcion_producto es mayor a 17 la corta
@@ -54,12 +55,12 @@ public class TikectProducto {
             prod = nombre;
         }
         // Se formatea la cadena a imprimir con String.format para varios string
-        auxs += String.format("%-18s" + "           " + "%-5s", prod, piezas);
+        auxs += String.format("%-18s" + "           " + "%-5s", prod, piezas, tipo);
         auxs += "\n";
 
         auxs += "\n==========================================\n";
         auxs += "Alta de medicamento  \n Farmacia gi\n\n\n\n\n";// Varios saltos para no cortar antes
-        
+
         Mail mail = new Mail();
 
         try {
@@ -70,8 +71,8 @@ public class TikectProducto {
         } catch (Exception e) {
             Utilerias util = new Utilerias();
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
-            mail.send_mail(Utilerias.MAIL_PRINCIPAL, auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase(),0); //farmaciagi08@gmail.com
+            mail.send_mail(Utilerias.MAIL_PRINCIPAL, auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
         }
     }
-    
+
 }

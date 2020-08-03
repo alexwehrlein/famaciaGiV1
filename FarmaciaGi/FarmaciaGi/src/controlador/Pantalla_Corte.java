@@ -384,7 +384,6 @@ public class Pantalla_Corte {
                 ventas = new Ventas();
                 ArrayList<Ventas> datos = ventas.ventasList(turno);
                 Date date = new Date();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     FileOutputStream ficheroPdf = null;
                     // Se crea el documento
@@ -406,7 +405,8 @@ public class Pantalla_Corte {
                     Paragraph titulo2 = new Paragraph();
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo2.add(dateFormat.format(date));
+                    DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    titulo2.add(formatofecha.format(date));
                     documento.add(titulo2);
                     
                     Paragraph titulo3 = new Paragraph();
@@ -432,12 +432,12 @@ public class Pantalla_Corte {
                     PdfPTable tabla = new PdfPTable(columnWidths);
                     tabla.setWidthPercentage(100);
                     //Añadimos los títulos a la tabla. 
-                    Paragraph columna1 = new Paragraph("Código");
+                    Paragraph columna1 = new Paragraph("CODIGO");
                     columna1.getFont().setStyle(Font.BOLD);
                     columna1.getFont().setSize(10);
                     tabla.addCell(columna1);
 
-                    Paragraph columna2 = new Paragraph("Marca");
+                    Paragraph columna2 = new Paragraph("MARCA");
                     columna2.getFont().setStyle(Font.BOLD);
                     columna2.getFont().setSize(10);
                     tabla.addCell(columna2);
@@ -447,12 +447,12 @@ public class Pantalla_Corte {
                     columna3.getFont().setSize(10);
                     tabla.addCell(columna3);
 
-                    Paragraph columna4 = new Paragraph("Piezas");
+                    Paragraph columna4 = new Paragraph("PIEZAS");
                     columna4.getFont().setStyle(Font.BOLD);
                     columna4.getFont().setSize(10);
                     tabla.addCell(columna4);
                     
-                    Paragraph columna5 = new Paragraph("Total");
+                    Paragraph columna5 = new Paragraph("TOTAL VENTAS");
                     columna5.getFont().setStyle(Font.BOLD);
                     columna5.getFont().setSize(10);
                     tabla.addCell(columna5);
@@ -537,7 +537,7 @@ public class Pantalla_Corte {
                     PdfPTable tabla = new PdfPTable(columnWidths);
                     tabla.setWidthPercentage(100);
                     //Añadimos los títulos a la tabla. 
-                    Paragraph columna1 = new Paragraph("Código");
+                    Paragraph columna1 = new Paragraph("CODIGO");
                     columna1.getFont().setStyle(Font.BOLD);
                     columna1.getFont().setSize(10);
                     tabla.addCell(columna1);

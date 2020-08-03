@@ -14,6 +14,7 @@ import mail.Mail;
 import modelo.Confings;
 import modelo.Gastos;
 import modelo.sucursal;
+import utilerias.Utilerias;
 
 /**
  *
@@ -35,6 +36,7 @@ public class TikectCorte {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+	DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -51,7 +53,10 @@ public class TikectCorte {
         mensaje += "SUCURSAL: " + datSucursal[1].toUpperCase() + " \n";
         mensaje += "IGUALA DE LA INDEPENDENCIA, GRO\n";
         mensaje += "\n";
-        mensaje += "FECHA: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
+        mensaje += "FECHA: " + formatofecha.format(date)+ "\n";
+        
+//        mensaje += "FECHA: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
+
         mensaje += "TURNO:    " + turno + "\n\n";
         mensaje += "***********INGRESOS SISTEMAS***********\n\n";
         mensaje += "VENTAS FARMACIA:        $ " + ventas + "\n";
@@ -82,7 +87,7 @@ public class TikectCorte {
         mensaje += "RECARGAS FINALES:              $ " + vR + "\n";
         mensaje += "TOTAL VENTAS RECARGAS:         $ " + (Double.parseDouble(dR) - Double.parseDouble(vR)) + "\n";
         if (Double.parseDouble(dR) <= 800) {
-            mensaje += "QUEDA EN RECARGAS $ " + (Double.parseDouble(dR) - Double.parseDouble(vR)) + " Y SE DEBE DE DEPOSITAR URGENTEMENTE" + "\n";
+            mensaje += " !! QUEDA EN RECARGAS $ " + (Double.parseDouble(dR) - Double.parseDouble(vR)) + " Y SE DEBE DE DEPOSITAR URGENTEMENTE" + "\n";
         }
         mensaje += "\n";
         mensaje += "***************RETIROS***************\n";
@@ -112,7 +117,8 @@ public class TikectCorte {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
         }
-        mail.send_mail("farmaciagi08@gmail.com", mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
+        Utilerias util = new Utilerias();
+        mail.send_mail(Utilerias.MAIL_CORTES, mensaje, "CORTE DE CAJA TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
     }
 
 }

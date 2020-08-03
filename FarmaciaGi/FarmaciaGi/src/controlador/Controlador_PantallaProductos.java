@@ -44,18 +44,17 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import mail.Mail;
-import mail.MailBug;
 import modelo.Empleado;
 import modelo.Productos;
 import modelo.Proveedor;
 import modelo.Ventas;
+import modelo.sucursal;
 import tikect.TikectInventario;
 import tikect.TikectProducto;
 import utilerias.Utilerias;
 
 public class Controlador_PantallaProductos {
 
-    MailBug mailbug = new MailBug();
     Pantalla_Productos pantalla_Productos;
     Productos productos;
     Empleado empleado;
@@ -306,7 +305,7 @@ public class Controlador_PantallaProductos {
                             pantalla_Productos.altaMedicamentoPrecioCompra.requestFocus();
                             return;
                         }
-                        if (!pantalla_Productos.nombreEmpleado.getText().isEmpty()) {
+                        if (pantalla_Productos.nombreEmpleado.getText().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "<html><h1>Ingrese el nombre de quien esta dando de alta el articulo.</html></h1>", "ERROR", JOptionPane.ERROR_MESSAGE);
                             pantalla_Productos.nombreEmpleado.requestFocus();
                             return;
@@ -515,12 +514,14 @@ public class Controlador_PantallaProductos {
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
                     titulo2.add(dateFormat.format(date));
-                    documento.add(titulo2);
-                    
+                  
+                  
                     Paragraph titulo3 = new Paragraph();
                     titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo3.add(Utilerias.SUCURSALE);
+                    sucursal su = new sucursal();
+                    String datSucursal[] = su.datosSucursal();
+                    titulo3.add(datSucursal[1].toUpperCase());
                     documento.add(titulo3);
                     
                     Paragraph saltolinea12 = new Paragraph();
@@ -608,7 +609,9 @@ public class Controlador_PantallaProductos {
                     Paragraph titulo3 = new Paragraph();
                     titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo3.add(Utilerias.SUCURSALE);
+                    sucursal su = new sucursal();
+                    String datSucursal[] = su.datosSucursal();
+                    titulo3.add(datSucursal[1].toUpperCase());
                     documento.add(titulo3);
                     
                     Paragraph saltolinea12 = new Paragraph();
@@ -650,7 +653,9 @@ public class Controlador_PantallaProductos {
 
                     documento.close();
                     Mail mail = new Mail();
-                    mail.send_mail("farmaciagi08@gmail.com", "PDF", "inventario Piezas 0" , 1); //farmaciagi08@gmail.com
+                    Utilerias util = new Utilerias();
+                    
+                    mail.send_mail( Utilerias.MAIL_PRINCIPAL, "PDF", "inventario Piezas 0" , 1); //farmaciagi08@gmail.com
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);

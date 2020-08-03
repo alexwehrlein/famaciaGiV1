@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mail.Mail;
 import modelo.Productos;
+import modelo.sucursal;
 import utilerias.Utilerias;
 import vista.Pantalla_Faltantes;
 
@@ -144,7 +145,10 @@ public class Controller_Faltantes {
                     Paragraph titulo3 = new Paragraph();
                     titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo3.add(Utilerias.SUCURSALE);
+                   
+                     sucursal su = new sucursal();
+                    String datSucursal[] = su.datosSucursal();
+                    titulo3.add( datSucursal[1].toUpperCase());
                     documento.add(titulo3);
 
                     Paragraph saltolinea12 = new Paragraph();
@@ -191,7 +195,8 @@ public class Controller_Faltantes {
 
                     documento.close();
                     Mail mail = new Mail();
-                    mail.send_mail("pedidosgisucursal@gmail.com", "PDF", "Faltantes", 3); //farmaciagi08@gmail.com
+                     Utilerias util = new  Utilerias();
+                    mail.send_mail( Utilerias.MAIL_PEDIDOS, "PDF", "Faltantes FARMACIA", 3); //farmaciagi08@gmail.com
                     Clear_Table(pantalla_Faltantes.jTableProductos);
                     Clear_Table(pantalla_Faltantes.jTableFaltantes);
                     pantalla_Faltantes.txtTesto.setText("");

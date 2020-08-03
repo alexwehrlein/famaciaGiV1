@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import mail.MailBug;
 import modelo.Cliente;
 import modelo.Productos;
 import modelo.Ventas;
@@ -35,7 +34,6 @@ import vista.Pantalla_Ventas;
  */
 public class Controlador_Pantalla_Ventas {
 
-    MailBug mailbug = new MailBug();
     Pantalla_Ventas pantalla_Ventas;
     Ventas ventas;
     Cliente cliente;

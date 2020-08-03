@@ -14,7 +14,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import mail.MailBug;
 import modelo.Devoluciones;
 import modelo.Proveedor;
 import tikect.TikectDevoluciones;
@@ -26,7 +25,6 @@ import vista.Pantalla_Devoluciones;
  * @author saube
  */
 public class Controlador_PantallaDevoluciones {
-    MailBug mailbug = new MailBug();
     Pantalla_Devoluciones devoluciones;
     Devoluciones devoluciones1;
     String idEmpleado, turno;

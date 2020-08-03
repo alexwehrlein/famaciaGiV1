@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import mail.Mail;
 import modelo.Confings;
 import modelo.Corte;
+import utilerias.Utilerias;
 
 /**
  *
@@ -28,6 +29,8 @@ public class TikectCorteConsulta {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
        
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -41,7 +44,7 @@ public class TikectCorteConsulta {
         auxs+= "FARMACIAS GI\n";
         auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
-        auxs+= "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
+        auxs+= "Fecha: " + formatofecha.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";
         auxs+= "=====VENTAS CONSULTORIO===================\n";
        // auxs+= "Descripcion    cant     Total";
@@ -50,14 +53,14 @@ public class TikectCorteConsulta {
        // }
         //auxs+= "==========================================\n";
         auxs+= "PAGO A DOCTORES:      $ "+pagoDoctores+"\n";
-        auxs+= "VENTAS CONSULTAS:     $ "+consultas+"\n";
-        auxs+= "TOTAL:                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
+        auxs+= "VENTAS CONSULTORIO:     $ "+consultas+"\n";
+        auxs+= "TOTAL VENTAS :                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
         auxs+= "=====DESCRIPCION VENTAS===================\n";
         auxs+= "CONSULTA:      $ "+Integer.parseInt(consulta[0]) * 35+"\n";
         auxs+= "APLICACION:    $ "+Integer.parseInt(consulta[1]) * 15+"\n";
         auxs+= "T/P:                     $ "+Integer.parseInt(consulta[2]) * 15+"\n";
         auxs+= "GLUCOSA:        $ "+Integer.parseInt(consulta[3]) * 15+"\n";
-        auxs+= "            TOTAL:  $ "+total+"\n";
+        auxs+= "            TOTAL PAGADO:  $ "+total+"\n";
         auxs+= "_________________________________________\n";
        
         auxs+= "==========================================\n\n\n\n\n";
@@ -69,7 +72,8 @@ public class TikectCorteConsulta {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir</h1></html>","warning",JOptionPane.WARNING_MESSAGE);
         }
-        mail.send_mail("farmaciagi08@gmail.com", auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase(),0); //farmaciagi08@gmail.com
+        Utilerias util = new Utilerias();
+        mail.send_mail(Utilerias.MAIL_CORTES, auxs, "CORTE DE CAJA CONSULTORIO TURNO: " + turno.toUpperCase(),0); //farmaciagi08@gmail.com
     }
     
 }

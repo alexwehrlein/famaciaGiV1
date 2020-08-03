@@ -31,13 +31,13 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mail.Mail;
-import mail.MailBug;
 import modelo.Bajas;
 import modelo.Corte;
 import modelo.Gastos;
 import modelo.Productos;
 import modelo.Usuarios;
 import modelo.Ventas;
+import modelo.sucursal;
 import tikect.TikectCorte;
 import tikect.TikectCorteConsulta;
 import utilerias.Utilerias;
@@ -51,7 +51,6 @@ import vista.Pantalla_principal;
  */
 public class Pantalla_Corte {
 
-    MailBug mailbug = new MailBug();
     Pantalla_CorteCaja pantalla_Corte;
     Controlador_PantallaPrincipal controlador_PantallaPrincipal;
     Pantalla_Ventas pantalla_Ventas;
@@ -203,7 +202,6 @@ public class Pantalla_Corte {
                             if (!validarCantidad(modelo.getValueAt(i, 1).toString())) {
                                 modelo.setValueAt("", i, 1);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA AL REAL " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                                 return;
                             }
@@ -213,7 +211,6 @@ public class Pantalla_Corte {
                             if (!validarCantidad(modelo.getValueAt(i, 3).toString())) {
                                 modelo.setValueAt("", i, 3);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad valida .</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                                 return;
                             }
@@ -253,14 +250,12 @@ public class Pantalla_Corte {
 
                 if (recargas.isEmpty() || validarCantidad(recargas) == false) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                     pantalla_Corte.txtRecargas.requestFocus();
                     return;
                 }
                 if (pagoDoctores.isEmpty() || validarCantidad(pagoDoctores) == false) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN CANTIDAD CORRECTA " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                     pantalla_Corte.txtRecargas.requestFocus();
                     return;
@@ -270,7 +265,6 @@ public class Pantalla_Corte {
                         || modelo.getValueAt(0, 3) == null || modelo.getValueAt(1, 3) == null || modelo.getValueAt(2, 3) == null
                         || modelo.getValueAt(3, 3) == null || modelo.getValueAt(4, 3) == null || modelo.getValueAt(5, 3) == null) {
                     JOptionPane.showMessageDialog(null, "Ingresar todas las denominaciones", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    mailbug.send_mail("guzmangaleanacarlos@gmail.com", " NO INGRESAN LAS DENOMINACIONES CORRECTAS AL REALIZAR CORTE " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                     return;
                 }
@@ -374,7 +368,6 @@ public class Pantalla_Corte {
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                        mailbug.send_mail("guzmangaleanacarlos@gmail.com", " ERROR AL REALIZAR EL CORTE  " + Utilerias.SUCURSALE, "CORTE DE CAJA");
 
                     }
                 } else {
@@ -419,7 +412,10 @@ public class Pantalla_Corte {
                     Paragraph titulo3 = new Paragraph();
                     titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo3.add(Utilerias.SUCURSALE);
+                  
+                   sucursal su = new sucursal();
+                   String datSucursal[] = su.datosSucursal();
+                    titulo3.add(datSucursal[1].toUpperCase());
                     documento.add(titulo3);
                     
                     Paragraph titulo4 = new Paragraph();
@@ -481,7 +477,8 @@ public class Pantalla_Corte {
                     
                     documento.close();
                     Mail mail = new Mail();
-                    mail.send_mail("inventariogi06@gmail.com", "PDF", "Bajas" , 4); //farmaciagi08@gmail.com
+                    Utilerias util = new Utilerias();
+                    mail.send_mail(Utilerias.MAIL_CORTES, "PDF", " REPORTE VENTAS " , 4); //farmaciagi08@gmail.com
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
@@ -520,7 +517,10 @@ public class Pantalla_Corte {
                     Paragraph titulo3 = new Paragraph();
                     titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo3.add(Utilerias.SUCURSALE);
+                    
+                    sucursal su = new sucursal();
+                    String datSucursal[] = su.datosSucursal();
+                     titulo3.add(datSucursal[1].toUpperCase());
                     documento.add(titulo3);
                     
                     Paragraph titulo4 = new Paragraph();
@@ -580,7 +580,7 @@ public class Pantalla_Corte {
 
                     documento.close();
                     Mail mail = new Mail();
-                    mail.send_mail("inventariogi06@gmail.com", "PDF", "Bajas" , 2); //farmaciagi08@gmail.com
+                    mail.send_mail(Utilerias.MAIL_PRINCIPAL, "PDF", " BAJAS DE MEDICAMENTOS " , 2); //farmaciagi08@gmail.com
                     JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);

@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import mail.MailBug;
 import modelo.Productos;
 import modelo.Proveedor;
 import utilerias.Utilerias;
@@ -28,7 +27,6 @@ public class Controlador_PantallaProductoAdd {
     Utilerias util = new Utilerias();
     Pantalla_ProductosAdd productoAgregar;
     Productos productos;
-    MailBug mailbug = new MailBug();
 
     public Controlador_PantallaProductoAdd(String rol, String turno, int idEmpleado) {
         productoAgregar = new Pantalla_ProductosAdd();

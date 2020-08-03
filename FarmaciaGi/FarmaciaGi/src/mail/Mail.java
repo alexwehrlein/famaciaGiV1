@@ -40,6 +40,9 @@ public class Mail {
         this.Mensage = text;
         this.Subject = sub;
 
+        
+        
+        
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "mail.terabytet.com.mx");  //El servidor SMTP de Google smtp.gmail.com
         props.put("mail.smtp.user", Username);

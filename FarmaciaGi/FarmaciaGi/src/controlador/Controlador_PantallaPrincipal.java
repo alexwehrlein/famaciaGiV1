@@ -195,6 +195,8 @@ public class Controlador_PantallaPrincipal {
                             pc = arr[5];
                             if (arr[2].equals("Administrador")) {
                                 activarAdministrador();
+                                
+                               
                                 pantalla_Principal.jDialogLogin.setVisible(false);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
 

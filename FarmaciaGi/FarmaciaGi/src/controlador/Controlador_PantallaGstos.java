@@ -19,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import mail.MailBug;
 import modelo.Gastos;
 import tikect.TikectGasto;
 import utilerias.Utilerias;
@@ -27,7 +26,6 @@ import vista.Pantalla_GastosFarmacia;
 
 
 public class Controlador_PantallaGstos {
-        MailBug mailbug = new MailBug();
         Utilerias o = new Utilerias();
     Pantalla_GastosFarmacia gastosFarmacia;
     Gastos gastos;

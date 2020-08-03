@@ -524,7 +524,7 @@ public class Ventas {
                 int piezas = Integer.parseInt(modelo.getValueAt(i, 4).toString());
                 double totalProducto = Double.parseDouble(modelo.getValueAt(i, 6).toString());
                 String tipo = modelo.getValueAt(i, 3).toString();
-                sql = "INSERT INTO detalle_venta VALUES (null," + idv + "," + modelo.getValueAt(i, 0).toString() + "," + piezas + "," + totalProducto + ", '" + modelo.getValueAt(i, 1).toString() + "', CURDATE() , '" + turno + "', '" + tipo + "' )";
+                sql = "INSERT INTO detalle_venta VALUES (null," + idv + "," + modelo.getValueAt(i, 0).toString() + "," + piezas + "," + totalProducto + ", '" + modelo.getValueAt(i, 1).toString() + "', NOW() , '" + turno + "', '" + tipo + "' )";
                 stm.execute(sql);
 
                 if (!tipo.equals("CONSULTA")) {

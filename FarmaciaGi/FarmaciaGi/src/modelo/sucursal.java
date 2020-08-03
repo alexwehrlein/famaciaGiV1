@@ -105,7 +105,7 @@ public class sucursal {
 
             sql = "SELECT  * FROM sucursal LIMIT 1";
             resultado = stm.executeQuery(sql);
-            if (resultado.next()) {;
+            if (resultado.next()) {
                 num[0] = resultado.getString("id_sucursal");
                 num[1] = resultado.getString("direccion");
                 num[2] = resultado.getString("telefono");

@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import mail.Mail;
 import modelo.Confings;
 import modelo.sucursal;
+import utilerias.Utilerias;
 
 /**
  *
@@ -29,6 +30,8 @@ public class TikectInventario {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -42,7 +45,7 @@ public class TikectInventario {
         auxs += arr[1] + "\n";
         auxs += "Iguala de la Independencia\n";
         auxs += "Turno: " + turno + "\n";
-        auxs += "Fecha: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
+        auxs += "Fecha: " + formatofecha.format(date) +"\n";
         auxs += "==========================================\n";
         auxs += "Descripcion          piezas\n";
         auxs += "==========================================\n";
@@ -75,7 +78,8 @@ public class TikectInventario {
             impServicio.printBytes(impra, cutP); // se imprime el bruto 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "<html><h1 align='center'>El tikect no se pudo imprimir </h1></html>", "warning", JOptionPane.WARNING_MESSAGE);
-            mail.send_mail("farmaciagi08@gmail.com", auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
+         Utilerias util = new Utilerias();
+            mail.send_mail(Utilerias.MAIL_PRINCIPAL, auxs, "INGRESO DE MEDICAMENTO TURNO: " + turno.toUpperCase(), 0); //farmaciagi08@gmail.com
         }
 
     }

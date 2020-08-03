@@ -12,24 +12,47 @@ import java.util.regex.Pattern;
  * @author carlosguzman
  */
 public class Utilerias {
+
+    //CONEXION FARMACIAS GI 
+    //private static String bd = "farmaciagi";
+    //private static String login = "charlie";
+    //private static String password = "carlos$%&jose78";
+    //private static String password = "1234";
     
-    public static String SUCURSALE = "Farmacia 8";
+    //Conexion a DB 
+    public final static String IP = "127.0.0.1:3308";
+    public final static String DB = "farmaciagi";
+    public final static String USER = "root";
+    public final static String PASS = "";
+
+    //Correos de Corte de Caja
+    public final static String MAIL_CORTES = "cortesfarmaciagi@gmail.com";
+
+    //Correos de pedidos de Farmacia
+    public final static String MAIL_PEDIDOS = "pedidosgisucursal@gmail.com";
+
+    //Correos de Reporte Ventas, Reporte de Piezas agotadas
+    public final static String MAIL_REPORTES = "cortesfarmaciagi@gmail.com";
+ 
+    //Correos de Ingreso de Medicamentos
+    public final static String MAIL_PRINCIPAL="farmaciagi08@gmail.com";
     
+    
+    //VALIDACIONES
     public static boolean isMail(String mail) {
         return Pattern.matches("/^[a-zA-Z0-9._\\-]+\\@[a-zA-Z0-9._\\-]+(\\.[a-zA-Z]+)+$/", mail);
     }
-    
+
     public static boolean isTelefono(String telefono) {
-        return Pattern.matches("/^([0-9\\.\\(\\)\\- ]+)([\\. ]*[ext]*[\\. ]*[0-9]+)*$/",telefono);
+        return Pattern.matches("/^([0-9\\.\\(\\)\\- ]+)([\\. ]*[ext]*[\\. ]*[0-9]+)*$/", telefono);
     }
-    
+
     public static boolean isNumber(String numero) {
-        return Pattern.matches("/^[0-9]+$/",numero);
+        return Pattern.matches("/^[0-9]+$/", numero);
     }
 
     public static boolean isDecimal(String numero) {
-         return Pattern.matches("/^[0-9]+[\\.]{0,1}[0-9]*$/", numero);
+        return Pattern.matches("/^[0-9]+[\\.]{0,1}[0-9]*$/", numero);
     }
-    
-    
+
 }

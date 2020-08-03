@@ -9,7 +9,6 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -33,6 +32,9 @@ public class Mail {
     String Mensage;
     String Subject;
 
+    
+    
+    
     public void send_mail(String correo, String text, String sub, int file) {
         this.To = correo;
         this.Mensage = text;

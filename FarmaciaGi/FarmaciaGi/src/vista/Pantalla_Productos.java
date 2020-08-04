@@ -153,7 +153,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(0, 112, 192));
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ALTA DE MEDICAMENTO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 36))); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
@@ -179,7 +179,10 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel12.setText("Tipo de Medicamento: ");
 
+        altaMedicamentoTipoMedicamento.setBackground(new java.awt.Color(255, 0, 0));
         altaMedicamentoTipoMedicamento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        altaMedicamentoTipoMedicamento.setForeground(new java.awt.Color(255, 255, 255));
+        altaMedicamentoTipoMedicamento.setMaximumRowCount(14);
         altaMedicamentoTipoMedicamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN", " " }));
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
@@ -444,7 +447,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
 
         jButton1.setText("jButton1");
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(153, 204, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Inventario", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 24))); // NOI18N
 
         txtUrl.setEditable(false);
@@ -492,6 +495,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 204, 255));
         setIconImage(getIconImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -518,7 +522,7 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablaProductos.setGridColor(new java.awt.Color(51, 204, 255));
+        tablaProductos.setGridColor(new java.awt.Color(153, 204, 255));
         jScrollPane1.setViewportView(tablaProductos);
 
         buscarProductos.setBackground(new java.awt.Color(153, 255, 153));
@@ -557,13 +561,13 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         existenciasM.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         existenciasM.setForeground(new java.awt.Color(255, 0, 0));
 
-        busquedaCodigo.setBackground(new java.awt.Color(153, 153, 255));
+        busquedaCodigo.setBackground(new java.awt.Color(153, 204, 255));
         buttonGroup1.add(busquedaCodigo);
         busquedaCodigo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         busquedaCodigo.setSelected(true);
         busquedaCodigo.setText("CODIGO ");
 
-        busquedaNombre.setBackground(new java.awt.Color(153, 153, 255));
+        busquedaNombre.setBackground(new java.awt.Color(153, 204, 255));
         buttonGroup1.add(busquedaNombre);
         busquedaNombre.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         busquedaNombre.setText("NOMBRE");
@@ -627,24 +631,21 @@ public class Pantalla_Productos extends javax.swing.JFrame {
                                 .addComponent(btnPiezas0, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addGap(109, 109, 109)
-                                                .addComponent(jLabel4))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(buscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnExistencias)
-                                        .addGap(41, 41, 41)
-                                        .addComponent(btnInventariar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                        .addComponent(jLabel3)
+                                        .addGap(109, 109, 109)
+                                        .addComponent(jLabel4))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(buscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnExistencias)
+                                .addGap(41, 41, 41)
+                                .addComponent(btnInventariar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1101, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

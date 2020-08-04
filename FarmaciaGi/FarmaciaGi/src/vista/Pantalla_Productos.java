@@ -37,7 +37,8 @@ public class Pantalla_Productos extends javax.swing.JFrame {
         initComponents();
         tablaProductos.getTableHeader().setReorderingAllowed(false);
         this.setResizable(false);
-        this.getContentPane().setBackground(new java.awt.Color(153,153,255));
+        this.getContentPane().setBackground(new java.awt.Color(153,204,255));
+   
     }
 
     @Override

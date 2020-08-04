@@ -40,22 +40,23 @@ public class TikectCorteConsulta {
         Mail mail = new Mail();
         // Se llama al metodo para imprimir una cadena
         auxs+= "CORTE DE CAJA\n\n";
-        auxs+= "==========================================\n";
+        auxs+= "===============================\n";
         auxs+= "FARMACIAS GI\n";
         auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
         auxs+= "Fecha: " + formatofecha.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";
-        auxs+= "=====VENTAS CONSULTORIO===================\n";
+        auxs+= "=====VENTAS CONSULTORIO=========\n";
        // auxs+= "Descripcion    cant     Total";
         //for(Corte consulta: consultorio){
         //auxs+= " "+consulta.getNombreMedicamento()+"  "+consulta.getCantidadMedicamento()+"   "+consulta.getSumPrecioMedicamento()+" \n\n";
        // }
         //auxs+= "==========================================\n";
-        auxs+= "PAGO A DOCTORES:      $ "+pagoDoctores+"\n";
-        auxs+= "VENTAS CONSULTORIO:     $ "+consultas+"\n";
+        auxs+= "VENTAS CONSULTORIO:  $ "+consultas+"\n";
+        auxs+= "PAGO A DOCTORES:     $ "+pagoDoctores+"\n";
+        
         auxs+= "TOTAL VENTAS :                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
-        auxs+= "=====DESCRIPCION VENTAS===================\n";
+        auxs+= "===== DESCRIPCION VENTAS============\n";
         auxs+= "CONSULTA:      $ "+Integer.parseInt(consulta[0]) * 35+"\n";
         auxs+= "APLICACION:    $ "+Integer.parseInt(consulta[1]) * 15+"\n";
         auxs+= "T/P:                     $ "+Integer.parseInt(consulta[2]) * 15+"\n";
@@ -63,7 +64,7 @@ public class TikectCorteConsulta {
         auxs+= "            TOTAL PAGADO:  $ "+total+"\n";
         auxs+= "_________________________________________\n";
        
-        auxs+= "==========================================\n\n\n\n\n";
+        auxs+= "====================================\n\n\n\n\n";
         try {
             impServicio.printCadena(impra, auxs);
             // Cortar el papel ....

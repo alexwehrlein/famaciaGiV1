@@ -20,10 +20,10 @@ public class Utilerias {
     //private static String password = "1234";
     
     //Conexion a DB 
-    public final static String IP = "127.0.0.1:3308";
+    public final static String IP = "192.168.1.8:3306";
     public final static String DB = "farmaciagi";
-    public final static String USER = "root";
-    public final static String PASS = "";
+    public final static String USER = "charlie";
+    public final static String PASS = "carlos$%&jose78";
 
     //Correos de Corte de Caja
     public final static String MAIL_CORTES = "cortesfarmaciagi@gmail.com";

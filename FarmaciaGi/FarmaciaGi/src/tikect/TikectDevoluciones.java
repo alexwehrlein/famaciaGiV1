@@ -28,8 +28,6 @@ public class TikectDevoluciones {
         String[] arr = confings.settings();
         
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 

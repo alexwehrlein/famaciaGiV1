@@ -141,9 +141,9 @@ public class Corte {
             Statement stm = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(monto) FROM ventas WHERE fecha = CURDATE() AND tipo_venta = 'DEVOLUCION' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = CURDATE() AND tipo_venta = 'DEVOLUCION' AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(monto) FROM ventas WHERE fecha = '" + getFecha() + "' AND tipo_venta = 'DEVOLUCION' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = '" + getFecha() + "' AND tipo_venta = 'DEVOLUCION' AND turno='" + getTurno() + "'";
             }
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
@@ -174,9 +174,9 @@ public class Corte {
             Statement stm2 = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(monto) FROM ventas WHERE fecha = CURDATE()   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = CURDATE()   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(monto) FROM ventas WHERE fecha = '" + getFecha() + "'   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = '" + getFecha() + "'   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
             }
 
             ResultSet resultado = stm.executeQuery(sql);
@@ -208,9 +208,9 @@ public class Corte {
             Statement stm = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = CURDATE()  AND tipo_venta = 'CONSULTA' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = CURDATE()  AND tipo_venta = 'CONSULTA' AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = '" + getFecha() + "'  AND tipo_venta = 'CONSULTA' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = '" + getFecha() + "'  AND tipo_venta = 'CONSULTA' AND turno='" + getTurno() + "'";
             }
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
@@ -239,9 +239,9 @@ public class Corte {
             Statement stm = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(total) FROM gastos WHERE fecha = CURDATE()  AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM gastos WHERE DATE(fecha) = CURDATE()  AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(total) FROM gastos WHERE fecha = '" + getFecha() + "'  AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM gastos WHERE DATE(fecha) = '" + getFecha() + "'  AND turno='" + getTurno() + "'";
             }
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
@@ -270,9 +270,9 @@ public class Corte {
             Statement stm = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = CURDATE()  AND tipo_venta = 'ABARROTES' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = CURDATE()  AND tipo_venta = 'ABARROTES' AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = '" + getFecha() + "'  AND tipo_venta = 'ABARROTES' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = '" + getFecha() + "'  AND tipo_venta = 'ABARROTES' AND turno='" + getTurno() + "'";
             }
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
@@ -301,9 +301,9 @@ public class Corte {
             Statement stm = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = CURDATE()  AND tipo_venta = 'PERFUMERIA' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = CURDATE()  AND tipo_venta = 'PERFUMERIA' AND turno='" + getTurno() + "'";
             } else {
-                sql = "SELECT SUM(total) FROM detalle_venta WHERE fecha = '" + getFecha() + "'  AND tipo_venta = 'PERFUMERIA' AND turno='" + getTurno() + "'";
+                sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = '" + getFecha() + "'  AND tipo_venta = 'PERFUMERIA' AND turno='" + getTurno() + "'";
             }
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
@@ -360,7 +360,7 @@ public class Corte {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
 
-            sql = "SELECT id_corte From cortes WHERE fecha = CURDATE() AND turno = '" + getTurno() + "'";
+            sql = "SELECT id_corte From cortes WHERE DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
                 id_corte = resultado.getString("id_corte");
@@ -424,9 +424,9 @@ public class Corte {
             java.sql.Statement stm = (java.sql.Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT  concat_ws(' DESCUENTO %  ', cliente.nombre, des_p, des_g) as clientes From ventas INNER JOIN cliente on ventas.id_cliente=cliente.id_cliente WHERE ventas.id_cliente != 1 AND fecha = CURDATE()  AND turno = '" + getTurno() + "' ";
+                sql = "SELECT  concat_ws(' DESCUENTO %  ', cliente.nombre, des_p, des_g) as clientes From ventas INNER JOIN cliente on ventas.id_cliente=cliente.id_cliente WHERE ventas.id_cliente != 1 AND DATE(fecha) = CURDATE()  AND turno = '" + getTurno() + "' ";
             } else {
-                sql = "SELECT  concat_ws(' DESCUENTO %  ', cliente.nombre, des_p, des_g) as clientes From ventas INNER JOIN cliente on ventas.id_cliente=cliente.id_cliente WHERE ventas.id_cliente != 1 AND fecha = '" + getFecha() + "'  AND turno = '" + getTurno() + "' ";
+                sql = "SELECT  concat_ws(' DESCUENTO %  ', cliente.nombre, des_p, des_g) as clientes From ventas INNER JOIN cliente on ventas.id_cliente=cliente.id_cliente WHERE ventas.id_cliente != 1 AND DATE(fecha) = '" + getFecha() + "'  AND turno = '" + getTurno() + "' ";
             }
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -481,15 +481,15 @@ public class Corte {
         String[] arr = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
         String box;
         try {
-            String sql = "SELECT SUM(total) AS consulta, COUNT(id_detalle) AS consulata2 FROM detalle_venta WHERE descripcion = 'CONSULTA'AND fecha = CURDATE() AND turno = '" + getTurno() + "' ";
-            String sql2 = "SELECT SUM(total) AS aplicacion, COUNT(id_detalle) AS aplicacion2 FROM detalle_venta WHERE descripcion = 'APLICACION' AND fecha = CURDATE() AND turno = '" + getTurno() + "' ";
-            String sql3 = "SELECT SUM(total) AS suero, COUNT(id_detalle) AS suero2 FROM detalle_venta WHERE descripcion = 'SUERO VITAMINADO' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql4 = "SELECT SUM(total) AS glucosa, COUNT(id_detalle) AS glucosa2 FROM detalle_venta WHERE descripcion = 'GLUSOCA' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql5 = "SELECT SUM(total) AS certificado, COUNT(id_detalle) AS ccertificado FROM detalle_venta WHERE descripcion = 'CERTIFICADO MEDICO' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql6 = "SELECT SUM(total) AS presion, COUNT(id_detalle) AS presion2 FROM detalle_venta WHERE descripcion = 'TOMA DE PRESION' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql7 = "SELECT SUM(total) AS oido, COUNT(id_detalle) AS oido2 FROM detalle_venta WHERE descripcion = 'LAVADO DE OIDO' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql8 = "SELECT SUM(total) AS hc, COUNT(id_detalle) AS hc2 FROM detalle_venta WHERE descripcion = 'HISTORIAL CLINICO' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
-            String sql9 = "SELECT SUM(total) AS tg, COUNT(id_detalle) AS tg2 FROM detalle_venta WHERE descripcion = 'TOMA DE GLUCOSA' AND fecha = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql = "SELECT SUM(total) AS consulta, COUNT(id_detalle) AS consulata2 FROM detalle_venta WHERE descripcion = 'CONSULTA'AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "' ";
+            String sql2 = "SELECT SUM(total) AS aplicacion, COUNT(id_detalle) AS aplicacion2 FROM detalle_venta WHERE descripcion = 'APLICACION' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "' ";
+            String sql3 = "SELECT SUM(total) AS suero, COUNT(id_detalle) AS suero2 FROM detalle_venta WHERE descripcion = 'SUERO VITAMINADO' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql4 = "SELECT SUM(total) AS glucosa, COUNT(id_detalle) AS glucosa2 FROM detalle_venta WHERE descripcion = 'GLUSOCA' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql5 = "SELECT SUM(total) AS certificado, COUNT(id_detalle) AS ccertificado FROM detalle_venta WHERE descripcion = 'CERTIFICADO MEDICO' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql6 = "SELECT SUM(total) AS presion, COUNT(id_detalle) AS presion2 FROM detalle_venta WHERE descripcion = 'TOMA DE PRESION' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql7 = "SELECT SUM(total) AS oido, COUNT(id_detalle) AS oido2 FROM detalle_venta WHERE descripcion = 'LAVADO DE OIDO' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql8 = "SELECT SUM(total) AS hc, COUNT(id_detalle) AS hc2 FROM detalle_venta WHERE descripcion = 'HISTORIAL CLINICO' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
+            String sql9 = "SELECT SUM(total) AS tg, COUNT(id_detalle) AS tg2 FROM detalle_venta WHERE descripcion = 'TOMA DE GLUCOSA' AND DATE(fecha) = CURDATE() AND turno = '" + getTurno() + "'";
             con = conn.getConnection();
             java.sql.Statement stm = (java.sql.Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
@@ -621,9 +621,9 @@ public class Corte {
 
             for (int i = 0; i < nom.length; i++) {
                 if (num2 == 0) {
-                    sql = "SELECT IFNULL(descripcion , '" + nom[i] + "') AS des , IFNULL(SUM(total),0) AS sum , IFNULL(SUM(piezas) , 0 ) AS con FROM detalle_venta WHERE descripcion ='" + nom[i] + "' AND fecha = CURDATE() AND turno = '" + turno + "'";
+                    sql = "SELECT IFNULL(descripcion , '" + nom[i] + "') AS des , IFNULL(SUM(total),0) AS sum , IFNULL(SUM(piezas) , 0 ) AS con FROM detalle_venta WHERE descripcion ='" + nom[i] + "' AND DATE(fecha) = CURDATE() AND turno = '" + turno + "'";
                 } else {
-                    sql = "SELECT IFNULL(descripcion , '" + nom[i] + "') AS des , IFNULL(SUM(total),0) AS sum , IFNULL(SUM(piezas) , 0 ) AS con FROM detalle_venta WHERE descripcion ='" + nom[i] + "' AND fecha = '" + getFecha() + "' AND turno = '" + turno + "'";
+                    sql = "SELECT IFNULL(descripcion , '" + nom[i] + "') AS des , IFNULL(SUM(total),0) AS sum , IFNULL(SUM(piezas) , 0 ) AS con FROM detalle_venta WHERE descripcion ='" + nom[i] + "' AND DATE(fecha) = '" + getFecha() + "' AND turno = '" + turno + "'";
                 }
                 resultado = stm.executeQuery(sql);
                 if (resultado.next()) {

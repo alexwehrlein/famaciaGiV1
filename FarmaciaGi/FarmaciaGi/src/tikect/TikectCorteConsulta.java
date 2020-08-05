@@ -27,8 +27,7 @@ public class TikectCorteConsulta {
         String[] arr = confings.settings();
         float total = (Integer.parseInt(consulta[0]) * 35) + (Integer.parseInt(consulta[1]) * 15) + (Integer.parseInt(consulta[2]) * 15) + (Integer.parseInt(consulta[3]) * 15);
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+       
         DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
        
@@ -39,29 +38,24 @@ public class TikectCorteConsulta {
         String impra = arr[0]; // Nombre de la impresora
         Mail mail = new Mail();
         // Se llama al metodo para imprimir una cadena
-        auxs+= "CORTE DE CAJA\n\n";
-        auxs+= "===============================\n";
+        auxs+= "CORTE DE CAJA \n\n";
+        auxs+= "****************************************\n";
         auxs+= "FARMACIAS GI\n";
         auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
         auxs+= "Fecha: " + formatofecha.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";
-        auxs+= "=====VENTAS CONSULTORIO=========\n";
-       // auxs+= "Descripcion    cant     Total";
-        //for(Corte consulta: consultorio){
-        //auxs+= " "+consulta.getNombreMedicamento()+"  "+consulta.getCantidadMedicamento()+"   "+consulta.getSumPrecioMedicamento()+" \n\n";
-       // }
-        //auxs+= "==========================================\n";
-        auxs+= "VENTAS CONSULTORIO:  $ "+consultas+"\n";
-        auxs+= "PAGO A DOCTORES:     $ "+pagoDoctores+"\n";
-        
-        auxs+= "TOTAL VENTAS :                $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n";
-        auxs+= "===== DESCRIPCION VENTAS============\n";
-        auxs+= "CONSULTA:      $ "+Integer.parseInt(consulta[0]) * 35+"\n";
-        auxs+= "APLICACION:    $ "+Integer.parseInt(consulta[1]) * 15+"\n";
-        auxs+= "T/P:                     $ "+Integer.parseInt(consulta[2]) * 15+"\n";
-        auxs+= "GLUCOSA:        $ "+Integer.parseInt(consulta[3]) * 15+"\n";
-        auxs+= "            TOTAL PAGADO:  $ "+total+"\n";
+        auxs+= " ********* VENTAS CONSULTORIO ********* \n";
+        auxs+= "* TOTAL VENTAS CONSULTORIO:  $ "+consultas+"\n";
+        auxs+= "* PAGO A DOCTORES:     $ "+pagoDoctores+"\n\n";
+        auxs+= "*   VENTAS  : --->> $ "+(consultas - Double.parseDouble(pagoDoctores)) +"\n\n";
+        auxs+= " *********** DESCRIPCION ***************\n";
+        auxs+= "* CONSULTAS: "+ Integer.parseInt(consulta[0])+ " ---->  $ "+Integer.parseInt(consulta[0]) * 35+"\n";
+        auxs+= "* APLICACIONES: "+Integer.parseInt(consulta[1])+ " ---->  $ "+Integer.parseInt(consulta[1]) * 15+"\n";
+        auxs+= "* T/A:      "+Integer.parseInt(consulta[2])+ "  ---->   $ "+Integer.parseInt(consulta[2]) * 15+"\n";
+        auxs+= "* GLUCOSAS:   "+Integer.parseInt(consulta[3])+" ---->  $ "+Integer.parseInt(consulta[3]) * 15+"\n\n";
+        auxs+= "*   DEBEN PAGAR A MÉDICO : ---> $ "+total+"\n\n";
+      
         auxs+= "_________________________________________\n";
        
         auxs+= "====================================\n\n\n\n\n";

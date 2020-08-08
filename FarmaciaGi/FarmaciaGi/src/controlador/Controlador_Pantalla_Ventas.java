@@ -23,6 +23,7 @@ import modelo.Cliente;
 import modelo.Productos;
 import modelo.Ventas;
 import tikect.TikectR;
+import tikect.TikectTurno;
 import tikect.TikectVentas;
 import tikect.TikectkArqueo;
 import utilerias.Utilerias;
@@ -39,6 +40,7 @@ public class Controlador_Pantalla_Ventas {
     Cliente cliente;
     TikectVentas tikectVentas;
     TikectR tikectR;
+    TikectTurno tikectTurno;
     TikectkArqueo arqueo;
     private DefaultTableModel modelo;
     private DefaultTableModel modeloTabDescuento;
@@ -1212,6 +1214,14 @@ public class Controlador_Pantalla_Ventas {
         String[] impor = new String[filas];
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
+            
+            if(modelo.getValueAt(i,0).toString().equals("2") | modelo.getValueAt(i,0).toString().equals("3") | modelo.getValueAt(i,0).toString().equals("23") | modelo.getValueAt(i,0).toString().equals("10") ){
+                ventas = new Ventas();
+                int turnoConsulta = ventas.turnoConsulta(turno, modelo.getValueAt(i,0).toString());
+                tikectTurno = new TikectTurno();
+                tikectTurno.TikectTurno(turnoConsulta,modelo.getValueAt(i,1).toString(), pc);
+            }
+            
             float descuentoGenerico = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajeGenerico / 100.0);
             float descuentoPatente = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajePatente / 100.0);
             String tipo_m = modelo.getValueAt(i, 3).toString();
@@ -1229,9 +1239,9 @@ public class Controlador_Pantalla_Ventas {
             }
 
         }
-        for (int i = 0; i < impor.length; i++) {
-            System.out.println(impor[i]);
-        }
+//        for (int i = 0; i < impor.length; i++) {
+//            System.out.println(impor[i]);
+//        }
         tikectVentas = new TikectVentas();
         tikectVentas.tikectVentas(folioT, empleada, clienteT, piezas, total, pago, cambio, prod, prec, cant, impor, pc, descuento, totalAhorrado);
 

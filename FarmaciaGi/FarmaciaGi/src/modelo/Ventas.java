@@ -67,7 +67,6 @@ public class Ventas {
         this.total = total;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -150,7 +149,7 @@ public class Ventas {
     public Ventas(long codigo) {
         this.codigo = codigo;
     }
-    
+
     public Ventas() {
 
     }
@@ -162,12 +161,12 @@ public class Ventas {
         this.venta = venta;
         this.total = total;
     }
-    
-      public ArrayList<Ventas> ventasList(String turno) {
+
+    public ArrayList<Ventas> ventasList(String turno) {
         ArrayList<Ventas> arrayRegistros = new ArrayList<>();
 
         try {
-            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '"+turno+"' ";
+            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '" + turno + "' ";
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
@@ -365,6 +364,53 @@ public class Ventas {
         }
         return false;
     }
+    
+    public void eliminarTurnos() {
+        String sql = null;
+
+        try {
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            sql = "TRUNCATE turno";
+            stm.execute(sql);
+
+            stm.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            conn.getClose();
+        }
+
+    }
+
+    public int turnoConsulta(String turno, String codigo) {
+        int turnoConsulta = 0;
+        String sql = null;
+        try {
+
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            sql = "INSERT INTO turno (codigo,turno) VALUES(" + codigo + ", '" + turno + "')";
+            stm.execute(sql);
+
+            sql = "SELECT COUNT(*) AS turno FROM turno t WHERE DATE(t.fecha) = CURDATE() AND t.codigo = " + codigo + " AND t.turno = '" + turno + "' ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet resultado = pst.executeQuery();
+            if (resultado.next()) {
+                turnoConsulta = resultado.getInt("turno");
+            }
+            //System.out.println(turnoConsulta);
+            stm.close();
+            pst.close();
+            resultado.close();
+        } catch (Exception e) {
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "" + e);
+        } finally {
+            conn.getClose();
+        }
+        return turnoConsulta;
+    }
 
     public int numArqueos() {
         int arqueos = 0;
@@ -500,6 +546,7 @@ public class Ventas {
 
         try {
             con = conn.getConnection();
+            con.setAutoCommit(false);
             Statement stm = (Statement) con.createStatement();
 
             for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -546,8 +593,14 @@ public class Ventas {
             arr[1] = "0";
             stm.close();
             resultado.close();
+            con.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                con.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "" + ex1);
+            }
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "" + ex);
             arr[1] = "1";
             return arr;
         } finally {

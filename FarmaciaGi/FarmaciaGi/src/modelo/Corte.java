@@ -652,16 +652,16 @@ public class Corte {
      public String[] totalesConsultas(String turno) {
         String[] arr = {"", "", "", ""};
         int contador = 0;
-        String sql = "SELECT SUM(d.piezas) AS consultas  FROM detalle_venta d " +
+        String sql = "SELECT  IFNULL(SUM(d.piezas),0)  AS consultas  FROM detalle_venta d " +
                     " WHERE d.id_producto = 2 AND d.fecha = CURDATE() AND d.turno = '"+turno+"' " +
                     " UNION all " +
-                    " SELECT SUM(d.piezas) AS aplicaciones FROM detalle_venta d " +
+                    " SELECT IFNULL(SUM(d.piezas),0) AS aplicaciones FROM detalle_venta d " +
                     " WHERE d.id_producto = 3 AND d.fecha =  CURDATE() AND d.turno = '"+turno+"'  " +
                     " UNION all " +
-                    " SELECT SUM(d.piezas) AS tp FROM detalle_venta d " +
+                    " SELECT IFNULL(SUM(d.piezas),0) AS tp FROM detalle_venta d " +
                     " WHERE d.id_producto = 23 AND d.fecha = CURDATE() AND d.turno = '"+turno+"' " +
                     " UNION all" +
-                    " SELECT SUM(d.piezas) AS glucosa FROM detalle_venta d " +
+                    " SELECT IFNULL(SUM(d.piezas),0) AS glucosa FROM detalle_venta d " +
                     " WHERE d.id_producto = 10 AND d.fecha =  CURDATE() AND d.turno = '"+turno+"' ";
         
         try {

@@ -31,9 +31,6 @@ public class Mail {
     String To;
     String Mensage;
     String Subject;
-
-    
-    
     
     public void send_mail(String correo, String text, String sub, int file) {
         this.To = correo;

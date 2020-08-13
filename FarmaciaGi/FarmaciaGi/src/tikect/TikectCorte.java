@@ -73,11 +73,10 @@ public class TikectCorte {
             mensaje += "\n";
         }
         mensaje += "GASTOS TOTALES:                $ " + gastos + "\n\n";
-        mensaje += "**************DESCUENTOS**************\n";
-        mensaje += "Cantidad de descuentos:   " + clientesNum + "\n";
+        mensaje += "**************DESCUENTOS**************\n\n";
+        mensaje += "DESCUENTOS REALIZADOS:   " + clientesNum + "\n\n";
         // mensaje += "Clientes con descuento: \n";
         /*for (String string : clientes) {
-
             mensaje += string + ". \n";
         }
          */
@@ -100,11 +99,11 @@ public class TikectCorte {
         if (clave == 0) {
             mensaje += "RETIROS:                 $ " + retiros + "\n";
         }
-        mensaje += "DEVOLUCIONES TOTALES:    $ " + devoluciones + "\n";
+        mensaje += "TOTAL DEVOLUCION :    $ " + devoluciones + "\n";
         mensaje += "*************************************\n";
-        mensaje += "VENTAS GENERALES:        $ " + totalEntregar + "\n";
+        mensaje += "VENTAS GENERALES:        $ " + totalEntregar + "\n\n";
         mensaje += "*************************************\n";
-        mensaje += "INGRESO ADICIONAL DE VENTAS:  $ " + diferencia2 + "\n";
+        mensaje += "INGRESO ADICIONAL DE VENTAS:  $ " + diferencia2 + "\n\n";
         mensaje += "ENTREGAN CAJEROS:             $ " + totalTabla + "\n";
 
         mensaje += "_______________________________________\n\n\n\n\n";

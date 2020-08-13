@@ -382,7 +382,10 @@ public class Pantalla_Corte {
     
     private void pdfVentas(String turno){
                 ventas = new Ventas();
+                
                 ArrayList<Ventas> datos = ventas.ventasList(turno);
+               
+                
                 Date date = new Date();
                 try {
                     FileOutputStream ficheroPdf = null;
@@ -428,7 +431,7 @@ public class Pantalla_Corte {
                     saltolinea12.add("\n\n");
                     documento.add(saltolinea12);
                     
-                    float[] columnWidths = {2,3, 1,1,1};
+                    float[] columnWidths = {2,3, 1,1,1,1};
                     PdfPTable tabla = new PdfPTable(columnWidths);
                     tabla.setWidthPercentage(100);
                     //Añadimos los títulos a la tabla. 
@@ -436,6 +439,7 @@ public class Pantalla_Corte {
                     columna1.getFont().setStyle(Font.BOLD);
                     columna1.getFont().setSize(10);
                     tabla.addCell(columna1);
+
 
                     Paragraph columna2 = new Paragraph("MARCA");
                     columna2.getFont().setStyle(Font.BOLD);
@@ -447,15 +451,21 @@ public class Pantalla_Corte {
                     columna3.getFont().setSize(10);
                     tabla.addCell(columna3);
 
-                    Paragraph columna4 = new Paragraph("PIEZAS");
+                    Paragraph columna4 = new Paragraph("PIEZAS VENDIDAS");
                     columna4.getFont().setStyle(Font.BOLD);
                     columna4.getFont().setSize(10);
                     tabla.addCell(columna4);
                     
-                    Paragraph columna5 = new Paragraph("TOTAL VENTAS");
+
+                     Paragraph columna5 = new Paragraph("TOTAL VENTAS");
                     columna5.getFont().setStyle(Font.BOLD);
                     columna5.getFont().setSize(10);
                     tabla.addCell(columna5);
+                    
+                    Paragraph columna6 = new Paragraph("EXISTEN- SISTEMA");
+                    columna6.getFont().setStyle(Font.BOLD);
+                    columna6.getFont().setSize(10);
+                    tabla.addCell(columna6);
                     
                     float total_venta = 0;
                     
@@ -465,6 +475,7 @@ public class Pantalla_Corte {
                         tabla.addCell(String.valueOf(r.getVenta()));
                         tabla.addCell(String.valueOf(r.getPiezas()));
                         tabla.addCell(String.valueOf(r.getTotal()));
+                        tabla.addCell(String.valueOf(r.getExistencias()));
                         total_venta = total_venta + r.getTotal();
                     }
                     documento.add(tabla);
@@ -472,7 +483,7 @@ public class Pantalla_Corte {
                     Paragraph titulo5 = new Paragraph();
                     titulo5.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo5.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo5.add("Total: $ "+total_venta);
+                    titulo5.add("Total Ventas Generadas: $ "+total_venta);
                     documento.add(titulo5);
                     
                     documento.close();

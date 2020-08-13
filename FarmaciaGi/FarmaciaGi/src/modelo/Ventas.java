@@ -37,6 +37,15 @@ public class Ventas {
     private int piezas;
     private String turno;
     private String marca;
+    private String existencias;
+
+    public String getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(String existencias) {
+        this.existencias = existencias;
+    }
     private float venta;
     private float total;
     private float monto;
@@ -166,7 +175,7 @@ public class Ventas {
         ArrayList<Ventas> arrayRegistros = new ArrayList<>();
 
         try {
-            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '" + turno + "' ";
+            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total, p.cantidad FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '" + turno + "' ";
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
@@ -177,6 +186,8 @@ public class Ventas {
                 r.setVenta(resultado.getFloat("precio"));
                 r.setPiezas(resultado.getInt("piezas"));
                 r.setTotal(resultado.getFloat("total"));
+                r.setExistencias(resultado.getString("cantidad"));
+
                 arrayRegistros.add(r);
             }
             stm.close();

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package modelo;
 
 import ArchivoLog.ArchivoLog;
@@ -14,10 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.StyledEditorKit;
 
-/**
- *
- * @author alexwehrlein
- */
+
 public class sucursal {
 
     Conexion conn = new Conexion();
@@ -112,7 +105,7 @@ public class sucursal {
 
             sql = "SELECT  * FROM sucursal LIMIT 1";
             resultado = stm.executeQuery(sql);
-            if (resultado.next()) {;
+            if (resultado.next()) {
                 num[0] = resultado.getString("id_sucursal");
                 num[1] = resultado.getString("direccion");
                 num[2] = resultado.getString("telefono");

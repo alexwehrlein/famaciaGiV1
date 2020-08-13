@@ -81,6 +81,10 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jDialogRecarga = new javax.swing.JDialog(this,true);
+        jPanel2 = new javax.swing.JPanel();
+        recargaMonto = new javax.swing.JTextField();
+        btnRecarga = new javax.swing.JButton();
         jPanelIma = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuAdmon = new javax.swing.JMenu();
@@ -101,6 +105,8 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemDevoluciones = new javax.swing.JMenuItem();
         jMenuItemGestionProducto = new javax.swing.JMenuItem();
         jMenuItemRetiro = new javax.swing.JMenuItem();
+        jMenuItemBajasTemporales = new javax.swing.JMenuItem();
+        jMenuItemFaltantes = new javax.swing.JMenuItem();
         jMenuInicioSesion = new javax.swing.JMenu();
         jMenuItemIniciarSesion = new javax.swing.JMenuItem();
 
@@ -218,6 +224,51 @@ public class Pantalla_principal extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jDialogRecarga.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Saldo de recargas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 18))); // NOI18N
+
+        recargaMonto.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        recargaMonto.setForeground(new java.awt.Color(255, 51, 51));
+
+        btnRecarga.setText("Guardar");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(recargaMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(btnRecarga)))
+                .addContainerGap(130, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(recargaMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRecarga)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogRecargaLayout = new javax.swing.GroupLayout(jDialogRecarga.getContentPane());
+        jDialogRecarga.getContentPane().setLayout(jDialogRecargaLayout);
+        jDialogRecargaLayout.setHorizontalGroup(
+            jDialogRecargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialogRecargaLayout.setVerticalGroup(
+            jDialogRecargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
 
@@ -316,6 +367,14 @@ public class Pantalla_principal extends javax.swing.JFrame {
         jMenuItemRetiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/money.png"))); // NOI18N
         jMenuItemRetiro.setText("Retiros");
         jMenuCajero.add(jMenuItemRetiro);
+
+        jMenuItemBajasTemporales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bajas.png"))); // NOI18N
+        jMenuItemBajasTemporales.setText("Baja de medicamento");
+        jMenuCajero.add(jMenuItemBajasTemporales);
+
+        jMenuItemFaltantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/faltantesPanel.png"))); // NOI18N
+        jMenuItemFaltantes.setText("Faltantes");
+        jMenuCajero.add(jMenuItemFaltantes);
 
         jMenuBar1.add(jMenuCajero);
 
@@ -416,9 +475,11 @@ public class Pantalla_principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnRecarga;
     public javax.swing.JButton jButtonIngresarLogin;
     public javax.swing.JButton jButtonSalirLogin;
     public javax.swing.JDialog jDialogLogin;
+    public javax.swing.JDialog jDialogRecarga;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -429,8 +490,10 @@ public class Pantalla_principal extends javax.swing.JFrame {
     public javax.swing.JMenu jMenuCajero;
     public javax.swing.JMenu jMenuInicioSesion;
     public javax.swing.JMenuItem jMenuItemBajas;
+    public javax.swing.JMenuItem jMenuItemBajasTemporales;
     public javax.swing.JMenuItem jMenuItemCompras;
     public javax.swing.JMenuItem jMenuItemDevoluciones;
+    public javax.swing.JMenuItem jMenuItemFaltantes;
     public javax.swing.JMenuItem jMenuItemGestionCliente;
     public javax.swing.JMenuItem jMenuItemGestionEmp;
     public javax.swing.JMenuItem jMenuItemGestionProducto;
@@ -446,8 +509,10 @@ public class Pantalla_principal extends javax.swing.JFrame {
     public javax.swing.JMenuItem jMenuItemSettings;
     public javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanelIma;
     public javax.swing.JPasswordField jTextFieldPasswordLogin;
     public javax.swing.JTextField jTextFieldUsuarioLogin;
+    public javax.swing.JTextField recargaMonto;
     // End of variables declaration//GEN-END:variables
 }

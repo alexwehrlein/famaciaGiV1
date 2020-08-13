@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Devoluciones;
 import modelo.Proveedor;
 import tikect.TikectDevoluciones;
+import utilerias.Utilerias;
 import vista.Pantalla_Devoluciones;
 
 /**
@@ -24,14 +25,13 @@ import vista.Pantalla_Devoluciones;
  * @author saube
  */
 public class Controlador_PantallaDevoluciones {
-
     Pantalla_Devoluciones devoluciones;
     Devoluciones devoluciones1;
     String idEmpleado, turno;
     TikectDevoluciones tikectDevoluciones;
     int cantidadExistencias;
 
-    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado , String pc) {
+    public Controlador_PantallaDevoluciones(String idEmpleado, String nombreEmpleado, String turnoEmpleado, String pc) {
         devoluciones = new Pantalla_Devoluciones();
         devoluciones.setLocationRelativeTo(null);
         devoluciones.setVisible(true);
@@ -63,6 +63,7 @@ public class Controlador_PantallaDevoluciones {
             public void mouseClicked(MouseEvent me) {
 
                 System.out.println(cantidadExistencias);
+
             }
 
             @Override
@@ -122,7 +123,8 @@ public class Controlador_PantallaDevoluciones {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Devolucion Registrada Correctamente </h1></html>");
                                 devoluciones1 = new Devoluciones(codigo, piezas);
                                 tikectDevoluciones = new TikectDevoluciones();
-                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total,pc);
+                                tikectDevoluciones.TikectDevoluciones(folio, nombreP, piezas, precio, total, pc);
+
                                 if (devoluciones1.RegresarProducto()) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Medicamento Regresado al almacen </h1></html>");
                                     devoluciones1 = new Devoluciones(IntFolio, codigo, piezas);
@@ -137,7 +139,7 @@ public class Controlador_PantallaDevoluciones {
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                }
+                                    }
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);

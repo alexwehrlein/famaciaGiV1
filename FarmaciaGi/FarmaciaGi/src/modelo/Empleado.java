@@ -5,8 +5,10 @@
  */
 package modelo;
 
+import ArchivoLog.ArchivoLog;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
+import static java.lang.Math.log;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -249,6 +251,32 @@ public class Empleado {
             System.out.println(ex);
         }
         return arr;
+    }
+    
+    public void Empleado(String idEmpleado) {
+
+        try {
+            String sql = "SELECT * from login join empleado on login.id_empleado=empleado.id_empleado where login.id_empleado =" + idEmpleado;
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            if (resultado.next()) {
+                setNombre(resultado.getString("nombre"));
+                setPuesto(resultado.getString("puesto"));
+                setTurno(resultado.getString("turno"));
+                
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, " Error ", ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error " + ex);
+            }
+        }
     }
 }
 

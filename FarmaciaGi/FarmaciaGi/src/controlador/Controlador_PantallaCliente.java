@@ -70,7 +70,7 @@ public class Controlador_PantallaCliente {
                      boolean pass = validarFormulario(nombre, telefono, correo);
                      
                       if (pass) {
-                         cliente = new Cliente(0, nombre, correo, telefono, password);
+                         cliente = new Cliente(0, nombre, correo, telefono);
                     if (cliente.registrarCliente()) {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos ingresados Correctamente </h1></html>");
                         limpiarCampos();
@@ -110,7 +110,7 @@ public class Controlador_PantallaCliente {
                                 String telefono = pantalla_Clientes.tablaClientes.getValueAt(filaseleccionada, 3).toString();
                                 
 
-                                cliente = new Cliente(id, nombre, correo, telefono,"");
+                                cliente = new Cliente(id, nombre, correo, telefono);
                                 if (cliente.ModificarRegristros()) {
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Datos Modificados Correctamente </h1></html>");
                                     Clear_Table();

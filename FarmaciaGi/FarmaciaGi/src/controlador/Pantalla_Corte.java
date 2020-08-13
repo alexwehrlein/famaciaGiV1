@@ -5,24 +5,42 @@
  */
 package controlador;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mail.Mail;
+import modelo.Bajas;
 import modelo.Corte;
 import modelo.Gastos;
+import modelo.Productos;
+import modelo.Usuarios;
+import modelo.Ventas;
+import modelo.sucursal;
 import tikect.TikectCorte;
 import tikect.TikectCorteConsulta;
+import utilerias.Utilerias;
 import vista.Pantalla_CorteCaja;
 import vista.Pantalla_Ventas;
 import vista.Pantalla_principal;
@@ -42,6 +60,8 @@ public class Pantalla_Corte {
     TikectCorteConsulta tcc;
     Corte corte;
     Gastos gastos;
+    Bajas bajas;
+    Ventas ventas;
     String ventaTotal = "0";
     String consultorioTotal = "0";
     String devolucionesTotal = "0";
@@ -64,9 +84,8 @@ public class Pantalla_Corte {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
-                pantalla_Corte.txtDinero.setText("");
-                pantalla_Corte.txtRecargasV.setText("");
-                pantalla_Corte.txtRecargasD.setText("");
+                pantalla_Corte.txtRecargas.setText("");
+                pantalla_Corte.txtPagoDoctores.setText("");
                 modelo.setValueAt("", 0, 1);
                 modelo.setValueAt("", 1, 1);
                 modelo.setValueAt("", 2, 1);
@@ -80,7 +99,7 @@ public class Pantalla_Corte {
                 modelo.setValueAt("", 5, 3);
                 modelo.setValueAt("", 6, 1);
                 modelo.setValueAt("", 6, 3);
-                pantalla_Corte.jDialogDatalles.setBounds(249, 124, 767, 574);
+                pantalla_Corte.jDialogDatalles.setBounds(249, 105, 767, 520);
                 pantalla_Corte.jDialogDatalles.setResizable(false);
                 pantalla_Corte.jDialogDatalles.setVisible(true);
 
@@ -134,8 +153,9 @@ public class Pantalla_Corte {
                         nombresClientes = corte.descuentos(1);
                         retiros = corte.retiros(1);
                         String arr[] = corte.totalesC(1);
-                        ArrayList<Gastos> gastosT = gastos.gastosT(turno , fecha , 1);
-                        
+                        ArrayList<Corte> consultas = corte.consultorioSelect(1);
+                        ArrayList<Gastos> gastosT = gastos.gastosT(turno, fecha, 1);
+
                         double vt = Double.parseDouble(ventaTotal);
                         double ct = Double.parseDouble(consultorioTotal);
                         double dt = Double.parseDouble(devolucionesTotal);
@@ -149,9 +169,9 @@ public class Pantalla_Corte {
                         double tk = tt - ct - r;//el total menos las consultas
 
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc , gastosT , "0" , "0" , "0" , "0");
-                        tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc);
+                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT, "0", "0","0");
+                        //tcc = new TikectCorteConsulta();
+                        //tcc.Tikect(ct, turno, pc,consultas,"0",);
                     }
                 } catch (Exception ex) {
                 }
@@ -181,15 +201,17 @@ public class Pantalla_Corte {
                         if (clave1 == 0) {
                             if (!validarCantidad(modelo.getValueAt(i, 1).toString())) {
                                 modelo.setValueAt("", i, 1);
-                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                                 return;
                             }
                             moneda = Integer.parseInt(modelo.getValueAt(i, 1).toString());
                         }
                         if (clave3 == 0) {
-                             if (!validarCantidad(modelo.getValueAt(i, 3).toString())) {
-                                 modelo.setValueAt("", i, 3);
-                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'>Ingrese una cantidad valida.</h1></html>" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                            if (!validarCantidad(modelo.getValueAt(i, 3).toString())) {
+                                modelo.setValueAt("", i, 3);
+                                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese una cantidad valida .</h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                                 return;
                             }
                             billete = Integer.parseInt(modelo.getValueAt(i, 3).toString());
@@ -202,8 +224,13 @@ public class Pantalla_Corte {
                         }
 
                     }
+                    int clave6 = 0;
+                    
+                    if (modelo.getValueAt(6, 1).toString().equals("")) {
+                            clave6 = 1;
+                    }
 
-                    if (modelo.getValueAt(6, 1) != null) {
+                    if (clave6 == 0) {
                         terminal = Integer.parseInt(modelo.getValueAt(6, 1).toString());
                     }
 
@@ -217,24 +244,20 @@ public class Pantalla_Corte {
         pantalla_Corte.btnGuadarDatosExtras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String dineroCaja = pantalla_Corte.txtDinero.getText();
-                String ventaRecatgas = pantalla_Corte.txtRecargasV.getText();
-                String recargas = pantalla_Corte.txtRecargasD.getText();
+                String recargas = pantalla_Corte.txtRecargas.getText();
+                String pagoDoctores = pantalla_Corte.txtPagoDoctores.getText();
                 modelo = (DefaultTableModel) pantalla_Corte.jTableDatosExtras.getModel();
 
-                if (dineroCaja.isEmpty() || validarCantidad(dineroCaja) == false) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtDinero.requestFocus();
-                    return;
-                }
-                if (ventaRecatgas.isEmpty() || validarCantidad(ventaRecatgas) == false) {
-                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtRecargasV.requestFocus();
-                    return;
-                }
                 if (recargas.isEmpty() || validarCantidad(recargas) == false) {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    pantalla_Corte.txtRecargasD.requestFocus();
+
+                    pantalla_Corte.txtRecargas.requestFocus();
+                    return;
+                }
+                if (pagoDoctores.isEmpty() || validarCantidad(pagoDoctores) == false) {
+                    JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ingrese un cantidad correcta. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
+                    pantalla_Corte.txtRecargas.requestFocus();
                     return;
                 }
                 if (modelo.getValueAt(0, 1) == null || modelo.getValueAt(1, 1) == null || modelo.getValueAt(2, 1) == null
@@ -242,13 +265,14 @@ public class Pantalla_Corte {
                         || modelo.getValueAt(0, 3) == null || modelo.getValueAt(1, 3) == null || modelo.getValueAt(2, 3) == null
                         || modelo.getValueAt(3, 3) == null || modelo.getValueAt(4, 3) == null || modelo.getValueAt(5, 3) == null) {
                     JOptionPane.showMessageDialog(null, "Ingresar todas las denominaciones", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                     return;
                 }
-
+                Usuarios obj = new Usuarios();
+                String recargasF = obj.recargaTurno(turno);
                 List<String> extras = new ArrayList<String>();
-                extras.add(pantalla_Corte.txtDinero.getText());
-                extras.add(pantalla_Corte.txtRecargasV.getText());
-                extras.add(pantalla_Corte.txtRecargasD.getText());
+                extras.add(pantalla_Corte.txtRecargas.getText());
+                extras.add(recargasF);
                 extras.add(modelo.getValueAt(0, 1).toString());
                 extras.add(modelo.getValueAt(1, 1).toString());
                 extras.add(modelo.getValueAt(2, 1).toString());
@@ -262,10 +286,8 @@ public class Pantalla_Corte {
                 extras.add(modelo.getValueAt(5, 3).toString());
                 extras.add(modelo.getValueAt(6, 1).toString());
                 extras.add(modelo.getValueAt(6, 3).toString());
+                extras.add(pagoDoctores);
                 String total = modelo.getValueAt(6, 3).toString();
-                String recargav = pantalla_Corte.txtRecargasV.getText();
-                String recargad = pantalla_Corte.txtRecargasD.getText();
-                String dinero = pantalla_Corte.txtDinero.getText();
 
                 corte = new Corte(turnoF);
                 boolean next = corte.Corte();
@@ -274,7 +296,6 @@ public class Pantalla_Corte {
 
                     corte = new Corte(turno);
                     gastos = new Gastos();
-
                     id = corte.folio();
                     folio = Integer.parseInt(id) + 1;
                     pantalla_Corte.jTextFieldFolio.setText(String.valueOf(folio));
@@ -287,7 +308,9 @@ public class Pantalla_Corte {
                     nombresClientes = corte.descuentos(0);
                     retiros = corte.retiros(0);
                     String arr[] = corte.totalesC(0);
-                    ArrayList<Gastos> gastosT = gastos.gastosT(turno , "" , 0);
+                    ArrayList<Corte> consultas = corte.consultorioSelect(1);
+                    ArrayList<Gastos> gastosT = gastos.gastosT(turno, "", 0);
+                    String consultasCantidad[] = corte.totalesConsultas(turno);
 
                     double vt = Double.parseDouble(ventaTotal);
                     double ct = Double.parseDouble(consultorioTotal);
@@ -298,16 +321,16 @@ public class Pantalla_Corte {
                     double r = Double.parseDouble(retiros);
 
                     /*pantalla_Corte.jTextFieldTVenta.setText("$ " + String.format("%.2f", vt));
-                        pantalla_Corte.jTextFieldTConsultorio.setText("$ "+String.format("%.2f", ct));
-                        pantalla_Corte.jTextFieldTDevoluciones.setText("$ " + String.format("%.2f",dt));
-                        pantalla_Corte.jTextFieldTAbarrotes.setText("$ " + String.format("%.2f", at));
-                        pantalla_Corte.jTextFieldTPerfumeria.setText("$ " + String.format("%.2f", pt));
-                        pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
-                        pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
+                     pantalla_Corte.jTextFieldTConsultorio.setText("$ "+String.format("%.2f", ct));
+                     pantalla_Corte.jTextFieldTDevoluciones.setText("$ " + String.format("%.2f",dt));
+                     pantalla_Corte.jTextFieldTAbarrotes.setText("$ " + String.format("%.2f", at));
+                     pantalla_Corte.jTextFieldTPerfumeria.setText("$ " + String.format("%.2f", pt));
+                     pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
+                     pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
                     double t = vt + ct + at + pt;//total de los tipos de venta
-                    double tt = t - dt - gt - r;//total a estregar
-                    double tk = tt - ct - r;//el total menos las consultas
-
+                    double tt = t - dt - gt - r - Double.parseDouble(pagoDoctores);//total a estregar
+                    double tk = tt - ct ;//el total menos las consultas
+                    double ventasVAP = (vt + at + pt) - dt; 
                     System.out.println(r);//retiros
                     System.out.println(ct);//consultas
                     System.out.println(t);//total
@@ -318,9 +341,8 @@ public class Pantalla_Corte {
 
                     corte = new Corte(turno, tt);
                     if (corte.registrarCortes(extras)) {
-                        pantalla_Corte.txtDinero.setText("");
-                        pantalla_Corte.txtRecargasV.setText("");
-                        pantalla_Corte.txtRecargasD.setText("");
+                        pantalla_Corte.txtRecargas.setText("");
+                        pantalla_Corte.txtPagoDoctores.setText("");
                         modelo.setValueAt("", 0, 1);
                         modelo.setValueAt("", 1, 1);
                         modelo.setValueAt("", 2, 1);
@@ -336,22 +358,233 @@ public class Pantalla_Corte {
                         pantalla_Corte.jDialogDatalles.setVisible(false);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(ventaTotal, consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc , gastosT , recargav , recargad ,dinero , total);
+                        tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
                         tcc = new TikectCorteConsulta();
-                        tcc.Tikect(ct, turno, pc);
+                        tcc.Tikect(ct, turno, pc, consultas,pagoDoctores,consultasCantidad);
+                        pdfBajas(turno);
+                        pdfVentas(turno);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
 
                     } else {
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Error </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte ya a sido realizado </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+
                 }
 
             }
         });
 
+    }
+    
+    private void pdfVentas(String turno){
+                ventas = new Ventas();
+                ArrayList<Ventas> datos = ventas.ventasList(turno);
+                Date date = new Date();
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream("C:/farmacia/ventas.pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Ventas***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    titulo2.add(formatofecha.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                  
+                   sucursal su = new sucursal();
+                   String datSucursal[] = su.datosSucursal();
+                    titulo3.add(datSucursal[1].toUpperCase());
+                    documento.add(titulo3);
+                    
+                    Paragraph titulo4 = new Paragraph();
+                    titulo4.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo4.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo4.add("Turno: "+turno);
+                    documento.add(titulo4);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2,3, 1,1,1};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("CODIGO");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("MARCA");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+                    
+                    Paragraph columna3 = new Paragraph("PRECIO");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+
+                    Paragraph columna4 = new Paragraph("PIEZAS");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                    
+                    Paragraph columna5 = new Paragraph("TOTAL VENTAS");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    float total_venta = 0;
+                    
+                    for (Ventas r : datos) {
+                        tabla.addCell(String.valueOf(r.getCodigo()));
+                        tabla.addCell(r.getMarca());
+                        tabla.addCell(String.valueOf(r.getVenta()));
+                        tabla.addCell(String.valueOf(r.getPiezas()));
+                        tabla.addCell(String.valueOf(r.getTotal()));
+                        total_venta = total_venta + r.getTotal();
+                    }
+                    documento.add(tabla);
+                    
+                    Paragraph titulo5 = new Paragraph();
+                    titulo5.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo5.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo5.add("Total: $ "+total_venta);
+                    documento.add(titulo5);
+                    
+                    documento.close();
+                    Mail mail = new Mail();
+                    Utilerias util = new Utilerias();
+                    mail.send_mail(Utilerias.MAIL_CORTES, "PDF", " REPORTE VENTAS " , 4); //farmaciagi08@gmail.com
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                }
+    }
+    
+    private void pdfBajas(String turno){
+                bajas = new Bajas();
+                ArrayList<Bajas> datos = bajas.bajasList(turno);
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    FileOutputStream ficheroPdf = null;
+                    // Se crea el documento
+                    Document documento = new Document();
+// Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+                    ficheroPdf = new FileOutputStream("C:/farmacia/bajas.pdf");
+                    // Se asocia el documento al OutputStream y se indica que el espaciado entre
+// lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                    PdfWriter.getInstance(documento, ficheroPdf);
+// Se abre el documento.
+                    documento.open();
+                    
+                    Paragraph titulo = new Paragraph();
+                    titulo.setAlignment(Paragraph.ALIGN_CENTER);
+                    titulo.setFont(FontFactory.getFont("Times New Roman", 20, Font.BOLD, BaseColor.RED));
+                    titulo.add("***Bajas***");
+                    documento.add(titulo);
+                    
+                    Paragraph titulo2 = new Paragraph();
+                    titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo2.add(dateFormat.format(date));
+                    documento.add(titulo2);
+                    
+                    Paragraph titulo3 = new Paragraph();
+                    titulo3.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo3.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    
+                    sucursal su = new sucursal();
+                    String datSucursal[] = su.datosSucursal();
+                     titulo3.add(datSucursal[1].toUpperCase());
+                    documento.add(titulo3);
+                    
+                    Paragraph titulo4 = new Paragraph();
+                    titulo4.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo4.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
+                    titulo4.add("Turno: "+turno);
+                    documento.add(titulo4);
+                    
+                    Paragraph saltolinea12 = new Paragraph();
+                    saltolinea12.add("\n\n");
+                    documento.add(saltolinea12);
+                    
+                    float[] columnWidths = {2, 3, 2,1,2,2};
+                    PdfPTable tabla = new PdfPTable(columnWidths);
+                    tabla.setWidthPercentage(100);
+                    //Añadimos los títulos a la tabla. 
+                    Paragraph columna1 = new Paragraph("CODIGO");
+                    columna1.getFont().setStyle(Font.BOLD);
+                    columna1.getFont().setSize(10);
+                    tabla.addCell(columna1);
+
+                    Paragraph columna2 = new Paragraph("Marca");
+                    columna2.getFont().setStyle(Font.BOLD);
+                    columna2.getFont().setSize(10);
+                    tabla.addCell(columna2);
+                    
+                    Paragraph columna3 = new Paragraph("Motivo");
+                    columna3.getFont().setStyle(Font.BOLD);
+                    columna3.getFont().setSize(10);
+                    tabla.addCell(columna3);
+
+                    Paragraph columna4 = new Paragraph("Piezas");
+                    columna4.getFont().setStyle(Font.BOLD);
+                    columna4.getFont().setSize(10);
+                    tabla.addCell(columna4);
+                    
+                    Paragraph columna5 = new Paragraph("Fecha Caducidad");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    Paragraph columna6 = new Paragraph("Nombre");
+                    columna6.getFont().setStyle(Font.BOLD);
+                    columna6.getFont().setSize(10);
+                    tabla.addCell(columna6);
+                   
+                    
+                    for (Bajas r : datos) {
+                        tabla.addCell(r.getCodigo());
+                        tabla.addCell(r.getMarca());
+                        tabla.addCell(r.getMotivo());
+                        tabla.addCell(String.valueOf(r.getPiezas()));
+                        tabla.addCell(r.getFecha());
+                        tabla.addCell(r.getNombre());
+                    }
+                    documento.add(tabla);
+
+                    documento.close();
+                    Mail mail = new Mail();
+                    mail.send_mail(Utilerias.MAIL_PRINCIPAL, "PDF", " BAJAS DE MEDICAMENTOS " , 2); //farmaciagi08@gmail.com
+                    JOptionPane.showMessageDialog(null, "<html><h1> Exito</h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controlador_PantallaProductos.class.getName()).log(Level.SEVERE, " " + ex);
+                }
     }
 
     private void Clear_Table() {

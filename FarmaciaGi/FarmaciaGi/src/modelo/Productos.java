@@ -6,7 +6,6 @@
 package modelo;
 
 import ArchivoLog.ArchivoLog;
-import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,8 +14,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -28,10 +29,12 @@ import vista.Pantalla_Productos;
  */
 public class Productos {
 
-    private long codigo;
+    private int num;
+    private String codigo;
     private String marcaComercial;
     private String sustancias;
     private double precio;
+    private double precioCompra;
     private String tipoMedicamento;
     private String laboratorio;
     private int proveedor;
@@ -45,7 +48,15 @@ public class Productos {
     Pantalla_Productos pantalla_Productos;
     ArchivoLog log;
 
-    public Productos(long codigo, int cantidad, int id_empleado, int piezasAdd) {
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public Productos(String codigo, int cantidad, int id_empleado, int piezasAdd) {
         this.codigo = codigo;
         this.cantidad = cantidad;
         this.id_empleado = id_empleado;
@@ -76,7 +87,17 @@ public class Productos {
         this.nombreProveedor = nombreProveedor;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
+    public double getPrecioCompra() {
+        return precioCompra;
+    }
+
+    public void setPrecioCompra(double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+    
+    
+
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio , String tipoMedicamento, String laboratorio, String nombreProveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -87,18 +108,19 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, double precioCompra , String tipoMedicamento, String laboratorio, int proveedor, int cantidad) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
         this.precio = precio;
+        this.precioCompra = precioCompra;
         this.tipoMedicamento = tipoMedicamento;
         this.laboratorio = laboratorio;
         this.proveedor = proveedor;
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
+    public Productos(String codigo, String marcaComercial, String sustancias, double precio, String tipoMedicamento, String laboratorio, String nombreProveedor) {
         this.codigo = codigo;
         this.marcaComercial = marcaComercial;
         this.sustancias = sustancias;
@@ -108,11 +130,22 @@ public class Productos {
         this.nombreProveedor = nombreProveedor;
     }
 
-    public long getCodigo() {
+    public Productos(int num, String codigo, int cantidad) {
+        this.num = num;
+        this.codigo = codigo;
+        this.cantidad = cantidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Productos{" + "num=" + num + ", codigo=" + codigo + ", cantidad=" + cantidad + '}';
+    }
+
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -176,23 +209,20 @@ public class Productos {
 
     }
 
-    public Productos(long codigo) {
+    public Productos(String codigo) {
         this.codigo = codigo;
     }
 
-    public Productos(long codigo, int cantidad) {
+    public Productos(String codigo, int cantidad) {
         this.codigo = codigo;
         this.cantidad = cantidad;
     }
 
-    public Productos(long codigo, double precio, String nombre) {
+    public Productos(String codigo, double precio, String nombre, String tipoMedicamento) {
         this.codigo = codigo;
         this.precio = precio;
         this.marcaComercial = nombre;
-    }
-
-    public Productos(String sustancias) {
-        this.sustancias = sustancias;
+        this.tipoMedicamento = tipoMedicamento;
     }
 
     public double PrrcioProducto() {
@@ -222,6 +252,36 @@ public class Productos {
             }
         }
         return precio;
+    }
+
+    public void producto(String codigo) {
+
+        try {
+            String sql = "SELECT * FROM productos WHERE codigo = " + codigo;
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            if (resultado.next()) {
+                setCodigo(resultado.getString("codigo"));
+                setMarcaComercial(resultado.getString("marca_comercial"));
+                setPrecio(resultado.getDouble("precio"));
+                setCantidad(resultado.getInt("cantidad"));
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, " Error ", ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error " + ex);
+            }
+        }
     }
 
     public int productoCero() {
@@ -263,7 +323,7 @@ public class Productos {
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " WHERE codigo=" + getCodigo());
+            stm.execute("UPDATE productos SET marca_comercial='" + getMarcaComercial() + "' , precio=" + getPrecio() + " , tipo_medicamento = '" + getTipoMedicamento() + "' WHERE codigo=" + getCodigo());
             con.setAutoCommit(true);
             return true;
         } catch (SQLException ex) {
@@ -345,6 +405,76 @@ public class Productos {
 
         return arrayRegistros;
     }
+    
+     public ArrayList<Productos> inventario() {
+        ArrayList<Productos> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM productos p order BY p.tipo_medicamento , p.marca_comercial  ASC";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Productos r = new Productos();
+                r.setCodigo(resultado.getString("codigo"));
+                r.setMarcaComercial(resultado.getString("marca_comercial"));
+                r.setTipoMedicamento(resultado.getString("tipo_medicamento"));
+                r.setCantidad(resultado.getInt("cantidad"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
+    }
+     
+     public ArrayList<Productos> inventarioPZ0() {
+        ArrayList<Productos> arrayRegistros = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM productos p WHERE p.cantidad = 0 order BY  p.marca_comercial  ASC";
+            con = new Conexion().getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                Productos r = new Productos();
+                r.setCodigo(resultado.getString("codigo"));
+                r.setMarcaComercial(resultado.getString("marca_comercial"));
+                r.setTipoMedicamento(resultado.getString("tipo_medicamento"));
+                r.setCantidad(resultado.getInt("cantidad"));
+                arrayRegistros.add(r);
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return arrayRegistros;
+    }
 
     public ArrayList<Proveedor> octenerProveedores() {
         ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
@@ -384,7 +514,7 @@ public class Productos {
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("INSERT INTO productos VALUES(" + getCodigo() + ",'" + getMarcaComercial() + "','" + getSustancias() + "'," + getPrecio() + ",'"
+            stm.execute("INSERT INTO productos VALUES(" + getCodigo() + ",'" + getMarcaComercial() + "','" + getSustancias() + "'," + getPrecioCompra()+ "," + getPrecio() + ",'" 
                     + getTipoMedicamento() + "','" + getLaboratorio() + "'," + getProveedor() + "," + getCantidad() + ")");
             return true;
         } catch (SQLException ex) {
@@ -469,11 +599,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
@@ -493,7 +623,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             for (int i = 0; i < arrayProductos.size(); i++) {
@@ -524,11 +654,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
@@ -548,7 +678,7 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             int num = arrayProductos.size();
@@ -589,11 +719,11 @@ public class Productos {
         jt.setDefaultRenderer(Object.class, new Render());
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        //JComboBox tipo;
-        TableColumn col = jt.getColumnModel().getColumn(1);
-        //String op[] = {"Luz", "Agua", "Gas", "Producto"};
-        //tipo = new JComboBox(op);
-        // col.setCellEditor(new DefaultCellEditor(tipo));
+        JComboBox tipo;
+        TableColumn col = jt.getColumnModel().getColumn(4);
+        String op[] = {"PATENTE", "CONSULTA", "GENÉRICO", "ABARROTES", "PERFUMERIA", "PROMOCIÓN"};
+        tipo = new JComboBox(op);
+        col.setCellEditor(new DefaultCellEditor(tipo));
         btnModificar.setName("btnModificar");
         btnEliminar.setName("btnEliminar");
         ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
@@ -613,13 +743,105 @@ public class Productos {
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
             while (resultado.next()) {
-                arrayProductos.add(new Productos(resultado.getLong("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
                         resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
             }
             for (int i = 0; i < arrayProductos.size(); i++) {
                 modelo.addRow(new Object[]{arrayProductos.get(i).getCodigo(), arrayProductos.get(i).getMarcaComercial(),
                     arrayProductos.get(i).getSustancias(), arrayProductos.get(i).getPrecio(), arrayProductos.get(i).getTipoMedicamento(), arrayProductos.get(i).getLaboratorio(),
                     btnModificar});
+            }
+            stm.close();
+            resultado.close();
+        } catch (SQLException ex) {
+            log = new ArchivoLog();
+            log.crearLog(ex);
+            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                log = new ArchivoLog();
+                log.crearLog(ex);
+                Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, "Error" + ex);
+            }
+        }
+
+        return modelo;
+    }
+
+    public Boolean GuadarListaAltas(DefaultTableModel modelo, int id_empleado) {
+        String sql = null;
+        boolean next = true;
+        int piezasFinales = 0;
+        try {
+            con = conn.getConnection();
+            con.setAutoCommit(false);
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                Statement stm = (Statement) con.createStatement();
+                sql = "INSERT INTO compraproductos (codigo,id_empleado,piezas) VALUES ( '" + modelo.getValueAt(i, 0).toString() + "' , " + id_empleado + " ," + modelo.getValueAt(i, 2).toString() + " )";
+                stm.execute(sql);
+                Productos p = new Productos();
+                p.producto(modelo.getValueAt(i, 0).toString());
+                piezasFinales = p.getCantidad() + Integer.parseInt(modelo.getValueAt(i, 2).toString());
+                sql = "UPDATE productos SET cantidad = " + piezasFinales + " WHERE codigo = " + modelo.getValueAt(i, 0).toString();
+                stm.execute(sql);
+                stm.close();
+            }
+            con.commit();
+        } catch (SQLException ex) {
+            try {
+                con.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "" + ex1);
+            }
+            log.crearLog(ex);
+            Logger.getLogger(Bajas.class.getName()).log(Level.SEVERE, "Error " + ex);
+            next = false;
+        } finally {
+            conn.getClose();
+        }
+        return next;
+    }
+    
+     public DefaultTableModel faltanteTabla(JTable jt, String codigo , int valor) {
+        jt.setDefaultRenderer(Object.class, new Render());
+        JButton btnModificar = new JButton("Modificar");
+        JButton btnEliminar = new JButton("Eliminar");
+        btnModificar.setName("btnModificar");
+        btnEliminar.setName("btnEliminar");
+        ImageIcon im = new ImageIcon(getClass().getResource("/imagenes/mo.png"));
+        btnModificar.setIcon(im);
+        ImageIcon ie = new ImageIcon(getClass().getResource("/imagenes/eli.png"));
+        btnEliminar.setIcon(ie);
+        jt.setRowHeight(25);
+
+        DefaultTableModel modelo = (DefaultTableModel) jt.getModel();
+        ArrayList<Productos> arrayProductos = new ArrayList<>();
+        try {
+
+            String sql = "SELECT codigo,marca_comercial,sustancia,precio,tipo_medicamento,laboratorio,"
+                    + "proveedor.nombre,cantidad FROM productos JOIN proveedor "
+                    + "on productos.proveedor=proveedor.id_proveedor ";
+            
+            if(valor == 0){
+                sql += " WHERE marca_comercial like '%" + codigo + "%'";
+            }else{
+                sql += " WHERE codigo = '" + codigo + "'";
+            }
+            
+            con = conn.getConnection();
+            Statement stm = (Statement) con.createStatement();
+            ResultSet resultado = stm.executeQuery(sql);
+            while (resultado.next()) {
+                arrayProductos.add(new Productos(resultado.getString("codigo"), resultado.getString("marca_comercial"), resultado.getString("sustancia"), resultado.getDouble("precio"),
+                        resultado.getString("tipo_medicamento"), resultado.getString("laboratorio"), resultado.getString("nombre")));
+            }
+           
+
+            for (int i = 0; i < arrayProductos.size(); i++) {
+                modelo.addRow(new Object[]{arrayProductos.get(i).getCodigo(), arrayProductos.get(i).getMarcaComercial(),
+                    arrayProductos.get(i).getSustancias()});
             }
             stm.close();
             resultado.close();

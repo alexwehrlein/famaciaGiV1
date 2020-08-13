@@ -1215,7 +1215,7 @@ public class Controlador_Pantalla_Ventas {
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
             
-            if(modelo.getValueAt(i,0).toString().equals("2") | modelo.getValueAt(i,0).toString().equals("3") | modelo.getValueAt(i,0).toString().equals("23") | modelo.getValueAt(i,0).toString().equals("10") ){
+            if(modelo.getValueAt(i,0).toString().equals("2") || modelo.getValueAt(i,0).toString().equals("3") || modelo.getValueAt(i,0).toString().equals("23") || modelo.getValueAt(i,0).toString().equals("10") || modelo.getValueAt(i,0).toString().equals("14") ){
                 ventas = new Ventas();
                 int turnoConsulta = ventas.turnoConsulta(turno, modelo.getValueAt(i,0).toString());
                 tikectTurno = new TikectTurno();

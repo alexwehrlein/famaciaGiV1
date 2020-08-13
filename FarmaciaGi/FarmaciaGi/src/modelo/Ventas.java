@@ -546,7 +546,6 @@ public class Ventas {
 
         try {
             con = conn.getConnection();
-            con.setAutoCommit(false);
             Statement stm = (Statement) con.createStatement();
 
             for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -593,7 +592,7 @@ public class Ventas {
             arr[1] = "0";
             stm.close();
             resultado.close();
-            con.commit();
+           
         } catch (SQLException ex) {
             try {
                 con.rollback();

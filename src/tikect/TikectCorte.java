@@ -35,7 +35,7 @@ public class TikectCorte {
         float diferencia2 =Float.parseFloat(totalTabla)- totalEntregar; 
         Date date = new Date();
      
-	DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -52,7 +52,7 @@ public class TikectCorte {
         mensaje += "SUCURSAL: " + datSucursal[1].toUpperCase() + " \n";
         mensaje += "IGUALA DE LA INDEPENDENCIA, GRO\n";
         mensaje += "\n";
-        mensaje += "FECHA: " + formatofecha.format(date)+ "\n";
+        mensaje += "FECHA: " + formate.format(date)+ "\n";
         
 //        mensaje += "FECHA: " + dateFormat.format(date) + " Hora: " + hourFormat.format(date) + "\n";
 
@@ -72,7 +72,7 @@ public class TikectCorte {
 
             mensaje += "\n";
         }
-        mensaje += "GASTOS TOTALES:                $ " + gastos + "\n\n";
+//        mensaje += "GASTOS TOTALES:                $ " + gastos + "\n\n";
         mensaje += "**************DESCUENTOS**************\n\n";
         mensaje += "DESCUENTOS REALIZADOS:   " + clientesNum + "\n\n";
         // mensaje += "Clientes con descuento: \n";

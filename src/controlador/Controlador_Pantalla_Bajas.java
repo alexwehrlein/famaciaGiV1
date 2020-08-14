@@ -105,9 +105,9 @@ public class Controlador_Pantalla_Bajas {
                     return;
                 }
 
-                String name = JOptionPane.showInputDialog(null, "Ingresa tu usurio");
+                String name = JOptionPane.showInputDialog(null, "INGRESA  USUARIO: ");
                 JPasswordField contraseña = new JPasswordField();
-                JOptionPane.showConfirmDialog(null, contraseña, "Ingrese contraseña", JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.showConfirmDialog(null, contraseña, "INGRESA CONTRASENA", JOptionPane.OK_CANCEL_OPTION);
                 String dialogpass = new String(contraseña.getPassword());
                 //System.out.println(name + " "+dialogpass);
                 Empleado obj = new Empleado();

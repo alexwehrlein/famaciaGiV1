@@ -111,7 +111,7 @@ public class Controller_Faltantes {
                 }
 
                 Date date = new Date();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
                 try {
                     FileOutputStream ficheroPdf = null;
@@ -139,7 +139,7 @@ public class Controller_Faltantes {
                     Paragraph titulo2 = new Paragraph();
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo2.add(dateFormat.format(date));
+                    titulo2.add(formate.format(date));
                     documento.add(titulo2);
 
                     Paragraph titulo3 = new Paragraph();

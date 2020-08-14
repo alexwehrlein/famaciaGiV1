@@ -28,7 +28,7 @@ public class TikectDevoluciones {
         String[] arr = confings.settings();
         
         Date date = new Date();
-        DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -42,7 +42,7 @@ public class TikectDevoluciones {
         auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
         auxs+= "Folio: " + folio + "\n";
-        auxs+= "Fecha: " + formatofecha.format(date) + "\n";
+        auxs+= "Fecha: " + formate.format(date) + "\n";
         auxs+= "==========================================\n";
         auxs+= "Cant Descripcion       Precio    Importe\n";
         auxs+= "==========================================\n";

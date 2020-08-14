@@ -28,7 +28,7 @@ public class TikectCorteConsulta {
         float total = (Integer.parseInt(consulta[0]) * 35) + (Integer.parseInt(consulta[1]) * 15) + (Integer.parseInt(consulta[2]) * 15) + (Integer.parseInt(consulta[3]) * 15);
         Date date = new Date();
        
-        DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
        
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
@@ -43,7 +43,7 @@ public class TikectCorteConsulta {
         auxs+= "FARMACIAS GI\n";
         auxs+= arr[1]+"\n";
         auxs+= "Iguala de la Independencia\n";
-        auxs+= "Fecha: " + formatofecha.format(date) + "\n";
+        auxs+= "Fecha: " + formate.format(date) + "\n";
         auxs+= "Turno:    "+turno+"\n\n";
         auxs+= " ********* VENTAS CONSULTORIO ********* \n";
         auxs+= "* TOTAL VENTAS CONSULTORIO:  $ "+consultas+"\n";

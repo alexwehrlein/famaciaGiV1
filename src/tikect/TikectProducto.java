@@ -27,7 +27,7 @@ public class TikectProducto {
         String mensaje = "";
         Date date = new Date();
 
-        DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
         System.out.println(impServicio.getImpresoras()); // imprime todas las impresoras instaladas
@@ -43,7 +43,7 @@ public class TikectProducto {
         auxs += "Iguala de la Independencia\n";
         auxs += "Nombre del empleado: " + nombreEmpleado + "\n";
         auxs += "Turno: " + turno + "\n";
-        auxs += "Fecha: " + formatofecha.format(date) + "\n";
+        auxs += "Fecha: " + formate.format(date) + "\n";
         auxs += "==========================================\n";
         auxs += "Descripcion       piezas    tipo \n";
         auxs += "==========================================\n";

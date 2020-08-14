@@ -25,7 +25,7 @@ public class TikectGasto {
         
         Date date = new Date();
   
-       DateFormat formatofecha = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         
         ServicioImp impServicio = new ServicioImp(); // se crea objeto 
@@ -40,7 +40,7 @@ public class TikectGasto {
          auxs+= arr[1]+"\n";
          auxs+= "Iguala de la Independencia\n";
         //impServicio.printCadena(impra, "Folio: " + folio + "\n");
-         auxs+= "Fecha: " + formatofecha.format(date) + "\n";
+         auxs+= "Fecha: " + formate.format(date) + "\n";
          auxs+= "==========================================\n";
          auxs+= "Descripcion          Total\n";
          auxs+= "==========================================\n";

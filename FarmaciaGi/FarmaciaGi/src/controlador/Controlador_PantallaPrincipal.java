@@ -147,17 +147,7 @@ public class Controlador_PantallaPrincipal {
                                     activarCajero();
                                     pantalla_Principal.jDialogLogin.setVisible(false);
                                     JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
-                                    Usuarios obj = new Usuarios();
-                                    boolean next = obj.validarRecargaTurno(turno);
-                                    if (!next) {
-                                        pantalla_Principal.jDialogRecarga.setBounds(249, 154, 409, 150);
-                                        pantalla_Principal.jDialogRecarga.setUndecorated(true);
-                                        pantalla_Principal.jDialogRecarga.setLocationRelativeTo(null);
-                                        pantalla_Principal.jDialogRecarga.setResizable(false);
-                                        pantalla_Principal.jDialogRecarga.setVisible(true);
-                                        pantalla_Principal.recargaMonto.requestFocus();
-                                        pantalla_Principal.recargaMonto.setText("");
-                                    }
+                                   
                                 }else{
                                     JOptionPane.showMessageDialog(null, "Error" , "<html><h1 align='center'>Error</h1></html>" , JOptionPane.ERROR_MESSAGE);
                                 }
@@ -205,16 +195,6 @@ public class Controlador_PantallaPrincipal {
                                 pantalla_Principal.jDialogLogin.setVisible(false);
                                 JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Bienvenido: " + arr[3] + "</h1></html>");
                                 Usuarios obj = new Usuarios();
-                                    boolean next = obj.validarRecargaTurno(turno);
-                                    if (!next) {
-                                        pantalla_Principal.jDialogRecarga.setBounds(249, 154, 409, 150);
-                                        pantalla_Principal.jDialogRecarga.setUndecorated(true);
-                                        pantalla_Principal.jDialogRecarga.setLocationRelativeTo(null);
-                                        pantalla_Principal.jDialogRecarga.setResizable(false);
-                                        pantalla_Principal.jDialogRecarga.setVisible(true);
-                                        pantalla_Principal.recargaMonto.requestFocus();
-                                        pantalla_Principal.recargaMonto.setText("");
-                                    }
                             }else{
                                  JOptionPane.showMessageDialog(null, "Error" , "<html><h1 align='center'>Error</h1></html>" , JOptionPane.ERROR_MESSAGE);
                             }
@@ -244,7 +224,7 @@ public class Controlador_PantallaPrincipal {
                 if (respuesta.matches("^[0-9]+([.])?([0-9]+)?$")) {
                     System.out.println(respuesta);
                     Usuarios obj = new Usuarios();
-                    obj.registrarSaldoRecarga(turno, respuesta);
+                    //obj.registrarSaldoRecarga(turno, respuesta);
                     pantalla_Principal.jDialogRecarga.dispose();
 
                 } else {

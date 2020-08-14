@@ -129,6 +129,7 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabelSubtotalVenta = new javax.swing.JLabel();
+        btnRecarga = new javax.swing.JButton();
 
         jDialogClienteVentas.setBackground(new java.awt.Color(153, 153, 255));
 
@@ -793,6 +794,16 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
+        btnRecarga.setBackground(new java.awt.Color(153, 204, 255));
+        btnRecarga.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnRecarga.setText("Ingresar recargas depositado");
+        btnRecarga.setToolTipText("");
+        btnRecarga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -823,10 +834,15 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
                                         .addComponent(jLabel9)
                                         .addGap(298, 298, 298))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(btnPrecioMayoreo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonVentaM, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btnPrecioMayoreo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonVentaM, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(171, 171, 171)
+                                        .addComponent(btnRecarga)))
                                 .addGap(82, 82, 82)
                                 .addComponent(jButtonPausarVenta1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -925,7 +941,9 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
                             .addComponent(btnPrecioMayoreo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jButtonPausarVenta1)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonPausarVenta1)
+                            .addComponent(btnRecarga, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -987,6 +1005,10 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
     private void jButtonPausarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPausarVenta1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonPausarVenta1ActionPerformed
+
+    private void btnRecargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRecargaActionPerformed
  
     /**
      * @param args the command line arguments
@@ -1028,6 +1050,7 @@ public class Pantalla_Ventas extends javax.swing.JFrame {
     public rojerusan.RSMaterialButtonCircle btnMas;
     public rojerusan.RSMaterialButtonCircle btnMenos;
     public javax.swing.JButton btnPrecioMayoreo;
+    public javax.swing.JButton btnRecarga;
     private javax.swing.ButtonGroup buttonGroup1;
     public javax.swing.JTextField folioTikect;
     public javax.swing.JButton jButtonAgregar;

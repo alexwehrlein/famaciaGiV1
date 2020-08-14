@@ -62,6 +62,7 @@ public class Pantalla_Corte {
     Gastos gastos;
     Bajas bajas;
     Ventas ventas;
+    Usuarios usuarios;
     String ventaTotal = "0";
     String consultorioTotal = "0";
     String devolucionesTotal = "0";
@@ -271,10 +272,10 @@ public class Pantalla_Corte {
                     return;
                 }
                 Usuarios obj = new Usuarios();
-                String recargasF = obj.recargaTurno(turno);
+                float recargasF = obj.getSaldoRecarga();
                 List<String> extras = new ArrayList<String>();
                 extras.add(pantalla_Corte.txtRecargas.getText());
-                extras.add(recargasF);
+                extras.add(String.valueOf(recargasF));
                 extras.add(modelo.getValueAt(0, 1).toString());
                 extras.add(modelo.getValueAt(1, 1).toString());
                 extras.add(modelo.getValueAt(2, 1).toString());
@@ -364,9 +365,11 @@ public class Pantalla_Corte {
                         pantalla_Corte.jDialogDatalles.setVisible(false);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> El corte se a guardado </h1></html>");
                         tikectCorte = new TikectCorte();
-                        tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , recargasF , total);
+                        tikectCorte.TikecCorte(String.valueOf(ventasVAP), consultorioTotal, devolucionesTotal, gastosTotal, abarrotesTotal, perfumeriaTotal, tk, turno, nombresClientes, arr, retiros, 0, pc, gastosT,recargas , String.valueOf(recargasF) , total);
                         tcc = new TikectCorteConsulta();
                         tcc.Tikect(ct, turno, pc, consultas,pagoDoctores,consultasCantidad);
+                        usuarios = new Usuarios();
+                        usuarios.registrarSaldoRecarga(recargas,0);
                         pdfBajas(turno);
                         pdfVentas(turno);
                         JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Turno finalizado </h1></html>", "Adios", JOptionPane.INFORMATION_MESSAGE);

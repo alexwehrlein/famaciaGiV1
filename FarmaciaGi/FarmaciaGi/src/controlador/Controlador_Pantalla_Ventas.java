@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Cliente;
 import modelo.Productos;
+import modelo.Usuarios;
 import modelo.Ventas;
 import tikect.TikectR;
 import tikect.TikectTurno;
@@ -38,6 +39,7 @@ public class Controlador_Pantalla_Ventas {
     Pantalla_Ventas pantalla_Ventas;
     Ventas ventas;
     Cliente cliente;
+    Usuarios usuarios;
     TikectVentas tikectVentas;
     TikectR tikectR;
     TikectTurno tikectTurno;
@@ -99,6 +101,26 @@ public class Controlador_Pantalla_Ventas {
         tablaDes();
         pantalla_Ventas.btnMas.setMnemonic(KeyEvent.VK_PLUS);
         log = new ArchivoLog();
+
+        pantalla_Ventas.btnRecarga.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                float recargas = 0;
+                usuarios = new Usuarios();
+                recargas = usuarios.getSaldoRecarga();
+                JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Total de recargas en el sistema : " + recargas + " </h1></html>", "RECARGAS", JOptionPane.INFORMATION_MESSAGE);
+                String monto = JOptionPane.showInputDialog(null, "<html><h1 align='center'> Ingrese el saldo de recargas.</h1></html>");
+                if ((monto != null && (!"".equals(monto)))) {
+                    boolean next = usuarios.registrarSaldoRecarga(monto,1);
+                    if (next) {
+                        recargas = usuarios.getSaldoRecarga();
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Se a registrado correctamento el saldo ahora es de " + recargas + " </h1></html>", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "<html><h1 align='center'> Ocurrio un error al registar por favor verifique los datos. </h1></html>", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
 
         pantalla_Ventas.btnMas.addActionListener(new ActionListener() {
             @Override
@@ -844,42 +866,41 @@ public class Controlador_Pantalla_Ventas {
                             Integer.parseInt(modelo.getValueAt(i, 4).toString())));
                 }
                 //if (ventas.pausarVenta(modelo, pausaVenta)) {
-                for(Productos p : ventaPausada){
+                for (Productos p : ventaPausada) {
                     System.out.println(p);
                 }
-                    pantalla_Ventas.jTablePausaVenta.setModel(modeloPausarVenta);
-                    String[] datos = new String[3];
-                    datos[0] = String.valueOf(pausaVenta);
-                    datos[1] = modelo.getValueAt(0, 1).toString();
-                    datos[2] = pantalla_Ventas.jLabelSubtotalVenta.getText();
-                    modeloPausarVenta.addRow(datos);
-                    pausaVenta = pausaVenta + 1;
-                    pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
-                    pantalla_Ventas.jTextFieldClienteVenta.setText("PUBLICO EN GENERAL");
-                    modelo.setRowCount(0);
-                    pantalla_Ventas.jLabelSubtotalVenta.setText("$0");
-                    // pantalla_Ventas.jComboBoxAnti.setEnabled(false);
-                    pantalla_Ventas.jComboBoxGenerico.setEnabled(false);
-                    pantalla_Ventas.jComboBoxPatente.setEnabled(false);
-                    //pantalla_Ventas.jComboBoxAnti.setSelectedItem("0");
-                    pantalla_Ventas.jComboBoxGenerico.setSelectedItem("0");
-                    pantalla_Ventas.jComboBoxPatente.setSelectedItem("0");
-                    tablaDes();
-                    pantalla_Ventas.jTextFieldTotalVenta.setText("");
-                    pantalla_Ventas.btnCambioCliente.setText("");
-                    pantalla_Ventas.jLabelCantidadProductos.setText("0");
-                    pantalla_Ventas.jTextFieldCambio.setText("");
-                    pantalla_Ventas.jLabelSubtotalVenta.setText("$0");
-                    //  totalFinal=0;
-                    cantidad = "";
-                    idCli = "1";
-                    pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
-                    pantalla_Ventas.jTextFieldSustancia.setText("");
-                    pantalla_Ventas.jComboBoxSustancia.removeAllItems();
-                    placeHolder = new PlaceHolder(pantalla_Ventas.jTextFieldSustancia, "Busqueda por sustancias");
+                pantalla_Ventas.jTablePausaVenta.setModel(modeloPausarVenta);
+                String[] datos = new String[3];
+                datos[0] = String.valueOf(pausaVenta);
+                datos[1] = modelo.getValueAt(0, 1).toString();
+                datos[2] = pantalla_Ventas.jLabelSubtotalVenta.getText();
+                modeloPausarVenta.addRow(datos);
+                pausaVenta = pausaVenta + 1;
+                pantalla_Ventas.jTextFieldFolioProductoVenta.setText("");
+                pantalla_Ventas.jTextFieldClienteVenta.setText("PUBLICO EN GENERAL");
+                modelo.setRowCount(0);
+                pantalla_Ventas.jLabelSubtotalVenta.setText("$0");
+                // pantalla_Ventas.jComboBoxAnti.setEnabled(false);
+                pantalla_Ventas.jComboBoxGenerico.setEnabled(false);
+                pantalla_Ventas.jComboBoxPatente.setEnabled(false);
+                //pantalla_Ventas.jComboBoxAnti.setSelectedItem("0");
+                pantalla_Ventas.jComboBoxGenerico.setSelectedItem("0");
+                pantalla_Ventas.jComboBoxPatente.setSelectedItem("0");
+                tablaDes();
+                pantalla_Ventas.jTextFieldTotalVenta.setText("");
+                pantalla_Ventas.btnCambioCliente.setText("");
+                pantalla_Ventas.jLabelCantidadProductos.setText("0");
+                pantalla_Ventas.jTextFieldCambio.setText("");
+                pantalla_Ventas.jLabelSubtotalVenta.setText("$0");
+                //  totalFinal=0;
+                cantidad = "";
+                idCli = "1";
+                pantalla_Ventas.jTextFieldFolioProductoVenta.requestFocus();
+                pantalla_Ventas.jTextFieldSustancia.setText("");
+                pantalla_Ventas.jComboBoxSustancia.removeAllItems();
+                placeHolder = new PlaceHolder(pantalla_Ventas.jTextFieldSustancia, "Busqueda por sustancias");
 
                 //}
-
             }
         });
 
@@ -1214,14 +1235,14 @@ public class Controlador_Pantalla_Ventas {
         String[] impor = new String[filas];
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
-            
-            if(modelo.getValueAt(i,0).toString().equals("2") || modelo.getValueAt(i,0).toString().equals("3") || modelo.getValueAt(i,0).toString().equals("23") || modelo.getValueAt(i,0).toString().equals("10") || modelo.getValueAt(i,0).toString().equals("14") ){
+
+            if (modelo.getValueAt(i, 0).toString().equals("2") || modelo.getValueAt(i, 0).toString().equals("3") || modelo.getValueAt(i, 0).toString().equals("23") || modelo.getValueAt(i, 0).toString().equals("10") || modelo.getValueAt(i, 0).toString().equals("14")) {
                 ventas = new Ventas();
-                int turnoConsulta = ventas.turnoConsulta(turno, modelo.getValueAt(i,0).toString());
+                int turnoConsulta = ventas.turnoConsulta(turno, modelo.getValueAt(i, 0).toString());
                 tikectTurno = new TikectTurno();
-                tikectTurno.TikectTurno(turnoConsulta,modelo.getValueAt(i,1).toString(), pc);
+                tikectTurno.TikectTurno(turnoConsulta, modelo.getValueAt(i, 1).toString(), pc);
             }
-            
+
             float descuentoGenerico = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajeGenerico / 100.0);
             float descuentoPatente = (float) (Float.parseFloat(modelo.getValueAt(i, 6).toString()) * porcentajePatente / 100.0);
             String tipo_m = modelo.getValueAt(i, 3).toString();

@@ -101,92 +101,124 @@ public class Usuarios {
     public Usuarios() {
 
     }
-    
-    public boolean validarUser(){
+
+    public boolean validarUser() {
         boolean flag = false;
         try {
-            String sql = "SELECT * FROM login WHERE id_empleado = "+getIdEmpleado();
+            String sql = "SELECT * FROM login WHERE id_empleado = " + getIdEmpleado();
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
 
-            if(rs.next()) {
+            if (rs.next()) {
                 flag = true;
             }
             stm.close();
         } catch (Exception e) {
-             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
         } finally {
             conn.getClose();
         }
         return flag;
     }
-    
-    public boolean validarRecargaTurno(String turno){
+
+    public boolean validarRecargaTurno(String turno) {
         boolean flag = false;
         try {
-            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '"+turno+"'";
+            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '" + turno + "'";
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
 
-            if(rs.next()) {
+            if (rs.next()) {
                 flag = true;
             }
             stm.close();
         } catch (Exception e) {
-             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
         } finally {
             conn.getClose();
         }
         return flag;
     }
-    
-    public String recargaTurno(String turno){
+
+    public String recargaTurno(String turno) {
         String monto = null;
         try {
-            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '"+turno+"'";
+            String sql = "SELECT * FROM recargas WHERE fecha =  curdate() AND turno = '" + turno + "'";
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
 
-            if(rs.next()) {
+            if (rs.next()) {
                 monto = String.valueOf(rs.getDouble("monto"));
             }
             stm.close();
         } catch (Exception e) {
-             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
         } finally {
             conn.getClose();
         }
         return monto;
     }
-    
+
     public boolean registrarUsuario() {
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("INSERT INTO login VALUES(null,'" + getUsuario() + "','" + getPasswork() + "', "+getPc()+" , " + getIdEmpleado() + ")");
+            stm.execute("INSERT INTO login VALUES(null,'" + getUsuario() + "','" + getPasswork() + "', " + getPc() + " , " + getIdEmpleado() + ")");
             stm.close();
             return true;
         } catch (Exception e) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
             return false;
         } finally {
             conn.getClose();
         }
 
     }
-    
-    public boolean registrarSaldoRecarga(String turno , String  monto) {
+
+    public float getSaldoRecarga() {
+        float recarga = 0;
         try {
+            String sql = "SELECT * FROM recargas";
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("INSERT INTO recargas VALUES(null,'" + turno + "', CURDATE() , " + monto + ")");
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                recarga = rs.getFloat("monto");
+            }
+            stm.close();
+        } catch (Exception e) {
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
+        } finally {
+            conn.getClose();
+        }
+        return recarga;
+    }
+
+    public boolean registrarSaldoRecarga(String monto,int tipo) {
+        try {
+            con = conn.getConnection();
+            String sql = "SELECT * FROM recargas limit 1";
+            Statement stm = (Statement) con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            if (rs.next()) {
+                float recargasSistema = rs.getFloat("monto");
+                float recargasFinales = 0;
+                if(tipo == 1){
+                    recargasFinales = recargasSistema + Float.parseFloat(monto);
+                }else{
+                    recargasFinales = Float.parseFloat(monto);
+                }
+                stm.execute("UPDATE recargas SET monto = "+recargasFinales);
+            }else{
+                stm.execute("INSERT INTO recargas (monto) VALUES("+monto+")");
+            }
             stm.close();
             return true;
         } catch (Exception e) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
             return false;
         } finally {
             conn.getClose();
@@ -198,11 +230,11 @@ public class Usuarios {
         try {
             con = conn.getConnection();
             Statement stm = (Statement) con.createStatement();
-            stm.execute("UPDATE login SET usuario='" + getUsuario() + "', contrasena='" + getPasswork() + "',id_empleado=" + getIdEmpleado() + " , PC = "+getPc()+" WHERE id_login=" + getIdLogin());
+            stm.execute("UPDATE login SET usuario='" + getUsuario() + "', contrasena='" + getPasswork() + "',id_empleado=" + getIdEmpleado() + " , PC = " + getPc() + " WHERE id_login=" + getIdLogin());
             stm.close();
             return true;
         } catch (SQLException e) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
             return false;
         } finally {
             conn.getClose();
@@ -217,7 +249,7 @@ public class Usuarios {
             stm.close();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ ex);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + ex);
             return false;
         } finally {
             conn.getClose();
@@ -242,7 +274,7 @@ public class Usuarios {
             }
             stm.close();
         } catch (Exception e) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ e);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + e);
         } finally {
             conn.getClose();
         }
@@ -317,7 +349,7 @@ public class Usuarios {
             stm.close();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error "+ ex);
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, " Error " + ex);
         }
 
         return modelo;

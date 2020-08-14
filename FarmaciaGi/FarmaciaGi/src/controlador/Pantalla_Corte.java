@@ -72,6 +72,8 @@ public class Pantalla_Corte {
     String id;
     int folio;
     String turnoF;
+    Double ventastotales;
+    Double ventasFarmacia;
     ArrayList<String> nombresClientes = new ArrayList<String>();
 
     public Pantalla_Corte(String turno, String pc) {
@@ -313,6 +315,7 @@ public class Pantalla_Corte {
                     String consultasCantidad[] = corte.totalesConsultas(turno);
 
                     double vt = Double.parseDouble(ventaTotal);
+                     ventastotales= vt;
                     double ct = Double.parseDouble(consultorioTotal);
                     double dt = Double.parseDouble(devolucionesTotal);
                     double at = Double.parseDouble(abarrotesTotal);
@@ -327,10 +330,13 @@ public class Pantalla_Corte {
                      pantalla_Corte.jTextFieldTPerfumeria.setText("$ " + String.format("%.2f", pt));
                      pantalla_Corte.jTextFieldTGastos.setText("$ " + String.format("%.2f", gt));
                      pantalla_Corte.jTextFieldRetiros.setText("$ " + String.format("%.2f", r)); */
-                    double t = vt + ct + at + pt;//total de los tipos de venta
+                  
+                    double t = vt + ct;//total de los tipos de venta
                     double tt = t - dt - gt - r - Double.parseDouble(pagoDoctores);//total a estregar
                     double tk = tt - ct ;//el total menos las consultas
-                    double ventasVAP = (vt + at + pt) - dt; 
+                    double ventasVAP = (vt)-dt-gt; 
+                     ventasFarmacia=ventasVAP;
+                     
                     System.out.println(r);//retiros
                     System.out.println(ct);//consultas
                     System.out.println(t);//total
@@ -382,9 +388,8 @@ public class Pantalla_Corte {
     
     private void pdfVentas(String turno){
                 ventas = new Ventas();
-                
-                ArrayList<Ventas> datos = ventas.ventasList(turno);
-               
+                               ArrayList<Ventas> datos = ventas.ventasList(turno);
+               ventaTotal = corte.ventaTotal(1);
                 
                 Date date = new Date();
                 try {
@@ -455,19 +460,18 @@ public class Pantalla_Corte {
                     columna4.getFont().setStyle(Font.BOLD);
                     columna4.getFont().setSize(10);
                     tabla.addCell(columna4);
-                    
-
-                     Paragraph columna5 = new Paragraph("TOTAL VENTAS");
-                    columna5.getFont().setStyle(Font.BOLD);
-                    columna5.getFont().setSize(10);
-                    tabla.addCell(columna5);
-                    
+                                        
                     Paragraph columna6 = new Paragraph("EXISTEN- SISTEMA");
                     columna6.getFont().setStyle(Font.BOLD);
                     columna6.getFont().setSize(10);
                     tabla.addCell(columna6);
                     
-                    float total_venta = 0;
+                      Paragraph columna5 = new Paragraph("TOTAL VENTAS");
+                    columna5.getFont().setStyle(Font.BOLD);
+                    columna5.getFont().setSize(10);
+                    tabla.addCell(columna5);
+                    
+                    Double total_venta = 0.0;
                     
                     for (Ventas r : datos) {
                         tabla.addCell(String.valueOf(r.getCodigo()));
@@ -478,13 +482,24 @@ public class Pantalla_Corte {
                         tabla.addCell(String.valueOf(r.getExistencias()));
                         total_venta = total_venta + r.getTotal();
                     }
-                    documento.add(tabla);
                     
+                    documento.add(tabla);
                     Paragraph titulo5 = new Paragraph();
                     titulo5.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo5.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo5.add("Total Ventas Generadas: $ "+total_venta);
+                    Paragraph titulo6 = new Paragraph();
+                    titulo6.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo6.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));   
+                    Paragraph titulo7 = new Paragraph();
+                    titulo7.setAlignment(Paragraph.ALIGN_RIGHT);
+                    titulo7.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));   
+                    titulo5.add("Total Ventas Farmacia : $ "+ String.format("%.2f", ventastotales)+" \n");
+                    titulo6.add("Total Ventas Consultorio : $ "+ String.format("%.2f", ventasFarmacia) +" \n");
+                    titulo7.add("Total Ventas Generales : $ "+String.format("%.2f", total_venta) +" \n");
                     documento.add(titulo5);
+                    documento.add(titulo6);
+                    documento.add(titulo7);
+
                     
                     documento.close();
                     Mail mail = new Mail();
@@ -500,7 +515,7 @@ public class Pantalla_Corte {
                 bajas = new Bajas();
                 ArrayList<Bajas> datos = bajas.bajasList(turno);
                 Date date = new Date();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 SimpleDateFormat formate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 try {
                     FileOutputStream ficheroPdf = null;
                     // Se crea el documento
@@ -522,7 +537,7 @@ public class Pantalla_Corte {
                     Paragraph titulo2 = new Paragraph();
                     titulo2.setAlignment(Paragraph.ALIGN_RIGHT);
                     titulo2.setFont(FontFactory.getFont("Times New Roman", 14, BaseColor.BLACK));
-                    titulo2.add(dateFormat.format(date));
+                    titulo2.add(formate.format(date));
                     documento.add(titulo2);
                     
                     Paragraph titulo3 = new Paragraph();

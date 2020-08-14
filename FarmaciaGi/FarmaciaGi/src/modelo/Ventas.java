@@ -175,7 +175,7 @@ public class Ventas {
         ArrayList<Ventas> arrayRegistros = new ArrayList<>();
 
         try {
-            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total, p.cantidad FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '" + turno + "' ";
+            String sql = "SELECT p.codigo , p.marca_comercial, p.precio , d.piezas , d.total, p.cantidad FROM detalle_venta d INNER JOIN ventas v ON v.id_ventas = d.id_venta INNER JOIN productos p ON p.codigo = d.id_producto WHERE DATE(v.fecha) = CURDATE() AND v.turno = '" + turno + "'";
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
             ResultSet resultado = stm.executeQuery(sql);
@@ -205,6 +205,7 @@ public class Ventas {
         return arrayRegistros;
     }
 
+   
     public ArrayList<Ventas> ventaPausada(String id) {
         ArrayList<Ventas> arrayRegistros = new ArrayList<>();
 
@@ -375,7 +376,7 @@ public class Ventas {
         }
         return false;
     }
-    
+
     public void eliminarTurnos() {
         String sql = null;
 
@@ -560,8 +561,11 @@ public class Ventas {
             Statement stm = (Statement) con.createStatement();
 
             for (int i = 0; i < modelo.getRowCount(); i++) {
-                if (modelo.getValueAt(i, 3).toString().equals("ABARROTES") || modelo.getValueAt(i, 3).toString().equals("PERFUMERIA") || modelo.getValueAt(i, 3).toString().equals("CONSULTA")) {
-                    totalV -= Double.valueOf(modelo.getValueAt(i, 6).toString());
+//                el de abajo es codigo de eder
+//                if (modelo.getValueAt(i, 3).toString().equals("ABARROTES") || modelo.getValueAt(i, 3).toString().equals("PERFUMERIA") || modelo.getValueAt(i, 3).toString().equals("CONSULTA")) {
+                                   if ( modelo.getValueAt(i, 3).toString().equals("CONSULTA")) {
+
+                                totalV -= Double.valueOf(modelo.getValueAt(i, 6).toString());
                 }
             }
 
@@ -603,7 +607,7 @@ public class Ventas {
             arr[1] = "0";
             stm.close();
             resultado.close();
-           
+
         } catch (SQLException ex) {
             try {
                 con.rollback();

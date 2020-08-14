@@ -174,7 +174,8 @@ public class Corte {
             Statement stm2 = (Statement) con.createStatement();
 
             if (num == 0) {
-                sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = CURDATE()   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
+                sql = 
+                        "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = CURDATE()   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
             } else {
                 sql = "SELECT SUM(monto) FROM ventas WHERE DATE(fecha) = '" + getFecha() + "'   AND tipo_venta = 'Venta' AND turno='" + getTurno() + "'";
             }
@@ -206,7 +207,6 @@ public class Corte {
         try {
             con = new Conexion().getConnection();
             Statement stm = (Statement) con.createStatement();
-
             if (num == 0) {
                 sql = "SELECT SUM(total) FROM detalle_venta WHERE DATE(fecha) = CURDATE()  AND tipo_venta = 'CONSULTA' AND turno='" + getTurno() + "'";
             } else {
@@ -215,13 +215,10 @@ public class Corte {
             ResultSet resultado = stm.executeQuery(sql);
             if (resultado.next()) {
                 ventaTotal = resultado.getString("SUM(total)");
-
                 if (ventaTotal != null) {
-
                 } else {
                     ventaTotal = "0";
                 }
-
             }
             con.close();
         } catch (SQLException ex) {
